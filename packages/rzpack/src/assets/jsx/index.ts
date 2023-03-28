@@ -1,0 +1,28 @@
+import { RzpackAssets } from './../index'
+import type WebpackChain from 'webpack-chain'
+import babel from './babel'
+import esbuild from './esbuild'
+import swc from './swc'
+import { requireResolve } from 'rzpack-utils'
+
+export enum JSX_TOOLS {
+  BABEL = 'babel',
+  ESBUILD = 'esbuild',
+  SWC = 'swc',
+}
+
+const jsx = (webpackChain: WebpackChain, assets: RzpackAssets) => {
+  const { jsxTools = JSX_TOOLS.BABEL, cssScoped } = assets ?? {}
+  const transformTools = {
+    [JSX_TOOLS.BABEL]: babel,
+    [JSX_TOOLS.ESBUILD]: esbuild,
+    [JSX_TOOLS.SWC]: swc,
+  }
+
+  const rule = transformTools[jsxTools](webpackChain)
+  if (cssScoped) {
+    rule.use('jsx-scoped-loader').loader(requireResolve('@renzp/jsx-scoped-loader')).end()
+  }
+}
+
+export default jsx

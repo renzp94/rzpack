@@ -1,0 +1,23 @@
+{
+  "name": "playground",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "rzpack --config=./rzpack.config.js",
+    "build": "rzpack build --config=./rzpack.config.js",
+    "preview": "rzpack preview --config=./rzpack.config.js"
+  },
+  "author": "renzp94",
+  "license": "MIT",
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@ant-design/icons": "^4.7.0",
+    "antd": "^5.1.0"
+  },
+  "devDependencies": {
+    "rzpack": "workspace:*",
+    "@types/react": "^18.0.18",
+    "@types/react-dom": "^18.0.6"
+  }
+}

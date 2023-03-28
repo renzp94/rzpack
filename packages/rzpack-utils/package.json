@@ -1,0 +1,40 @@
+{
+  "name": "rzpack-utils",
+  "version": "0.0.1",
+  "description": "rzpack工具箱",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsup --watch src",
+    "build": "tsup",
+    "pub": "pnpm build && pnpm publish --no-git-checks"
+  },
+  "keywords": [
+    "rzpack",
+    "utils"
+  ],
+  "files": [
+    "dist"
+  ],
+  "author": "renzp94",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renzp94/rzpack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/renzp94/rzpack/issues"
+  },
+  "homepage": "https://github.com/renzp94/rzpack#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "address": "^1.2.0",
+    "check-dependencies": "^1.1.0",
+    "dotenv": "^16.0.2",
+    "dotenv-expand": "^9.0.0",
+    "kolorist": "^1.5.1",
+    "portfinder": "^1.0.32"
+  }
+}

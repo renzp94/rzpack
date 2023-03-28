@@ -1,0 +1,17 @@
+.page-content {
+  padding: 12px 16px;
+  overflow: auto;
+
+  &__breadcrumb:global(.ant-breadcrumb) {
+    margin-bottom: 12px;
+    color: @textColorSecondary;
+  }
+
+  &__breadcrumb :global(.ant-breadcrumb-link a) {
+    color: @textColorSecondary;
+
+    &:hover {
+      color: @colorPrimary;
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "create-rzpack",
+  "version": "0.0.2",
+  "description": "用于创建项目模板",
+  "main": "bin/index.js",
+  "bin": {
+    "create-rzpack": "bin/index.js",
+    "cva": "bin/index.js"
+  },
+  "files": [
+    "bin",
+    "template-*"
+  ],
+  "scripts": {
+    "dev": "tsup --watch src",
+    "build": "tsup",
+    "pub": "pnpm build && pnpm publish --no-git-checks"
+  },
+  "keywords": [
+    "rzpack",
+    "create app"
+  ],
+  "author": "renzp94",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renzp94/rzpack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/renzp94/rzpack/issues"
+  },
+  "homepage": "https://github.com/renzp94/rzpack#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0"
+  },
+  "dependencies": {
+    "rzpack-utils": "workspace:*",
+    "cac": "^6.7.12",
+    "prompts": "^2.4.2"
+  }
+}

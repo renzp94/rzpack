@@ -1,0 +1,33 @@
+.sider {
+  position: relative;
+  padding: 8px;
+  background: rgba(#fff, 0.5);
+
+  :global {
+    .ant-menu {
+      height: calc(100% - 49px);
+      overflow-x: hidden;
+      border-inline-end: none !important;
+      background-color: transparent;
+
+      .ant-menu-sub.ant-menu-inline {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.collapsed {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 0 12px 20px;
+  background: rgba(#fff, 0.5);
+  color: #7487a3;
+  font-size: 24px;
+
+  &__icon {
+    cursor: pointer;
+  }
+}
