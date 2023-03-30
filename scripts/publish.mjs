@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 import { spinner } from 'zx/experimental'
-const updateTypes = ['patch', 'minor', 'major']
+// 是否重新发布，用于打包及版本更新后发布时出错后使用
+const isRepublish = argv.r
 const packageList = await fs.readdir("./packages")
 const packageNames = packageList.map(item => chalk.blue(item)).toString()
 let packageName
@@ -24,22 +25,28 @@ try {
 
 const pkg = await fs.readJson('./package.json')
 let version
-do {
-  if (version) {
-    echo(chalk.yellow(`当前输入的update_type错误：${version}`))
-  }
-  version = await question(
-    `当前版本：${chalk.blue(pkg.version)},请输入更新版本的<update_type>(${chalk.blue(
-      'patch<小版本>'
-    )}, ${chalk.blue('minor<次版本>')}, ${chalk.blue('major: <主版本>)')}: `
-  )
-} while (!updateTypes.includes(version))
-// 更新版本
-version = (await $`pnpm version ${version}`)?.stdout?.replace('\n', '')?.toUpperCase()
+
+if(!isRepublish){
+  const updateTypes = ['patch', 'minor', 'major']
+  do {
+    if (version) {
+      echo(chalk.yellow(`当前输入的update_type错误：${version}`))
+    }
+    version = await question(
+      `当前版本：${chalk.blue(pkg.version)},请输入更新版本的<update_type>(${chalk.blue(
+        'patch<小版本>'
+      )}, ${chalk.blue('minor<次版本>')}, ${chalk.blue('major: <主版本>)')}: `
+    )
+  } while (!updateTypes.includes(version))
+  // 更新版本
+  version = (await $`pnpm version ${version}`)?.stdout?.replace('\n', '')?.toUpperCase()
+} else {
+  version = pkg.version
+}
 const publishFlags = ['--access=public', '--no-git-checks']
 // 发布
 await spinner(chalk.blue('发布中...'), () => $`pnpm publish ${publishFlags}`)
-echo(`✨ ${chalk.blue(`${pkg.name} ${chalk.blod(version)}`)}发布成功`)
+echo(`✨ ${chalk.blue(`${pkg.name} ${chalk.bold(version)}`)}发布成功`)
 // 提交
 cd('../../')
 await $`git add .`
