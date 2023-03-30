@@ -39,7 +39,7 @@ version = (await $`pnpm version ${version}`)?.stdout?.replace('\n', '')?.toUpper
 const publishFlags = ['--access=public', '--no-git-checks']
 // 发布
 await spinner(chalk.blue('发布中...'), () => $`pnpm publish ${publishFlags}`)
-echo(`${pkg.name} ${version}发布成功`)
+echo(`✨ ${chalk.blue(`${pkg.name} ${chalk.blod(version)}`)}发布成功`)
 // 提交
 cd('../../')
 await $`git add .`
