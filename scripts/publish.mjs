@@ -1,0 +1,48 @@
+#!/usr/bin/env zx
+import { spinner } from 'zx/experimental'
+const updateTypes = ['patch', 'minor', 'major']
+const packageList = await fs.readdir("./packages")
+const packageNames = packageList.map(item => chalk.blue(item)).toString()
+let packageName
+do {
+  packageName = await question(
+    `可用包名: ${packageNames},请输入包名: `
+  )
+  if (!packageList.includes(packageName)) {
+    echo(chalk.yellow(`当前输入的包名错误：${packageName}`))
+  }
+} while (!packageList.includes(packageName))
+// 移动到包目录
+cd(`./packages/${packageName}`)
+// 打包
+try {
+  await spinner(chalk.blue('生产包构建中...'), () => $`pnpm build`)
+  echo(chalk.green('构建成功'))
+} catch (err) {
+  throw Error(err)
+}
+
+const pkg = await fs.readJson('./package.json')
+let version
+do {
+  if (version) {
+    echo(chalk.yellow(`当前输入的update_type错误：${version}`))
+  }
+  version = await question(
+    `当前版本：${chalk.blue(pkg.version)},请输入更新版本的<update_type>(${chalk.blue(
+      'patch<小版本>'
+    )}, ${chalk.blue('minor<次版本>')}, ${chalk.blue('major: <主版本>)')}: `
+  )
+} while (!updateTypes.includes(version))
+// 更新版本
+version = (await $`pnpm version ${version}`)?.stdout?.replace('\n', '')?.toUpperCase()
+const publishFlags = ['--access=public', '--no-git-checks']
+// 发布
+await spinner(chalk.blue('发布中...'), () => $`pnpm publish ${publishFlags}`)
+echo(`${pkg.name} ${version}发布成功`)
+// 提交
+cd('../../')
+await $`git add .`
+await $`git commit -m "chore: publish ${version}"`
+let branch = await $`git branch --show-current`
+await $`git push origin ${branch}`

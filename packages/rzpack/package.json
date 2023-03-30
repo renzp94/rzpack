@@ -14,8 +14,7 @@
   ],
   "scripts": {
     "dev": "tsup --watch src",
-    "build": "tsup",
-    "pub": "pnpm build && pnpm publish --no-git-checks"
+    "build": "tsup"
   },
   "keywords": [
     "webpack5",
@@ -37,14 +36,12 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.13",
-    "@renzp/build-info-webpack-plugin": "^0.0.9",
+    "@renzp/build-info-webpack-plugin": "^0.0.10",
     "@renzp/css-scoped-loader": "0.0.12",
     "@renzp/jsx-scoped-loader": "0.0.21",
     "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "@svgr/webpack": "^6.3.1",
     "@swc/core": "1.3.32",
-    "rzpack-babel-preset": "workspace:*",
-    "rzpack-utils": "workspace:*",
     "babel-loader": "^8.2.5",
     "browserslist": "^4.21.3",
     "cac": "^6.7.12",
@@ -67,6 +64,8 @@
     "postcss-loader": "^7.0.1",
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^7.8.1",
+    "rzpack-babel-preset": "workspace:*",
+    "rzpack-utils": "workspace:*",
     "sirv": "^2.0.2",
     "speed-measure-webpack-plugin": "^1.5.0",
     "style-loader": "^3.3.1",
