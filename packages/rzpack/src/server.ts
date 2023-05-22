@@ -29,6 +29,7 @@ const runServer = async () => {
     client: {
       overlay: {
         errors: true,
+        runtimeErrors: false,
         warnings: false,
       },
     },
