@@ -4,6 +4,7 @@ import WebpackDevServer, { Configuration } from 'webpack-dev-server'
 import { rzpack } from './cli'
 
 const runServer = async () => {
+  rzpack.webpackChain.devtool('cheap-module-source-map')
   const { network, local, port, ...webpackConfigs } = rzpack.toConfig()
 
   const compiler = Webpack(webpackConfigs)
