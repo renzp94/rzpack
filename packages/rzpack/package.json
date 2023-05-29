@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.13",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@renzp/build-info-webpack-plugin": "^0.0.10",
     "@renzp/css-scoped-loader": "0.0.12",
     "@renzp/jsx-scoped-loader": "0.0.21",
@@ -64,6 +65,7 @@
     "postcss-loader": "^7.0.1",
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^7.8.1",
+    "react-refresh": "^0.14.0",
     "rzpack-babel-preset": "workspace:*",
     "rzpack-utils": "workspace:*",
     "sirv": "^2.0.2",
@@ -75,7 +77,7 @@
     "webpack": "^5.75.0",
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-chain": "^6.5.1",
-    "webpack-dev-server": "^4.10.0",
+    "webpack-dev-server": "^4.15.0",
     "webpack-merge": "^5.8.0",
     "webpackbar": "^5.0.2"
   },

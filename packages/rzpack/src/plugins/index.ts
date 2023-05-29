@@ -15,6 +15,7 @@ import webpackBundleAnalyzer from './webpack-bundle-analyzer'
 import speedMeasureWebpackPlugin from './speed-measure-webpack-plugin'
 import buildInfoWebpackPlugin from './build-info-webpack-plugin'
 import compressionWebpackPlugin from './compression-webpack-plugin'
+import reactRefreshWebpackPlugin from './react-refresh-webpack-plugin'
 
 export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
   htmlWebpackPlugin(webpackChain, options?.html)
@@ -57,5 +58,9 @@ export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
     if (rzpack.bundleTime) {
       speedMeasureWebpackPlugin(webpackChain)
     }
+  }
+
+  if (rzpack.mode === 'development') {
+    reactRefreshWebpackPlugin(webpackChain)
   }
 }
