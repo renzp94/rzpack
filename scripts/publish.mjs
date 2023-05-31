@@ -13,19 +13,13 @@ do {
     echo(chalk.yellow(`当前输入的包名错误：${packageName}`))
   }
 } while (!packageList.includes(packageName))
+
 // 移动到包目录
 cd(`./packages/${packageName}`)
-// 打包
-try {
-  await spinner(chalk.blue('生产包构建中...'), () => $`pnpm build`)
-  echo(chalk.green('构建成功'))
-} catch (err) {
-  throw Error(err)
-}
 
 const pkg = await fs.readJson('./package.json')
 let version
-
+// 更新版本号
 if(!isRepublish){
   const updateTypes = ['patch', 'minor', 'major']
   do {
@@ -43,6 +37,15 @@ if(!isRepublish){
 } else {
   version = pkg.version
 }
+
+// 打包
+try {
+  await spinner(chalk.blue('生产包构建中...'), () => $`pnpm build`)
+  echo(chalk.green('构建成功'))
+} catch (err) {
+  throw Error(err)
+}
+
 const publishFlags = ['--access=public', '--no-git-checks']
 // 发布
 await spinner(chalk.blue('发布中...'), () => $`pnpm publish ${publishFlags}`)
