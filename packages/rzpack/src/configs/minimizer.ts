@@ -3,7 +3,7 @@ import type { Optimization } from 'webpack-chain'
 import CssMinimizerWebpackPlugin from 'css-minimizer-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import { ESBuildMinifyPlugin } from 'esbuild-loader'
-import { JSX_TOOLS } from '../assets/jsx'
+import { JSX_TOOLS } from '..'
 
 /**
  * babel压缩

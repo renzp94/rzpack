@@ -9,9 +9,9 @@
     "prebuild": "pnpm -r --parallel --filter=./packages/rzpack-utils run build",
     "dev": "pnpm predev & pnpm -r --parallel --filter=./packages/* --filter=!./packages/rzpack-utils run dev",
     "build": "pnpm prebuild && pnpm --parallel --filter=!./packages/rzpack-utils --filter=!./playground build",
-    "playground:dev": "pnpm --parallel --filter=./playground dev",
-    "playground:build": "pnpm --parallel --filter=./playground build",
-    "playground:preview": "pnpm --parallel --filter=./playground preview",
+    "playground:dev": "pnpm --filter=./playground dev",
+    "playground:build": "pnpm --filter=./playground build",
+    "playground:preview": "pnpm --filter=./playground preview",
     "prepare": "npx simple-git-hooks",
     "pub": "zx ./scripts/publish.mjs"
   },

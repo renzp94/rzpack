@@ -1,6 +1,13 @@
 import type { LessVars, RzpackConfigs } from './../index'
 import type WebpackChain from 'webpack-chain'
-import { fileExists, getFileFullPath, requireFile, requireResolve } from 'rzpack-utils'
+import {
+  fileExists,
+  getFileFullPath,
+  requireFile,
+  requireResolve,
+  bundleTsFile,
+  getPackageVersion,
+} from 'rzpack-utils'
 import { rzpack } from '../cli'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
@@ -60,6 +67,24 @@ const applyCommonLoader = (
 
   return rule
 }
+
+// antd5主题设置跳转转px的key
+const skipToPxKeys = [
+  'motionBase',
+  'motionUnit',
+  'opacityImage',
+  'zIndexBase',
+  'zIndexPopupBase',
+  'lineHeight',
+  'lineHeightHeading1',
+  'lineHeightHeading2',
+  'lineHeightHeading3',
+  'lineHeightHeading4',
+  'lineHeightHeading5',
+  'lineHeightLG',
+  'lineHeightSM',
+]
+
 /**
  * 使用antd主题
  * @param antdTheme
@@ -73,12 +98,33 @@ const useAntdTheme = (antdTheme: LessVars) => {
     if (antdTheme.file) {
       const themeFullPath = getFileFullPath(antdTheme.file)
       if (fileExists(themeFullPath)) {
-        modifyVars = requireFile(themeFullPath) ?? {}
+        try {
+          modifyVars = requireFile(themeFullPath) ?? {}
+        } catch {
+          const tmpPath = getFileFullPath(`./node_modules/antd-theme.tmp.js`)
+          modifyVars = bundleTsFile(themeFullPath, tmpPath)
+        }
       }
     }
+    let antdVersion = getPackageVersion('antd')
+    if (antdVersion < 5 && antdTheme.vars) {
+      antdVersion = parseInt(antdVersion)
+    }
+
     // 直接定义的变量优先级高于变量文件
     if (antdTheme.vars) {
       modifyVars = { ...modifyVars, ...antdTheme.vars }
+    }
+
+    if (antdVersion > 4) {
+      const keys = Object.keys(modifyVars).filter((key) => !skipToPxKeys.includes(key))
+      modifyVars = keys.reduce((prev, curr) => {
+        let value = modifyVars[curr]
+        if (typeof value === 'number') {
+          value = `${value}px`
+        }
+        return { ...prev, [curr]: value }
+      }, {})
     }
   }
 
@@ -94,9 +140,14 @@ const useLessVars = (lessVars: LessVars) => {
   if (lessVars) {
     // 处理全局less变量
     if (lessVars.file) {
-      const themeFullPath = getFileFullPath(lessVars.file)
-      if (fileExists(themeFullPath)) {
-        globalVars = requireFile(themeFullPath) ?? {}
+      const globalVarsFullPath = getFileFullPath(lessVars.file)
+      if (fileExists(globalVarsFullPath)) {
+        try {
+          globalVars = requireFile(globalVarsFullPath) ?? {}
+        } catch {
+          const tmpPath = getFileFullPath(`./node_modules/global-vars.tmp.js`)
+          globalVars = bundleTsFile(globalVarsFullPath, tmpPath)
+        }
       }
     }
     // 直接定义的变量优先级高于变量文件

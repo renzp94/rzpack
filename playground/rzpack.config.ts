@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { defineConfig } = require('rzpack')
+import { defineConfig, JSX_TOOLS } from 'rzpack'
 
-module.exports = defineConfig({
+export default defineConfig({
   html: {
     title: 'rzpack-antd',
   },
@@ -12,6 +11,6 @@ module.exports = defineConfig({
     file: './src/theme/globalVars.ts',
   },
   assets: {
-    jsxTools: 'esbuild',
+    jsxTools: JSX_TOOLS.ESBUILD,
   },
 })

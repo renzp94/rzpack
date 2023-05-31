@@ -1,6 +1,6 @@
 import type { RzpackConfigs } from './../index'
 import type WebpackChain from 'webpack-chain'
-import type { JSX_TOOLS } from './jsx'
+import type { JSX_TOOLS } from '../'
 import jsx from './jsx'
 import font from './font'
 import image from './image'

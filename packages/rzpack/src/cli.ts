@@ -26,7 +26,7 @@ cli
   .option('--port [port]', '[string] specify port')
   .option('--open [path]', '[boolean | string] open browser on startup')
   .action(async (_: string, options: ServerOptions) => {
-    const { c, m, mode, config = 'rzpack.config.js', host, port, open } = options ?? {}
+    const { c, m, mode, config, host, port, open } = options ?? {}
     rzpack.mode = m ?? mode ?? 'development'
     process.env.NODE_ENV = rzpack.mode
     rzpack.webpackChain.devServer.host(host).port(port).open(open)
@@ -46,15 +46,7 @@ cli
   .option('--bundle-size', '[boolean] analysis package size')
   .option('--bundle-time', '[boolean] analyze packaging time')
   .action(async (options: BuildOptions) => {
-    const {
-      c,
-      m,
-      mode,
-      config = 'rzpack.config.js',
-      outDir = 'dist',
-      bundleSize,
-      bundleTime,
-    } = options ?? {}
+    const { c, m, mode, config, outDir = 'dist', bundleSize, bundleTime } = options ?? {}
     rzpack.mode = m ?? mode ?? 'production'
     process.env.NODE_ENV = rzpack.mode
     rzpack.bundleSize = bundleSize ?? false

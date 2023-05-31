@@ -18,6 +18,7 @@ import resolveExtensions from './extensions'
 import resolveAssets from '../assets'
 import resolvePlugins from '../plugins'
 import resolveLazyCompilation from './lazyCompilation'
+import { bundleTsFile } from 'rzpack-utils'
 
 export interface RzpackContextConfigs extends Configuration {
   network?: string
@@ -43,16 +44,33 @@ export class RzpackContext {
     return this.webpackChain.get(key)
   }
   loadConfigFile(configFilePath?: string) {
-    const configFileFullPath = getFileFullPath(configFilePath)
-    if (!fileExists(configFileFullPath)) {
-      throw `需要一个配置文件: ${configFileFullPath}`
+    let configFile
+    let configFileName
+    if (configFilePath) {
+      configFile = getFileFullPath(configFilePath)
+      configFileName = configFilePath.replace(/.(t|j)s$/, '')
     }
+
+    if (!configFile) {
+      configFileName = DEFAULT_CONFIG.CONFIG_FILE.replace(/.(t|j)s$/, '')
+      const suffix = ['.ts', '.js']
+      const configFiles = suffix.map((key) => getFileFullPath(`${configFileName}${key}`))
+      configFile = configFiles.find(fileExists)
+    }
+
+    if (!configFile) {
+      throw `需要一个配置文件: ${configFile}`
+    }
+    let configs: RzpackConfigs = {}
+    try {
+      configs = requireFile(configFile)
+    } catch {
+      const tmpFilePath = getFileFullPath(`./node_modules/rzpack.config.tmp.js`)
+      configs = bundleTsFile(configFile, tmpFilePath)
+    }
+
     loadEnv(this.mode)
     loadEnv()
-    let configs = {}
-    if (configFilePath) {
-      configs = requireFile(configFileFullPath)
-    }
 
     return configs
   }

@@ -4,12 +4,7 @@ import babel from './babel'
 import esbuild from './esbuild'
 import swc from './swc'
 import { requireResolve } from 'rzpack-utils'
-
-export enum JSX_TOOLS {
-  BABEL = 'babel',
-  ESBUILD = 'esbuild',
-  SWC = 'swc',
-}
+import { JSX_TOOLS } from '../..'
 
 const jsx = (webpackChain: WebpackChain, assets: RzpackAssets) => {
   const { jsxTools = JSX_TOOLS.BABEL, cssScoped } = assets ?? {}
