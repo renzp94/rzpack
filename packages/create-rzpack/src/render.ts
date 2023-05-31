@@ -135,6 +135,7 @@ export const renderPackage = ({ packageName, commitLint, template }: PromptsResu
     'lint-staged': {
       'src/**/*.{js,jsx,ts,tsx}': ['eslint --fix', 'prettier --write'],
     },
+    license: 'MIT',
     ...(commitLint ? commitizenConfig : {}),
     dependencies: {
       react: '^18.2.0',
@@ -145,7 +146,7 @@ export const renderPackage = ({ packageName, commitLint, template }: PromptsResu
     devDependencies: {
       '@types/react': '^18.0.25',
       '@types/react-dom': '^18.0.9',
-      rzpack: '^0.0.3',
+      rzpack: '^0.0.7',
       typescript: '4.8.4',
       ...(isRouter6_3Template ? fullDevDepPackages : {}),
       ...(commitLint ? commitlintPackages : {}),
@@ -225,7 +226,7 @@ export const renderConfig = (result: PromptsResult) => {
   }
 
   if (jtsLoader) {
-    assets += `    jsxTools: '${jtsLoader}',\n`
+    assets += `    jsxTools: JSX_TOOLS.${jtsLoader.toLocaleUpperCase()},\n`
   }
   assets += '  },\n'
 
@@ -242,10 +243,9 @@ export const renderConfig = (result: PromptsResult) => {
   const lessVars = `  lessVars: {\n` + `    file: './src/theme/globalVars.ts',\n` + `  },\n`
 
   fs.writeFileSync(
-    path.resolve(process.env.ROOT, 'rzpack.config.js'),
-    `/* eslint-disable @typescript-eslint/no-var-requires */\n` +
-      `const { defineConfig } = require('rzpack')\n\n` +
-      `module.exports = defineConfig({\n` +
+    path.resolve(process.env.ROOT, 'rzpack.config.ts'),
+    `import { defineConfig${jtsLoader ? ', JSX_TOOLS' : ''} } from 'rzpack'\n\n` +
+      `export default defineConfig({\n` +
       `  html: {\n` +
       `    title: '${projectName}',\n` +
       `  },\n` +
