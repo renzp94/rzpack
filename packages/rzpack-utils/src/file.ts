@@ -2,6 +2,7 @@ import { logError } from './log'
 import path from 'path'
 import fs from 'fs'
 import { createHash } from 'node:crypto'
+import * as esbuild from 'esbuild'
 
 /**
  * 判断文件是否存在
@@ -59,4 +60,43 @@ export const createEnvHash = (env: string) => {
   const hash = createHash('md5')
   hash.update(env)
   return hash.digest('hex')
+}
+/**
+ * 编译配置文件
+ * @param configFile 要编译的文件地址
+ * @param tmpFilePath 编译后保存的文件地址
+ * @returns 返回配置文件内容
+ */
+export const bundleTsFile = (configFile: string, tmpFilePath: string) => {
+  const fileContent = fs.readFileSync(configFile, 'utf-8')
+  const result = esbuild.transformSync(fileContent, {
+    loader: 'ts',
+    format: 'cjs',
+    platform: 'node',
+    minify: true,
+  })
+
+  fs.writeFileSync(tmpFilePath, result.code)
+  const configs = requireFile(tmpFilePath)?.default
+
+  if (configs) {
+    fs.unlink(tmpFilePath, () => undefined)
+  }
+
+  return configs
+}
+/**
+ * 获取当前项目依赖包的版本
+ * @param packageName 依赖包名
+ * @returns 返回版本号
+ */
+export const getPackageVersion = (packageName: string) => {
+  const packageFile = getFileFullPath('package.json')
+  const packageInfo = requireFile(packageFile)
+  const deps = packageInfo?.dependencies
+  const devDeps = packageInfo?.devDependencies
+  let version = deps?.[packageName] ?? devDeps?.[packageName]
+  version = version?.replace(/^(\^|~)/, '')
+
+  return version
 }

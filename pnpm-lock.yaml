@@ -248,6 +248,9 @@ importers:
       dotenv-expand:
         specifier: ^9.0.0
         version: 9.0.0
+      esbuild:
+        specifier: ^0.15.5
+        version: 0.15.18
       kolorist:
         specifier: ^1.5.1
         version: 1.7.0

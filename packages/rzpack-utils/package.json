@@ -34,6 +34,7 @@
     "check-dependencies": "^1.1.0",
     "dotenv": "^16.0.2",
     "dotenv-expand": "^9.0.0",
+    "esbuild": "^0.15.5",
     "kolorist": "^1.5.1",
     "portfinder": "^1.0.32"
   }
