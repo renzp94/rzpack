@@ -1,9 +1,7 @@
 import React from 'react'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const token = require('@/theme')
+import token  from '@/theme'
 
 export interface AntdConfigProvider {
   children: React.ReactNode
