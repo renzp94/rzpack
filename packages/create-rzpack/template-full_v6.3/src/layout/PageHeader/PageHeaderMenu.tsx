@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu } from 'antd'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import useRouterStore from '@/stores/router'
 import { RouteModel } from '@/router'
 import classes from './index.module.less'
