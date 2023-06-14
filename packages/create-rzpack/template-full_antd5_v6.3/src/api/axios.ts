@@ -1,9 +1,12 @@
 import type { Axios, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios'
-import axios from 'axios'
+
 import { message } from 'antd'
+import axios from 'axios'
+import NProgress from 'nprogress'
+
 import storage, { TOKEN, USER_INFO } from '@/utils/storage'
 import { isUndef, recordValueTrim } from '@/utils/tools'
-import NProgress from 'nprogress'
+
 import 'nprogress/nprogress.css'
 NProgress.configure({ showSpinner: false })
 
@@ -108,10 +111,10 @@ export interface ResponseBody<T> extends AxiosResponse {
   msg: string
 }
 export interface ResponseDataList<T> {
-  totalRecord: number
-  pageSize?: number
   pageNo?: number
+  pageSize?: number
   records: T[]
+  totalRecord: number
 }
 // 分页参数
 export interface PaginationParams {

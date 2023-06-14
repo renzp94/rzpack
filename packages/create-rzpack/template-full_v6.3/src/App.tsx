@@ -1,19 +1,20 @@
-import { useMatch, useRoutes } from 'react-router-dom'
-import { mergeUserRoutes } from './router'
-import React, { useRef } from 'react'
-import userInfoStore from '@/stores/user'
 import { useEffect } from 'react'
-import useRouterStore from './stores/router'
+import React, { useRef } from 'react'
+import { useMatch, useRoutes } from 'react-router-dom'
+
 import { CenterSpin } from './components'
+import { mergeUserRoutes } from './router'
+import useRouterStore from './stores/router'
 import storage, { TOKEN } from './utils/storage'
+import userInfoStore from '@/stores/user'
 
 const App = () => {
   const isLogin = useMatch('/login')
   const refreshUserInfo = userInfoStore(state => state.refreshUserInfo)
-  const { loading, getUserAuths, userRoutes } = useRouterStore(state => ({
+  const { getUserAuths, loading, userRoutes } = useRouterStore(state => ({
     getUserAuths: state.getUserAuths,
-    userRoutes: state.userRoutes,
     loading: state.loading,
+    userRoutes: state.userRoutes,
   }))
   // 此处将信息请求缓存，防止useEffect进入死循环
   const refreshWebData = useRef(() => {

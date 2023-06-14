@@ -1,9 +1,11 @@
 import type { RouteModel } from '@/router'
 import type { ItemType } from 'antd/lib/menu/hooks/useItems'
-import React, { useEffect, useMemo, useState } from 'react'
+
 import { Menu } from 'antd'
 import { compact } from 'lodash-es'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+
 import { DynamicIcon } from '@/components'
 import useRouterStore from '@/stores/router'
 
@@ -43,17 +45,17 @@ const AsideMenu = () => {
 
   return (
     <Menu
+      items={menus}
       mode="inline"
-      theme="light"
-      openKeys={openKeys}
-      selectedKeys={selectedKeys}
+      onClick={onMenuClick}
       onOpenChange={keys => {
         if (keys.length) {
           setOpenKeys(keys)
         }
       }}
-      onClick={onMenuClick}
-      items={menus}
+      openKeys={openKeys}
+      selectedKeys={selectedKeys}
+      theme="light"
     />
   )
 }
@@ -99,10 +101,10 @@ const getMenuItems = (path: string, routes?: RouteModel[]): ItemType[] => {
   return (
     routes?.map(item => {
       return {
-        label: item.title,
-        key: item.path,
-        icon: item.icon ? <DynamicIcon name={`menu/${item.icon}`} /> : null,
         children: item?.children?.length ? getMenuItems(path, item?.children) : undefined,
+        icon: item.icon ? <DynamicIcon name={`menu/${item.icon}`} /> : null,
+        key: item.path,
+        label: item.title,
       }
     }) ?? []
   )

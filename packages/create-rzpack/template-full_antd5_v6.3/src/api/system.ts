@@ -41,10 +41,10 @@
 import { routes } from '@/router'
 
 export interface LoginParams {
-  // 账号
-  username: string
   // 密码
   password: string
+  // 账号
+  username: string
 }
 /**
  * 登录
@@ -76,8 +76,8 @@ export const fetchAuths = (): Promise<any> => {
     setTimeout(() => {
       resolve({
         data: {
-          menuTree: routes,
           buttonKeys: [],
+          menuTree: routes,
         },
       })
     }, 1000)

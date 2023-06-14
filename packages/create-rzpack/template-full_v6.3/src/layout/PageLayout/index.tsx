@@ -1,10 +1,11 @@
+import { Layout } from 'antd'
 import React, { useState } from 'react'
 
-import { Layout } from 'antd'
+import PageContent from '../PageContent'
 import PageHeader from '../PageHeader'
 import PageSlider from '../PageSide'
-import PageContent from '../PageContent'
 import { AuthRoute, AutoFirstPath } from '@/components'
+
 import classes from './index.module.less'
 
 const PageLayout = () => {

@@ -1,21 +1,22 @@
-import { fetchAuths } from '@/api/system'
-import { getUserRoutes, RouteModel } from '@/router'
-import { BUTTON_KEY } from '@/utils/constants'
 import { cloneDeep } from 'lodash-es'
 import { RouteObject, useLocation, useParams } from 'react-router-dom'
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
+import { fetchAuths } from '@/api/system'
+import { getUserRoutes, RouteModel } from '@/router'
+import { BUTTON_KEY } from '@/utils/constants'
+
 export interface RouterStore {
-  loading: boolean
-  userAuths: RouteModel[]
-  userRoutes: RouteObject[]
-  menus: RouteModel[]
   buttonKeys: string[]
+  clear: () => void
   firstPath: string
   getUserAuths: () => void
+  loading: boolean
+  menus: RouteModel[]
   setLoading: (status: boolean) => void
-  clear: () => void
+  userAuths: RouteModel[]
+  userRoutes: RouteObject[]
 }
 
 /**
@@ -34,29 +35,29 @@ export const deepFilterHidden = (item: RouteModel) => {
 
 const useRouterStore = create<RouterStore>()(
   devtools(set => ({
-    loading: false,
-    userAuths: [],
-    userRoutes: [],
-    firstPath: '',
     buttonKeys: [],
-    menus: [],
+    clear: () => {
+      set({ firstPath: '', menus: [], userAuths: [], userRoutes: [] })
+    },
+    firstPath: '',
     getUserAuths: async () => {
       try {
         set({ loading: true })
         const {
-          data: { menuTree, buttonKeys },
+          data: { buttonKeys, menuTree },
         } = await fetchAuths()
         const [userRoutes, firstPath] = getUserRoutes(menuTree)
         const menus = cloneDeep(menuTree).filter(deepFilterHidden)
-        set({ loading: false, userAuths: menuTree, userRoutes, firstPath, menus, buttonKeys })
+        set({ buttonKeys, firstPath, loading: false, menus, userAuths: menuTree, userRoutes })
       } catch {
         set({ loading: false })
       }
     },
+    loading: false,
+    menus: [],
     setLoading: (status: boolean) => set({ loading: status }),
-    clear: () => {
-      set({ userAuths: [], userRoutes: [], firstPath: '', menus: [] })
-    },
+    userAuths: [],
+    userRoutes: [],
   }))
 )
 

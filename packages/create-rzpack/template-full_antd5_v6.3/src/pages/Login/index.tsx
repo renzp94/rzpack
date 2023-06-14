@@ -1,12 +1,14 @@
+import { message } from 'antd'
 import React, { useState } from 'react'
-import classes from './index.module.less'
+import { useNavigate } from 'react-router-dom'
+
 import LoginForm, { LoginFormFields } from './LoginForm'
 import { removeRememberInfo, setRememberInfo } from './Remember'
-import { isUndef } from '@/utils/tools'
-import userInfoStore from '@/stores/user'
-import { useNavigate } from 'react-router-dom'
-import { message } from 'antd'
 import { login } from '@/api/system'
+import userInfoStore from '@/stores/user'
+import { isUndef } from '@/utils/tools'
+
+import classes from './index.module.less'
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
@@ -22,7 +24,7 @@ const Login = () => {
       if (!isUndef(values?.remember)) {
         values.remember ? setRememberInfo(values) : removeRememberInfo()
       }
-      const { userInfo, token } = data
+      const { token, userInfo } = data
       setUserInfo(token, userInfo)
       message.success('登录成功')
       navigate('/')

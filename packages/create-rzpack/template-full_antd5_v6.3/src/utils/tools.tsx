@@ -75,7 +75,7 @@ export const flattenDeepByKey: FlattenDeepByKey = (list, key) => {
     []
   ) as ReturnType<FlattenDeepByKey>
 }
-export type classNamesOptions = Array<string | Record<string, any>> | Record<string, any> | string
+export type classNamesOptions = Array<Record<string, any> | string> | Record<string, any> | string
 /**
  * 根据条件判断生产className
  * @param options classNamesOptions
@@ -124,34 +124,34 @@ export const thousandthSeparate = (value: number | string, decimalZeroCount = 0)
   return values.join('.')
 }
 export type UnitOfTime =
-  | 'year'
-  | 'years'
-  | 'y'
-  | 'month'
-  | 'months'
-  | 'M'
-  | 'week'
-  | 'weeks'
-  | 'w'
+  | 'd'
   | 'day'
   | 'days'
-  | 'd'
+  | 'h'
   | 'hour'
   | 'hours'
-  | 'h'
-  | 'minute'
-  | 'minutes'
   | 'm'
-  | 'second'
-  | 'seconds'
-  | 's'
+  | 'M'
   | 'millisecond'
   | 'milliseconds'
+  | 'minute'
+  | 'minutes'
+  | 'month'
+  | 'months'
   | 'ms'
+  | 's'
+  | 'second'
+  | 'seconds'
+  | 'w'
+  | 'week'
+  | 'weeks'
+  | 'y'
+  | 'year'
+  | 'years'
 
-export function timeFormatRange(timeStamp: number | dayjs.Dayjs, unitOfTime: UnitOfTime): number
+export function timeFormatRange(timeStamp: dayjs.Dayjs | number, unitOfTime: UnitOfTime): number
 export function timeFormatRange(
-  timeStamp: Array<number | dayjs.Dayjs>,
+  timeStamp: Array<dayjs.Dayjs | number>,
   unitOfTime: UnitOfTime
 ): Array<number>
 
@@ -163,7 +163,7 @@ export function timeFormatRange(
  * 如果是数组，返回一个数组，第一个元素转换为指定格式的开始时间，第二个元素转换为指定格式的结束时间。
  */
 export function timeFormatRange(
-  timeStamp: number | dayjs.Dayjs | Array<number | dayjs.Dayjs>,
+  timeStamp: Array<dayjs.Dayjs | number> | dayjs.Dayjs | number,
   unitOfTime: UnitOfTime = 'days'
 ): number | number[] {
   if (typeof timeStamp === 'number') {

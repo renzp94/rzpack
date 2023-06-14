@@ -1,13 +1,15 @@
-import storage, { TOKEN } from '@/utils/storage'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 import { Dropdown, Modal } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { logout } from '@/api/system'
 import DownIcon from '@/assets/svg/down.svg'
 import LogoutIcon from '@/assets/svg/logout.svg'
-import classes from './index.module.less'
 import userInfoStore from '@/stores/user'
-import { logout } from '@/api/system'
+import storage, { TOKEN } from '@/utils/storage'
+
+import classes from './index.module.less'
 
 const PageHeaderTools = () => {
   const navigate = useNavigate()
@@ -15,7 +17,6 @@ const PageHeaderTools = () => {
 
   const onLogout = () => {
     Modal.confirm({
-      title: '确定退出登录？',
       icon: <ExclamationCircleFilled />,
       onOk: async () => {
         await logout()
@@ -23,6 +24,7 @@ const PageHeaderTools = () => {
         storage.remove(TOKEN)
         navigate('/login')
       },
+      title: '确定退出登录？',
     })
   }
 
@@ -35,9 +37,9 @@ const PageHeaderTools = () => {
 
   const dropdownMenus = [
     {
-      label: '退出系统',
+      icon: <LogoutIcon height="16px" width="16px" />,
       key: 'logout',
-      icon: <LogoutIcon width="16px" height="16px" />,
+      label: '退出系统',
     },
   ]
 

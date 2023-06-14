@@ -1,10 +1,12 @@
-import React from 'react'
 import { Menu } from 'antd'
-import { useLocation, useNavigate } from 'react-router-dom'
-import useRouterStore from '@/stores/router'
-import { RouteModel } from '@/router'
-import classes from './index.module.less'
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
+import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+
+import { RouteModel } from '@/router'
+import useRouterStore from '@/stores/router'
+
+import classes from './index.module.less'
 
 const HeaderMenu = () => {
   const menus = useRouterStore(state => state.menus)
@@ -22,17 +24,17 @@ const HeaderMenu = () => {
   }
 
   const menuItems: ItemType[] = menus?.map(item => ({
-    label: item.title,
     key: item.path,
+    label: item.title,
   }))
 
   return (
     <Menu
       className={classes.menu}
-      mode="horizontal"
       items={menuItems}
-      selectedKeys={selectedKeys}
+      mode="horizontal"
       onClick={onClick}
+      selectedKeys={selectedKeys}
     />
   )
 }

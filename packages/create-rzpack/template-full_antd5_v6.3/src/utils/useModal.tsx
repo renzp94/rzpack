@@ -10,20 +10,20 @@ const useModal = <T,>(defaultTitle?: string, data?: T) => {
   const hideModal = () => setOpen(false)
 
   return {
-    modalProps: {
-      open,
-      title,
-      confirmLoading,
-      onCancel: hideModal,
-      maskClosable: false,
-      destroyOnClose: true,
-    },
-    setConfirmLoading,
-    setTitle,
-    showModal,
     hideModal,
     modalData,
+    modalProps: {
+      confirmLoading,
+      destroyOnClose: true,
+      maskClosable: false,
+      onCancel: hideModal,
+      open,
+      title,
+    },
+    setConfirmLoading,
     setModalData,
+    setTitle,
+    showModal,
   }
 }
 

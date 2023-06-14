@@ -1,44 +1,46 @@
 import type { RouteObject } from 'react-router-dom'
-import React from 'react'
+
 import { lazy } from 'react'
+import React from 'react'
+
 import { LazyLoadSpin } from '@/components'
-import Login from '@/pages/Login'
 import PageLayout from '@/layout/PageLayout'
 import Error from '@/pages/Error'
+import Login from '@/pages/Login'
 import { flattenDeepByKey } from '@/utils/tools'
 
 export interface RouteModel {
-  id?: number | string
-  // 名称
-  title: string
-  // 图标
-  icon?: string
-  // 路径
-  path: string
+  children?: Array<RouteModel>
   // 组件路径
   component?: string
   // 是否隐藏
   hidden: boolean
-  // 权限类型
-  type?: number
-  // 排序
-  sort?: number
+  // 图标
+  icon?: string
+  id?: number | string
   // 元信息
   meta?: string
-  children?: Array<RouteModel>
+  // 路径
+  path: string
+  // 排序
+  sort?: number
+  // 名称
+  title: string
+  // 权限类型
+  type?: number
 }
 export const notFoundRoute: RouteObject = {
-  path: '*',
   element: <Error />,
+  path: '*',
 }
 export const layoutRoute: RouteObject = {
-  path: '/',
-  element: <PageLayout />,
   children: [notFoundRoute],
+  element: <PageLayout />,
+  path: '/',
 }
 export const loginRoute: RouteObject = {
-  path: '/login',
   element: <Login />,
+  path: '/login',
 }
 
 /**

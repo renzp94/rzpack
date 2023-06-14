@@ -70,19 +70,13 @@ export const renderPackage = ({ packageName, commitLint, template }: PromptsResu
   }
 
   const eslintPackages = {
-    '@typescript-eslint/eslint-plugin': '^5.37.0',
-    '@typescript-eslint/parser': '^5.37.0',
-    eslint: '^8.23.1',
-    'eslint-config-prettier': '^8.5.0',
-    'eslint-plugin-jsx-a11y': '^6.6.1',
-    'eslint-plugin-prettier': '^4.2.1',
-    'eslint-plugin-react': '^7.31.10',
-    'eslint-plugin-react-hooks': '^4.6.0',
-    prettier: '^2.7.1',
+    eslint: '^8.42.0',
+    prettier: '^2.8.8',
+    'eslint-config-rzpack': '^0.0.1',
   }
   const huskyPackages = {
     'simple-git-hooks': '^2.8.1',
-    'lint-staged': '^13.0.3',
+    'lint-staged': '^13.2.2',
   }
   const stylelintPackage = {
     stylelint: '^14.15.0',
@@ -134,6 +128,7 @@ export const renderPackage = ({ packageName, commitLint, template }: PromptsResu
     },
     'lint-staged': {
       'src/**/*.{js,jsx,ts,tsx}': ['eslint --fix', 'prettier --write'],
+      'src/**/*.{less,css}': 'stylelint --fix',
     },
     license: 'MIT',
     ...(commitLint ? commitizenConfig : {}),
@@ -246,11 +241,11 @@ export const renderConfig = (result: PromptsResult) => {
     path.resolve(process.env.ROOT, 'rzpack.config.ts'),
     `import { defineConfig${jtsLoader ? ', JSX_TOOLS' : ''} } from 'rzpack'\n\n` +
       `export default defineConfig({\n` +
+      `${hasAssets ? assets : ''}` +
       `  html: {\n` +
       `    title: '${projectName}',\n` +
       `  },\n` +
       (!isTsTemplate ? antd + lessVars : '') +
-      `${hasAssets ? assets : ''}` +
       `${isFullTemplate ? server : ''}` +
       `})\n`
   )
@@ -266,6 +261,14 @@ export const renderLintConfig = () => {
   fs.writeFileSync(
     pathResolve('cz.config.js', process.env.ROOT),
     `module.exports = {\n` +
+      `  messages: {\n` +
+      `    type: '请选择要提交的更改类型: ',\n` +
+      `    subject: '请输入此次更改内容的简短描述:',\n` +
+      `    body: '请输入此次更改内容的详细描述[可选]:',\n` +
+      `    confirmCommit: '是否提交本次内容?',\n` +
+      `  },\n` +
+      `  skipQuestions: ['breaking', 'scope', 'footer'],\n` +
+      `  subjectLimit: 100,\n` +
       `  types: [\n` +
       `    { value: 'feat', name: 'feat: 新功能' },\n` +
       `    { value: 'fix', name: 'fix: Bug修复' },\n` +
@@ -282,14 +285,6 @@ export const renderLintConfig = () => {
       `    { value: 'chore', name: 'chore: 其他' },\n` +
       `    { value: 'revert', name: 'revert: 代码回退' },\n` +
       `  ],\n` +
-      `  messages: {\n` +
-      `    type: '请选择要提交的更改类型: ',\n` +
-      `    subject: '请输入此次更改内容的简短描述:',\n` +
-      `    body: '请输入此次更改内容的详细描述[可选]:',\n` +
-      `    confirmCommit: '是否提交本次内容?',\n` +
-      `  },\n` +
-      `  skipQuestions: ['breaking', 'scope', 'footer'],\n` +
-      `  subjectLimit: 100,\n` +
       `}\n`
   )
   const versionConfig = {

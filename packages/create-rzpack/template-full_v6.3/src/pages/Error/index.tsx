@@ -8,7 +8,7 @@ const Error: React.FC = () => {
   return (
     <Result
       extra={
-        <Button type="primary" onClick={() => navigate(-1)}>
+        <Button onClick={() => navigate(-1)} type="primary">
           返回
         </Button>
       }

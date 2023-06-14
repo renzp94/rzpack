@@ -1,9 +1,11 @@
-import React from 'react'
 import { Layout } from 'antd'
+import React from 'react'
+
 import PageSideMenu from './PageSideMenu'
-import classes from './index.module.less'
 import MenuCloseIcon from '@/assets/svg/menu-close.svg'
 import MenuOpenIcon from '@/assets/svg/menu-open.svg'
+
+import classes from './index.module.less'
 
 export interface PageSideProps {
   collapsed?: boolean
@@ -14,10 +16,10 @@ const PageSide = (props: PageSideProps) => {
   return (
     <Layout.Sider
       className={classes.sider}
+      collapsed={props.collapsed}
+      collapsible
       theme="light"
       trigger={null}
-      collapsible
-      collapsed={props.collapsed}
     >
       <PageSideMenu />
       <div className={classes.collapsed}>

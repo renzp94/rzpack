@@ -1,9 +1,11 @@
 import { Layout } from 'antd'
 import React from 'react'
-import classes from './index.module.less'
+
 import PageHeaderLogo from './PageHeaderLogo'
 import PageHeaderMenu from './PageHeaderMenu'
 import PageHeaderTools from './PageHeaderTools'
+
+import classes from './index.module.less'
 
 export interface PageHeaderProps {
   collapsed?: boolean

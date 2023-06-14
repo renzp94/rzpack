@@ -1,7 +1,8 @@
-import React from 'react'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import dayjs from 'dayjs'
+import React from 'react'
+
 import 'dayjs/locale/zh-cn'
 
 dayjs.locale('zh-cn')
@@ -13,10 +14,10 @@ export interface AntdConfigProvider {
 const AntdConfigProvider = (props: AntdConfigProvider) => {
   return (
     <ConfigProvider
-      // 中文配置
-      locale={zhCN}
       // 移除按钮汉字之间的空格
       autoInsertSpaceInButton={false}
+      // 中文配置
+      locale={zhCN}
     >
       {props.children}
     </ConfigProvider>

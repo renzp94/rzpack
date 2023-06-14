@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
 import { Spin } from 'antd'
+import React, { useEffect, useRef, useState } from 'react'
+
 import './index.less'
 
 export interface IconProps {
-  name: string
   className?: string
-  style?: React.CSSProperties
   fill?: string
-  width?: string
   height?: string
+  name: string
+  style?: React.CSSProperties
+  width?: string
 }
 
 const DynamicIcon = (props: IconProps) => {
@@ -36,8 +37,8 @@ const DynamicIcon = (props: IconProps) => {
 }
 
 DynamicIcon.defaultProps = {
-  width: '1em',
   height: '1em',
+  width: '1em',
 }
 
 export default DynamicIcon

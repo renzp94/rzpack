@@ -1,8 +1,10 @@
-import App from '@/App'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './app.less'
+
+import App from '@/App'
 import { AntdConfigProvider } from '@/components'
+
+import './app.less'
 
 const root = ReactDOM.createRoot(document.querySelector('#root') as HTMLDivElement)
 

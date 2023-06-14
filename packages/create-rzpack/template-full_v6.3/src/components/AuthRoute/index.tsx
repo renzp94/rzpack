@@ -1,6 +1,7 @@
 import React from 'react'
-import storage, { TOKEN } from '@/utils/storage'
 import { Navigate, useMatch } from 'react-router-dom'
+
+import storage, { TOKEN } from '@/utils/storage'
 
 export interface AuthRouteProps {
   children: React.ReactNode
@@ -11,7 +12,7 @@ const AuthRoute = (props: AuthRouteProps) => {
   const isLoginPath = useMatch('/login')
 
   if (!isLogin && !isLoginPath) {
-    return <Navigate to="/login" replace />
+    return <Navigate replace to="/login" />
   }
 
   return <>{props.children}</>

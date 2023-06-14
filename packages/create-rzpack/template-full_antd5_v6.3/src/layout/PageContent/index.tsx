@@ -1,9 +1,11 @@
-import { ProBreadcrumb } from '@/components'
-import { ProBreadcrumbRoute } from '@/components/ProBreadcrumb'
-import useRouterStore from '@/stores/router'
 import { Layout } from 'antd'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+
+import { ProBreadcrumb } from '@/components'
+import { ProBreadcrumbRoute } from '@/components/ProBreadcrumb'
+import useRouterStore from '@/stores/router'
+
 import classes from './index.module.less'
 
 const PageContent = () => {

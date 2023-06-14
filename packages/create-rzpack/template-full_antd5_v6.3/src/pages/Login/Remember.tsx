@@ -1,8 +1,11 @@
 import type { FormInstance, FormItemProps } from 'antd'
-import React from 'react'
+
 import { Checkbox, Form } from 'antd'
 import { useEffect } from 'react'
+import React from 'react'
+
 import storage, { REMEMBER_INFO } from '@/utils/storage'
+
 import classes from './index.module.less'
 
 interface RememberProps extends FormItemProps {

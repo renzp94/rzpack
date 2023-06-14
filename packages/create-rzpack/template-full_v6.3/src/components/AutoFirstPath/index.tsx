@@ -1,5 +1,6 @@
 import React from 'react'
-import { Navigate, useMatch, useLocation } from 'react-router-dom'
+import { Navigate, useLocation, useMatch } from 'react-router-dom'
+
 import useRouterStore from '@/stores/router'
 
 export interface AutoFirstPathProps {
@@ -13,7 +14,7 @@ const AutoFirstPath = (props: AutoFirstPathProps) => {
   const isGoToFirstPath =
     firstPath && !isFirstPath && !userRoutes.some(item => item.path === location.pathname)
 
-  return isGoToFirstPath ? <Navigate to={firstPath} replace /> : <>{props.children}</>
+  return isGoToFirstPath ? <Navigate replace to={firstPath} /> : <>{props.children}</>
 }
 
 export default AutoFirstPath

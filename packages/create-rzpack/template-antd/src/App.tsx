@@ -6,7 +6,7 @@ const App: React.FC = () => {
 
   return (
     <div
-      style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{ alignItems: 'center', display: 'flex', height: '100vh', justifyContent: 'center' }}
     >
       <Button onClick={() => setCount(val => val - 1)}>-</Button>
       <div style={{ margin: '0 12px' }}>{count}</div>

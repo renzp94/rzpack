@@ -1,21 +1,21 @@
 import type { RouteModel } from '@/router'
-import React, { useMemo } from 'react'
+
 import { Breadcrumb } from 'antd'
+import React, { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+
 import DynamicIcon from '../DynamicIcon'
 
 export interface ProBreadcrumbRoute extends RouteModel {
+  children: ProBreadcrumbRoute[]
   icon: string & React.ReactNode
   // children属性中的配置是否渲染成下拉菜单
   isChildOverlayMenu?: boolean
-  children: ProBreadcrumbRoute[]
 }
 
 export interface ProBreadcrumbProps {
-  routes: ProBreadcrumbRoute[]
-  prefixCls?: string
-  params?: any
-  separator?: React.ReactNode
+  children?: React.ReactNode
+  className?: string
   isIconRender?: boolean
   itemRender?: (
     route: ProBreadcrumbRoute,
@@ -23,9 +23,11 @@ export interface ProBreadcrumbProps {
     routes: ProBreadcrumbRoute[],
     paths: string[]
   ) => React.ReactNode
+  params?: any
+  prefixCls?: string
+  routes: ProBreadcrumbRoute[]
+  separator?: React.ReactNode
   style?: React.CSSProperties
-  className?: string
-  children?: React.ReactNode
 }
 
 const flattenDeepRoute = (routes: Array<ProBreadcrumbRoute>): Array<ProBreadcrumbRoute> => {
@@ -76,7 +78,7 @@ export const itemLinkRender = (item: ProBreadcrumbRoute, isIconRender?: boolean)
 
   if (isOutsideLink) {
     return (
-      <a href={item.path} target="_blank" rel="noreferrer">
+      <a href={item.path} rel="noreferrer" target="_blank">
         {itemDefaultRender(item, isIconRender)}
       </a>
     )
@@ -108,7 +110,7 @@ export const getBreadcrumbMenus = (
 }
 
 const ProBreadcrumb = (props: ProBreadcrumbProps) => {
-  const { routes = [], itemRender, isIconRender, ...breadcrumbProps } = props
+  const { isIconRender, itemRender, routes = [], ...breadcrumbProps } = props
   const location = useLocation()
 
   const breadcrumbRoutes = useMemo(
