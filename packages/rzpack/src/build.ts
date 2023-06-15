@@ -46,9 +46,8 @@ const runBuild = (isLog = true) => {
 
   const compiler = Webpack(configs)
 
-  compiler.run((err, stats) => {
-    if (err) {
-      console.log(err.message)
+  compiler.run((_, stats) => {
+    if (stats.hasErrors()) {
       return false
     }
 
