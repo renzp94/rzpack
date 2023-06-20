@@ -46,13 +46,16 @@ cli
   .option('--bundle-size', '[boolean] analysis package size')
   .option('--bundle-time', '[boolean] analyze packaging time')
   .action(async (options: BuildOptions) => {
-    const { c, m, mode, config, outDir = 'dist', bundleSize, bundleTime } = options ?? {}
+    const { c, m, mode, config, outDir, bundleSize, bundleTime } = options ?? {}
     rzpack.mode = m ?? mode ?? 'production'
     process.env.NODE_ENV = rzpack.mode
     rzpack.bundleSize = bundleSize ?? false
     rzpack.bundleTime = bundleTime ?? false
     try {
       const configs = rzpack.loadConfigFile(c ?? config)
+      if (outDir) {
+        configs.output = outDir
+      }
       await rzpack.configs({ ...configs, output: outDir })
       runBuild(!rzpack.bundleTime)
     } catch (error) {
@@ -65,12 +68,15 @@ cli
   .command('preview', 'preview for outDir')
   .option('--outDir <dir>', `[string] output directory (default: dist)`)
   .action(async (options: BuildOptions) => {
-    const { c, m, mode, config, outDir = 'dist' } = options ?? {}
+    const { c, m, mode, config, outDir } = options ?? {}
     let isPreview: boolean = fileExists(pathResolve(outDir, process.cwd()))
     if (!isPreview) {
       rzpack.mode = m ?? mode ?? 'production'
       process.env.NODE_ENV = rzpack.mode
       const configs = rzpack.loadConfigFile(c ?? config)
+      if (outDir) {
+        configs.output = outDir
+      }
       await rzpack.configs({ ...configs, output: outDir })
       isPreview = await runBuild(false)
     }
