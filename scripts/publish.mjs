@@ -58,6 +58,6 @@ echo(`✨ ${chalk.blue(`${pkg.name} ${chalk.bold(version)}`)}发布成功`)
 // 提交
 cd('../../')
 await $`git add ./packages/${packageName}`
-await $`git commit -m "chore: publish ${version}"`
+await $`git commit -m "chore(${packageName}): publish ${version}"`
 let branch = await $`git branch --show-current`
 await $`git push origin ${branch}`
