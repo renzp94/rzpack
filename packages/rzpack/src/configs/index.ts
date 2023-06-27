@@ -34,9 +34,10 @@ export interface RzpackContextConfigs extends Configuration {
 export const getBuildTmpFilePath = (filename: string) => {
   const rootDir = __dirname.split('node_modules').shift()
   const rootFullDir = `${getFileFullPath(`.`)}`
-  let filepath = `./node_modules/rzpack/${filename}.tmp.js`
-  // 当前执行根路径不等于项目根路径，则说明是多仓库
-  if (rootDir && rootDir !== `${rootFullDir}/`) {
+  let filepath = `./node_modules/${filename}.tmp.js`
+  // 如果当前执行路径没有node_modules，则说明是当前仓库使用的
+  //  当前执行根路径不等于项目根路径，则说明是多仓库
+  if (__dirname.includes('node_modules') && rootDir && rootDir !== `${rootFullDir}/`) {
     const moduleName = rootFullDir.split('/').pop()
 
     filepath = `${rootDir}node_modules/${filename}.${moduleName}.tmp.js`
@@ -62,7 +63,7 @@ export class RzpackContext {
   get(key: string) {
     return this.webpackChain.get(key)
   }
-  loadConfigFile(configFilePath?: string) {
+  loadConfigFile(configFilePath?: string): RzpackConfigs {
     let configFile
     let configFileName
     loadEnv(this.mode)
@@ -138,6 +139,6 @@ export class RzpackContext {
     this.webpackChain.mode(this.mode)
   }
   toConfig() {
-    return this.webpackChain.toConfig() as RzpackContextConfigs
+    return this.webpackChain.toConfig() as unknown as RzpackContextConfigs
   }
 }

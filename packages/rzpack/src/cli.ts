@@ -52,7 +52,7 @@ cli
     rzpack.bundleSize = bundleSize ?? false
     rzpack.bundleTime = bundleTime ?? false
     try {
-      const configs: RzpackConfigs = rzpack.loadConfigFile(c ?? config)
+      const configs = rzpack.loadConfigFile(c ?? config)
       await rzpack.configs({ ...configs, output: outDir })
       runBuild(!rzpack.bundleTime)
     } catch (error) {
@@ -70,7 +70,7 @@ cli
     if (!isPreview) {
       rzpack.mode = m ?? mode ?? 'production'
       process.env.NODE_ENV = rzpack.mode
-      const configs: RzpackConfigs = rzpack.loadConfigFile(c ?? config)
+      const configs = rzpack.loadConfigFile(c ?? config)
       await rzpack.configs({ ...configs, output: outDir })
       isPreview = await runBuild(false)
     }
