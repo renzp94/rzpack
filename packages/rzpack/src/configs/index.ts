@@ -32,15 +32,20 @@ export interface RzpackContextConfigs extends Configuration {
  * @returns 返回临时文件全路径
  */
 export const getBuildTmpFilePath = (filename: string) => {
+  const splitSeparator = __dirname.includes('/') ? '/' : '\\'
   const rootDir = __dirname.split('node_modules').shift()
   const rootFullDir = `${getFileFullPath(`.`)}`
-  let filepath = `./node_modules/${filename}.tmp.js`
+  let filepath = `.${splitSeparator}node_modules${splitSeparator}${filename}.tmp.js`
   // 如果当前执行路径没有node_modules，则说明是当前仓库使用的
   //  当前执行根路径不等于项目根路径，则说明是多仓库
-  if (__dirname.includes('node_modules') && rootDir && rootDir !== `${rootFullDir}/`) {
-    const moduleName = rootFullDir.split('/').pop()
+  if (
+    __dirname.includes('node_modules') &&
+    rootDir &&
+    rootDir !== `${rootFullDir}${splitSeparator}`
+  ) {
+    const moduleName = rootFullDir.split(splitSeparator).pop()
 
-    filepath = `${rootDir}node_modules/${filename}.${moduleName}.tmp.js`
+    filepath = `${rootDir}node_modules${splitSeparator}${filename}.${moduleName}.tmp.js`
   }
 
   return getFileFullPath(filepath)
