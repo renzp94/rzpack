@@ -4,6 +4,8 @@ import { spinner } from 'zx/experimental'
 const isRepublish = argv.r
 const packageList = await fs.readdir("./packages")
 const packageNames = packageList.map(item => chalk.blue(item)).toString()
+const noBuildPackageNames = ['eslint-config-rzpack']
+
 let packageName
 do {
   packageName = await question(
@@ -38,13 +40,16 @@ if(!isRepublish){
   version = pkg.version
 }
 
-// 打包
-try {
-  await spinner(chalk.blue('生产包构建中...'), () => $`pnpm build`)
-  echo(chalk.green('构建成功'))
-} catch (err) {
-  throw Error(err)
+if(!noBuildPackageNames.includes(packageName)){
+  // 打包
+  try {
+    await spinner(chalk.blue('生产包构建中...'), () => $`pnpm build`)
+    echo(chalk.green('构建成功'))
+  } catch (err) {
+    throw Error(err)
+  }
 }
+
 
 const publishFlags = ['--access=public', '--no-git-checks']
 // 发布
@@ -52,7 +57,7 @@ await spinner(chalk.blue('发布中...'), () => $`pnpm publish ${publishFlags}`)
 echo(`✨ ${chalk.blue(`${pkg.name} ${chalk.bold(version)}`)}发布成功`)
 // 提交
 cd('../../')
-await $`git add .`
+await $`git add ./packages/${packageName}`
 await $`git commit -m "chore: publish ${version}"`
 let branch = await $`git branch --show-current`
 await $`git push origin ${branch}`
