@@ -25,15 +25,16 @@ cli
   .option('--host [host]', '[string] specify hostname')
   .option('--port [port]', '[string] specify port')
   .option('--open [path]', '[boolean | string] open browser on startup')
+  .option('--ui', '[boolean] startup Rzpack UI')
   .action(async (_: string, options: ServerOptions) => {
-    const { c, m, mode, config, host, port, open } = options ?? {}
+    const { c, m, mode, ui = true, config, host, port, open } = options ?? {}
     rzpack.mode = m ?? mode ?? 'development'
     process.env.NODE_ENV = rzpack.mode
     rzpack.webpackChain.devServer.host(host).port(port).open(open)
     try {
       const configs: RzpackConfigs = rzpack.loadConfigFile(c ?? config)
       await rzpack.configs(configs)
-      runServer()
+      runServer(ui, configs?.proxyFile)
     } catch (error) {
       logError(error)
     }

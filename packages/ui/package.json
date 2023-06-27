@@ -1,0 +1,36 @@
+{
+  "name": "rzpack-ui",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "pnpm client:dev & pnpm server:dev",
+    "client:dev": "node ./scripts/client-dev.js",
+    "server:dev": "node ./scripts/server-dev.js",
+    "build": "pnpm --parallel --filter=./client --filter=./server build",
+    "pub": "pnpm build && pnpm publish --no-git-checks"
+  },
+  "files": [
+    "dist"
+  ],
+  "author": "renzp94",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renzp94/rzpack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/renzp94/rzpack/issues"
+  },
+  "homepage": "https://github.com/renzp94/rzpack#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

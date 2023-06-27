@@ -1,0 +1,15 @@
+[
+  {
+    "path": "/repos",
+    "target": "https://api.github.com"
+  },
+  {
+    "path": "/api",
+    "target": "https://api.github.com",
+    "options": {
+      "pathRewrite": {
+        "^/api": "/"
+      }
+    }
+  }
+]

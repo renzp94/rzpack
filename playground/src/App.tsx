@@ -8,6 +8,17 @@ const App: React.FC = () => {
     message.warning('111')
   }
 
+  const onFetch = async () => {
+    try {
+      await fetch('/api/repos/renzp94/rzpack', {
+        method: 'get',
+      })
+      message.success('发送成功')
+    } catch (error) {
+      message.success('发送失败')
+    }
+  }
+
   return (
     <div
       style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -16,7 +27,9 @@ const App: React.FC = () => {
         <Button onClick={() => setCount((val) => val - 1)}>-</Button>
         <div style={{ margin: '0 12px' }}>{count}</div>
         <Button onClick={() => setCount((val) => val + 1)}>+</Button>
-        <Button type="primary">按钮</Button>
+        <Button type="primary" onClick={onFetch}>
+          发送请求
+        </Button>
         <Button danger onClick={onShowMsg}>
           按钮
         </Button>

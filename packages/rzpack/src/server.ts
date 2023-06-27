@@ -1,9 +1,10 @@
-import { logError, cyan } from 'rzpack-utils'
+import { logError, cyan, logWarning } from 'rzpack-utils'
 import Webpack from 'webpack'
 import WebpackDevServer, { Configuration } from 'webpack-dev-server'
 import { rzpack } from './cli'
+import runUI, { PREFIX_URL, validateConfigFile, DEFAULT_CONFIG_FILE } from 'rzpack-ui'
 
-const runServer = async () => {
+const runServer = async (startUI: boolean, proxyFile: string) => {
   rzpack.webpackChain.devtool('cheap-module-source-map')
   const { network, local, port, ...webpackConfigs } = rzpack.toConfig()
 
@@ -16,6 +17,14 @@ const runServer = async () => {
   compiler.hooks.done.tap('rzpack', (stats) => {
     if (stats.hasErrors()) {
       return false
+    }
+
+    if (startUI) {
+      console.log(
+        'Rzpack UI run at: \n',
+        `- Local:     ${cyan(`http://${local}:${port}${PREFIX_URL}`)}\n`,
+        `- Network:   ${cyan(`http://${network}:${port}${PREFIX_URL}`)}\n\n`
+      )
     }
 
     console.log(
@@ -39,6 +48,27 @@ const runServer = async () => {
     port,
     ...clientOverlay,
     ...(webpackConfigs.devServer ?? {}),
+  }
+
+  if (startUI) {
+    if (devServerOptions.proxy) {
+      logWarning(
+        `检测到使用Rzpack UI的同时，在配置文件配置了接口代理。配置文件中的配置将失效，优先使用Rzpack UI的代理模式`
+      )
+    }
+    // 开启可视化配置时配置文件中配置的proxy将无效
+    devServerOptions.proxy = undefined
+    let proxyFilePath = proxyFile
+    if (proxyFilePath && !validateConfigFile(proxyFilePath)) {
+      logWarning(
+        `接口代理配置文件仅支持json文件，${proxyFilePath}文件格式不对，将使用默认配置文件: ${DEFAULT_CONFIG_FILE}`
+      )
+      proxyFilePath = undefined
+    }
+    devServerOptions.setupMiddlewares = (middlewares, devServer) => {
+      runUI(devServer.app, proxyFilePath)
+      return middlewares
+    }
   }
 
   const server = new WebpackDevServer(devServerOptions, compiler)

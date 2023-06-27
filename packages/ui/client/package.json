@@ -1,0 +1,60 @@
+{
+  "name": "rzpack-ui-client",
+  "private": true,
+  "scripts": {
+    "dev": "rzpack",
+    "build": "rzpack build",
+    "build:time": "rzpack build --bundle-time",
+    "build:size": "rzpack build --bundle-size",
+    "preview": "rzpack preview",
+    "prepare": "npx simple-git-hooks"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not IE 11",
+    "not op_mini all"
+  ],
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{less,css}": "stylelint --fix"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@dnd-kit/core": "^6.0.8",
+    "@dnd-kit/modifiers": "^6.0.1",
+    "@dnd-kit/sortable": "^7.0.2",
+    "@dnd-kit/utilities": "^3.2.1",
+    "ahooks": "^3.7.8",
+    "antd": "^5.6.2",
+    "axios": "^1.4.0",
+    "lodash-es": "^4.17.21",
+    "nprogress": "^0.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.0"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.7",
+    "@types/nprogress": "^0.2.0",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "rzpack": "workspace:~",
+    "typescript": "4.8.4",
+    "eslint": "^8.42.0",
+    "prettier": "^2.8.8",
+    "eslint-config-rzpack": "^0.0.1",
+    "simple-git-hooks": "^2.8.1",
+    "lint-staged": "^13.2.2",
+    "stylelint": "^14.15.0",
+    "stylelint-config-property-sort-order-smacss": "^9.0.0",
+    "stylelint-config-standard": "^29.0.0",
+    "stylelint-order": "^5.0.0"
+  }
+}

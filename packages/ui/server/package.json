@@ -1,0 +1,14 @@
+{
+  "name": "rzpack-ui-server",
+  "private": true,
+  "scripts": {
+    "dev": "tsup --watch src",
+    "build": "tsup"
+  },
+  "dependencies": {
+    "rzpack-utils": "workspace:^",
+    "express": "^4.18.2",
+    "express-dynamic-middleware": "^1.0.0",
+    "http-proxy-middleware": "^2.0.6"
+  }
+}

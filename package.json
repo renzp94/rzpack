@@ -7,7 +7,8 @@
   "scripts": {
     "predev": "pnpm -r --parallel --filter=./packages/rzpack-utils run dev",
     "prebuild": "pnpm -r --parallel --filter=./packages/rzpack-utils run build",
-    "dev": "pnpm predev & pnpm -r --parallel --filter=./packages/* --filter=!./packages/rzpack-utils run dev",
+    "dev": "pnpm predev & pnpm -r --parallel --filter=./packages/* --filter=!./packages/rzpack-utils --filter=!./packages/ui run dev",
+    "ui:dev": "pnpm -r --parallel --filter=./packages/ui run dev",
     "build": "pnpm prebuild && pnpm --parallel --filter=!./packages/rzpack-utils --filter=!./playground build",
     "playground:dev": "pnpm --filter=./playground dev",
     "playground:build": "pnpm --filter=./playground build",

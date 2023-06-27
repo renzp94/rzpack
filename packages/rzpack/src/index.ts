@@ -19,6 +19,7 @@ export interface ServerOptions extends CLIOptions {
   host?: string
   port?: number
   open?: boolean
+  ui?: boolean
 }
 
 export interface BuildOptions extends CLIOptions {
@@ -62,7 +63,7 @@ export interface RzpackConfigs {
   output?: Output
   // 静态资源目录
   publicPath?: string
-  // 代理配置
+  // 代理配置，当开启可视化配置时此处配置的接口代理无效
   server?: WebpackDevServerConfiguration
   // 实验性功能
   lazyCompilation?: LazyCompilationOptions
@@ -70,6 +71,8 @@ export interface RzpackConfigs {
   moduleFederation?: ModuleFederationPluginOptions
   // 使用webpackChain重写webpack配置
   webpackChain?: RzpackWebpackChain
+  // 可视化配置的代理，仅在开启可视化配置时才生效
+  proxyFile?: string
 }
 
 export const defineConfig = (configs: RzpackConfigs) => configs
