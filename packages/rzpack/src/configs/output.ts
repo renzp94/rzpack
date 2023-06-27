@@ -1,13 +1,36 @@
 import type WebpackChain from 'webpack-chain'
+import type { Configuration } from 'webpack'
 import { pathResolve } from 'rzpack-utils'
 import { rzpack } from '../cli'
 
-const resolveOutput = (webpackChain: WebpackChain, output = 'dist') => {
+export type Output = Configuration['output'] | string
+
+const defaultFileName = 'assets/js/[name].[contenthash].js'
+const defaultChunkFilename = 'assets/js/[name].[contenthash].js'
+
+const resolveOutput = (webpackChain: WebpackChain, output: Output = 'dist') => {
+  let configs: Output = {
+    filename: defaultFileName,
+    chunkFilename: defaultChunkFilename,
+  }
+
+  if (typeof output === 'string') {
+    configs.path = pathResolve(output, process.cwd())
+  } else {
+    configs = {
+      ...configs,
+      ...output,
+      path: pathResolve(output?.path, process.cwd()),
+    }
+  }
+
+  const webpackOutput = webpackChain.output
+  Object.keys(configs).forEach((key) => {
+    webpackOutput[key](configs[key])
+  })
+
   // 配置打包输出文件
-  webpackChain.output
-    .path(pathResolve(output, process.cwd()))
-    .filename('assets/js/[name].[contenthash].js')
-    .chunkFilename('assets/js/[name].[contenthash].js')
+  webpackOutput
     // 构建前先清空目录
     .set('clean', rzpack.mode === 'production')
     .end()

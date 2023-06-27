@@ -5,6 +5,7 @@ import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev
 import type { RzpackAssets } from './assets'
 import type { LazyCompilationOptions } from './configs/lazyCompilation'
 import type { ModuleFederationPluginOptions } from './plugins/module-federation-plugin'
+import type { Output } from './configs/output'
 
 interface CLIOptions {
   '--'?: string[]
@@ -58,7 +59,7 @@ export interface RzpackConfigs {
   // htmlPlugin插件设置
   html?: HtmlWebpackPlugin.Options
   // 输出目录
-  output?: string
+  output?: Output
   // 静态资源目录
   publicPath?: string
   // 代理配置

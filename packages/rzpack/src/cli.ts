@@ -56,7 +56,7 @@ cli
       if (outDir) {
         configs.output = outDir
       }
-      await rzpack.configs({ ...configs, output: outDir })
+      await rzpack.configs(configs)
       runBuild(!rzpack.bundleTime)
     } catch (error) {
       logError(error)
@@ -77,7 +77,7 @@ cli
       if (outDir) {
         configs.output = outDir
       }
-      await rzpack.configs({ ...configs, output: outDir })
+      await rzpack.configs(configs)
       isPreview = await runBuild(false)
     }
 
