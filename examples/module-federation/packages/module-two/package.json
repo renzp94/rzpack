@@ -1,0 +1,8 @@
+{
+  "name": "module-two",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "rzpack",
+    "build": "rzpack build"
+  }
+}

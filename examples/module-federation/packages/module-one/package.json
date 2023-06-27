@@ -1,0 +1,14 @@
+{
+  "name": "module-one",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "rzpack",
+    "build": "rzpack build"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not IE 11",
+    "not op_mini all"
+  ]
+}
