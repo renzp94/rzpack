@@ -1,0 +1,48 @@
+{
+  "name": "eslint-config-rzpack",
+  "version": "0.0.1",
+  "description": "rzpack eslint config",
+  "main": "index.js",
+  "keywords": [
+    "rzpack",
+    "eslint config"
+  ],
+  "files": [
+    "index.js",
+    "eslint-config-basic.js",
+    "eslint-config-perfectionist.js",
+    "eslint-config-prettier.js",
+    "eslint-config-react.js",
+    "eslint-config-ts.js"
+  ],
+  "author": "renzp94",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renzp94/rzpack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/renzp94/rzpack/issues"
+  },
+  "homepage": "https://github.com/renzp94/rzpack#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-perfectionist": "^1.2.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.22.0",
+    "prettier": "^2.7.1"
+  },
+  "peerDependencies": {
+    "eslint": ">=7.4.0"
+  }
+}
