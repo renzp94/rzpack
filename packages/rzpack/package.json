@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.13",
+    "@module-federation/fmr": "^0.0.7",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@renzp/build-info-webpack-plugin": "^0.0.10",
     "@renzp/css-scoped-loader": "0.0.12",

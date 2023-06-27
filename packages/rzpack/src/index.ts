@@ -4,6 +4,7 @@ import type WebpackChain from 'webpack-chain'
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
 import type { RzpackAssets } from './assets'
 import type { LazyCompilationOptions } from './configs/lazyCompilation'
+import type { ModuleFederationPluginOptions } from './plugins/module-federation-plugin'
 
 interface CLIOptions {
   '--'?: string[]
@@ -64,6 +65,8 @@ export interface RzpackConfigs {
   server?: WebpackDevServerConfiguration
   // 实验性功能
   lazyCompilation?: LazyCompilationOptions
+  // 模块联邦
+  moduleFederation?: ModuleFederationPluginOptions
   // 使用webpackChain重写webpack配置
   webpackChain?: RzpackWebpackChain
 }

@@ -26,6 +26,25 @@ export interface RzpackContextConfigs extends Configuration {
   port?: number
 }
 
+/**
+ * 获取编译的临时文件地址
+ * @param filename 临时文件名
+ * @returns 返回临时文件全路径
+ */
+export const getBuildTmpFilePath = (filename: string) => {
+  const rootDir = __dirname.split('node_modules').shift()
+  const rootFullDir = `${getFileFullPath(`.`)}`
+  let filepath = `./node_modules/rzpack/${filename}.tmp.js`
+  // 当前执行根路径不等于项目根路径，则说明是多仓库
+  if (rootDir && rootDir !== `${rootFullDir}/`) {
+    const moduleName = rootFullDir.split('/').pop()
+
+    filepath = `${rootDir}node_modules/${filename}.${moduleName}.tmp.js`
+  }
+
+  return getFileFullPath(filepath)
+}
+
 export class RzpackContext {
   public readonly webpackChain: WebpackChain
   public mode: 'development' | 'production'
@@ -46,6 +65,9 @@ export class RzpackContext {
   loadConfigFile(configFilePath?: string) {
     let configFile
     let configFileName
+    loadEnv(this.mode)
+    loadEnv()
+
     if (configFilePath) {
       configFile = getFileFullPath(configFilePath)
       configFileName = configFilePath.replace(/.(t|j)s$/, '')
@@ -65,12 +87,9 @@ export class RzpackContext {
     try {
       configs = requireFile(configFile)
     } catch {
-      const tmpFilePath = getFileFullPath(`./node_modules/rzpack.config.tmp.js`)
+      const tmpFilePath = getBuildTmpFilePath('rzpack.config')
       configs = bundleTsFile(configFile, tmpFilePath)
     }
-
-    loadEnv(this.mode)
-    loadEnv()
 
     return configs
   }

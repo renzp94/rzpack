@@ -10,6 +10,7 @@ import {
 } from 'rzpack-utils'
 import { rzpack } from '../cli'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import { getBuildTmpFilePath } from '../configs'
 
 /**
  * 应用公共css loader
@@ -101,8 +102,8 @@ const useAntdTheme = (antdTheme: LessVars) => {
         try {
           modifyVars = requireFile(themeFullPath) ?? {}
         } catch {
-          const tmpPath = getFileFullPath(`./node_modules/antd-theme.tmp.js`)
-          modifyVars = bundleTsFile(themeFullPath, tmpPath)
+          const tmpFilePath = getBuildTmpFilePath('antd-theme')
+          modifyVars = bundleTsFile(themeFullPath, tmpFilePath)
         }
       }
     }
@@ -145,8 +146,8 @@ const useLessVars = (lessVars: LessVars) => {
         try {
           globalVars = requireFile(globalVarsFullPath) ?? {}
         } catch {
-          const tmpPath = getFileFullPath(`./node_modules/global-vars.tmp.js`)
-          globalVars = bundleTsFile(globalVarsFullPath, tmpPath)
+          const tmpFilePath = getBuildTmpFilePath('global-vars')
+          globalVars = bundleTsFile(globalVarsFullPath, tmpFilePath)
         }
       }
     }

@@ -16,6 +16,7 @@ import speedMeasureWebpackPlugin from './speed-measure-webpack-plugin'
 import buildInfoWebpackPlugin from './build-info-webpack-plugin'
 import compressionWebpackPlugin from './compression-webpack-plugin'
 import reactRefreshWebpackPlugin from './react-refresh-webpack-plugin'
+import moduleFederationWebpackPlugin from './module-federation-plugin'
 
 export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
   htmlWebpackPlugin(webpackChain, options?.html)
@@ -48,6 +49,9 @@ export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
 
   if (options?.gzip) {
     compressionWebpackPlugin(webpackChain)
+  }
+  if (options?.moduleFederation) {
+    moduleFederationWebpackPlugin(webpackChain, options?.moduleFederation)
   }
   if (rzpack.mode === 'production') {
     copyWebpackPlugin(webpackChain, options.publicPath)
