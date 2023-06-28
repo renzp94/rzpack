@@ -1,3 +1,4 @@
+import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin'
 import { defineConfig, JSX_TOOLS } from 'rzpack'
 
 export default defineConfig({
@@ -16,5 +17,9 @@ export default defineConfig({
   output: {
     path: '../dist/client',
     publicPath: '/static/',
+  },
+  webpackChain: webpackChain => {
+    webpackChain.plugin('monaco-editor-webpack-plugin').use(MonacoWebpackPlugin)
+    return webpackChain
   },
 })

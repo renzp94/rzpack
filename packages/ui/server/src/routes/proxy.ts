@@ -143,7 +143,7 @@ export const updateProxyConfigFile = () => {
     JSON.stringify(
       removeFiled(__proxyList__, 'id'),
       (key, value) => (key === 'enabled' ? undefined : value),
-      '  '
+      2
     ),
     'utf-8'
   )
