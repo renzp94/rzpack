@@ -121,7 +121,7 @@ export const loadProxyConfigFile = (filepath = DEFAULT_CONFIG_FILE) => {
       const content = JSON.parse(fs.readFileSync(fullPath, 'utf-8'))
       __proxyList__ = content?.map((item, index) => {
         const target = __proxyList__[index]
-        return { id: generateId(), ...item, enabled: target?.enabled }
+        return { id: generateId(), ...item, enabled: target?.enabled ?? false }
       })
     } catch {
       __proxyList__ = []
