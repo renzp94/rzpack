@@ -101,7 +101,7 @@ const EditModal = ({ data, ...modalProps }: EditModalProps) => {
           rules={[
             {
               validator: (_: unknown, value: string) => {
-                if (!value.replace(/\s/g, '')) {
+                if (!value?.replace(/\s/g, '')) {
                   return Promise.resolve()
                 }
                 try {
