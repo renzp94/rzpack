@@ -14,6 +14,38 @@ enum TYPE {
   ADD,
 }
 
+const rules = {
+  options: [
+    {
+      validator: (_: unknown, value: string) => {
+        if (!value) {
+          return Promise.reject('请输入代理地址')
+        }
+        if (/^(http:\/\/|https:\/\/)/.test(value)) {
+          return Promise.resolve()
+        }
+
+        return Promise.reject('请输入正确的代理地址')
+      },
+    },
+  ],
+  path: [{ message: '请输入接口地址', required: true, validateTrigger: 'submit' }],
+  target: [
+    {
+      validator: (_: unknown, value: string) => {
+        if (!value) {
+          return Promise.reject('请输入代理地址')
+        }
+        if (/^(http:\/\/|https:\/\/)/.test(value)) {
+          return Promise.resolve()
+        }
+
+        return Promise.reject('请输入正确的代理地址')
+      },
+    },
+  ],
+}
+
 const EditModal = ({ data, ...modalProps }: EditModalProps) => {
   const [form] = Form.useForm()
   const type = data ? TYPE.EDIT : TYPE.ADD
@@ -53,32 +85,10 @@ const EditModal = ({ data, ...modalProps }: EditModalProps) => {
       width={1200}
     >
       <Form form={form} labelCol={{ span: 2 }} preserve={false}>
-        <Form.Item
-          label="接口地址"
-          name="path"
-          rules={[{ message: '请输入接口地址', required: true, validateTrigger: 'submit' }]}
-        >
+        <Form.Item label="接口地址" name="path" rules={rules.path}>
           <Input placeholder="请输入接口地址" />
         </Form.Item>
-        <Form.Item
-          label="代理地址"
-          name="target"
-          required
-          rules={[
-            {
-              validator: (_: unknown, value: string) => {
-                if (!value) {
-                  return Promise.reject('请输入代理地址')
-                }
-                if (/^(http:\/\/|https:\/\/)/.test(value)) {
-                  return Promise.resolve()
-                }
-
-                return Promise.reject('请输入正确的代理地址')
-              },
-            },
-          ]}
-        >
+        <Form.Item label="代理地址" name="target" required rules={rules.target}>
           <Input placeholder="请输入代理地址" />
         </Form.Item>
         <Form.Item label="描述" name="description">
@@ -98,21 +108,7 @@ const EditModal = ({ data, ...modalProps }: EditModalProps) => {
           }
           label="参数"
           name="options"
-          rules={[
-            {
-              validator: (_: unknown, value: string) => {
-                if (!value?.replace(/\s/g, '')) {
-                  return Promise.resolve()
-                }
-                try {
-                  JSON.parse(value)
-                  return Promise.resolve()
-                } catch (error) {
-                  return Promise.reject('请输入正确的JSON格式')
-                }
-              },
-            },
-          ]}
+          rules={rules.options}
         >
           <CodeEditor />
         </Form.Item>

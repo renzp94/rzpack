@@ -27,14 +27,14 @@ export const useColumns = ({ onEdit, refresh }: UseColumnsOptions) => {
     })
   }
 
-  const [loading, setLoading] = useState(false)
+  const [enabledId, setEnabledId] = useState('')
   const onUpdateEnabled = async (id: string, status: boolean) => {
     try {
-      setLoading(true)
+      setEnabledId(id)
       await updateProxyEnabled(id, status)
       refresh()
     } finally {
-      setLoading(false)
+      setEnabledId('')
     }
   }
 
@@ -58,7 +58,7 @@ export const useColumns = ({ onEdit, refresh }: UseColumnsOptions) => {
         <Switch
           checked={status}
           data-no-drag="true"
-          loading={loading}
+          loading={enabledId === record.id}
           onChange={() => onUpdateEnabled(record.id, !status)}
         />
       ),
