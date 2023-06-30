@@ -18,14 +18,15 @@ const rules = {
   options: [
     {
       validator: (_: unknown, value: string) => {
-        if (!value) {
-          return Promise.reject('请输入代理地址')
-        }
-        if (/^(http:\/\/|https:\/\/)/.test(value)) {
+        if (!value?.replace(/\s/g, '')) {
           return Promise.resolve()
         }
-
-        return Promise.reject('请输入正确的代理地址')
+        try {
+          JSON.parse(value)
+          return Promise.resolve()
+        } catch (error) {
+          return Promise.reject('请输入正确的JSON格式')
+        }
       },
     },
   ],
