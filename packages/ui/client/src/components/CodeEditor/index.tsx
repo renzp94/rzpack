@@ -1,10 +1,15 @@
-import Editor, { EditorProps, Monaco } from '@monaco-editor/react'
+import Editor, { EditorProps, loader, Monaco } from '@monaco-editor/react'
+import * as monaco from 'monaco-editor'
 import React from 'react'
 
 import CenterSpin from '../CenterSpin'
 import { registerAutoCompletion } from './tools'
 
 import './index.less'
+
+loader.config({
+  monaco,
+})
 
 const CodeEditor = (props: EditorProps) => {
   const onBeforeMount = (monaco: Monaco) => {

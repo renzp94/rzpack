@@ -336,6 +336,9 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      monaco-editor:
+        specifier: ^0.39.0
+        version: 0.39.0
       monaco-editor-webpack-plugin:
         specifier: ^7.0.1
         version: 7.0.1(monaco-editor@0.39.0)(webpack@5.76.3)

@@ -18,9 +18,7 @@ export default async (app: express.Application, proxyFile?: string) => {
   app.get(`${PREFIX_URL}/`, (_, res) => {
     res.sendFile(`${staticDir}/index.html`)
   })
-  app.use('/static/favicon.ico', express.static(`${staticDir}/favicon.ico`))
-  app.use('/static/assets', express.static(`${staticDir}/assets`))
-
+  app.use('/static', express.static(`${staticDir}`))
   app.use(`${PREFIX_URL}/api/proxy`, proxyRoutes)
 }
 
