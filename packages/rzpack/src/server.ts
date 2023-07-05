@@ -3,6 +3,7 @@ import Webpack from 'webpack'
 import WebpackDevServer, { Configuration } from 'webpack-dev-server'
 import { rzpack } from './cli'
 import runUI, { PREFIX_URL, validateConfigFile, DEFAULT_CONFIG_FILE } from 'rzpack-ui'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const runServer = async (startUI: boolean, proxyFile: string) => {
   rzpack.webpackChain.devtool('cheap-module-source-map')
@@ -65,8 +66,13 @@ const runServer = async (startUI: boolean, proxyFile: string) => {
       )
       proxyFilePath = undefined
     }
+    const htmlWebpackPlugin = webpackConfigs.plugins?.find(
+      (item) => item instanceof HtmlWebpackPlugin
+    ) as {
+      userOptions?: { title?: string }
+    }
     devServerOptions.setupMiddlewares = (middlewares, devServer) => {
-      runUI(devServer.app, proxyFilePath)
+      runUI(devServer.app, proxyFilePath, htmlWebpackPlugin?.userOptions?.title)
       return middlewares
     }
   }
