@@ -141,7 +141,7 @@ export const renderPackage = ({ packageName, commitLint, template }: PromptsResu
     devDependencies: {
       '@types/react': '^18.0.25',
       '@types/react-dom': '^18.0.9',
-      rzpack: '^0.1.1',
+      rzpack: '^0.1.5',
       typescript: '4.8.4',
       ...(isRouter6_3Template ? fullDevDepPackages : {}),
       ...(commitLint ? commitlintPackages : {}),
