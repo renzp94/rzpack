@@ -105,11 +105,11 @@ importers:
         specifier: ^0.0.10
         version: 0.0.10(webpack@5.76.3)
       '@renzp/css-scoped-loader':
-        specifier: 0.0.12
-        version: 0.0.12
+        specifier: 0.0.14
+        version: 0.0.14
       '@renzp/jsx-scoped-loader':
-        specifier: 0.0.21
-        version: 0.0.21
+        specifier: 0.0.23
+        version: 0.0.23
       '@soda/friendly-errors-webpack-plugin':
         specifier: ^1.8.1
         version: 1.8.1(webpack@5.76.3)
@@ -2872,8 +2872,8 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@renzp/babel-plugin-jsx-scoped@0.0.5:
-    resolution: {integrity: sha512-voDXn+6ZDfOQI3LH2BmBnD9eC55XfPHqBEPcC9IQaz+di621iHsicmTMxdz12P9fIsW572KeBmbaIWEufspLLg==}
+  /@renzp/babel-plugin-jsx-scoped@0.0.6:
+    resolution: {integrity: sha512-aoldSKxncKupEPejWGMcSNco4+UWUuJ0poH6lUCGxE1wCM7irzc3BY+ggndTl66raaPZD1h20TiC6fg9C2FecA==}
     dev: false
 
   /@renzp/build-info-webpack-plugin@0.0.10(webpack@5.76.3):
@@ -2884,34 +2884,34 @@ packages:
       - webpack
     dev: false
 
-  /@renzp/css-scoped-loader@0.0.12:
-    resolution: {integrity: sha512-M+jPlYaC1hwjDB8UJEX4cARKa5HunMXEZFhVOuVMffxIJvRISC/A8IwdGH0UwtIjhFm57LPRqkdnNb8X6P2l0Q==}
+  /@renzp/css-scoped-loader@0.0.14:
+    resolution: {integrity: sha512-8NkEW7jZghFNRrrqz+faVjkVMC2IDxulgQ3OF/joW4z+Lc7jU+rftfu7ld6dUk9P5B7gxwJFVRI3SAfp9H4zXQ==}
     dependencies:
-      '@renzp/postcss-css-scoped': 0.0.2
+      '@renzp/postcss-css-scoped': 0.0.4
       postcss: 8.4.21
     dev: false
 
-  /@renzp/jsx-scoped-loader@0.0.21:
-    resolution: {integrity: sha512-nnZCORwCWjCRlC8kRWIDtIh50LdPsEoM7bqq+PfrcJtOEzLHxKBrPV7F+DWMAUX5KMX+v4GPcyhwgEk76Qv/Pw==}
+  /@renzp/jsx-scoped-loader@0.0.23:
+    resolution: {integrity: sha512-uYzxWXB411XAVY0AgzhUTX85T+uVsXCNyxXtvVozhIobUUuMt4imM7XdqgYIgcTruSsbofEfn3bY68oPko4ytA==}
     dependencies:
       '@babel/core': 7.21.3
       '@babel/preset-react': 7.18.6(@babel/core@7.21.3)
       '@babel/preset-typescript': 7.21.0(@babel/core@7.21.3)
-      '@renzp/babel-plugin-jsx-scoped': 0.0.5
-      '@renzp/swc-jsx-scoped': 0.0.4
+      '@renzp/babel-plugin-jsx-scoped': 0.0.6
+      '@renzp/swc-jsx-scoped': 0.0.5
       '@swc/core': 1.3.6
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@renzp/postcss-css-scoped@0.0.2:
-    resolution: {integrity: sha512-3voLHud7putDvRIN8UmOdxAopBcr5VTQbO8iWszBkSdfmw3qRTYnMtirsH4KzcDE9BdF5nVNDR0lG98bWgsgzg==}
+  /@renzp/postcss-css-scoped@0.0.4:
+    resolution: {integrity: sha512-212+q8VAdp00ZxHz2ZakLr5FtC3PG7rLCuJyWwWc80twCDqHgbQ2f3wG2QRVGOj+qrwy75RLx7AP8hkVv2M8xw==}
     dependencies:
       postcss-selector-parser: 6.0.11
     dev: false
 
-  /@renzp/swc-jsx-scoped@0.0.4:
-    resolution: {integrity: sha512-cJaHMCjK6NTY0Tskr6tOKQTOBy69CthZ5ihWrnCiiI8ZppuWFVe8TvfMpiRe9Se/1Tb9BADsD0mpdodiZxFfIA==}
+  /@renzp/swc-jsx-scoped@0.0.5:
+    resolution: {integrity: sha512-4jXGuU3nLlkQpzdbyZO068aEAD3FkN2HrvQVrBtFlA/LnVstpirgdHdZPcLTHWww1AFaelQ5Fkl+SX4I0QK5dw==}
     dependencies:
       '@swc/core': 1.3.6
     dev: false
