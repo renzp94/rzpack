@@ -112,10 +112,11 @@ export const useEditModal = (refresh: () => void) => {
 }
 export interface UseToolsOptions {
   refresh: () => void
-  showModal: () => void
   status: boolean
 }
-export const useTools = ({ refresh, showModal, status }: UseToolsOptions) => {
+export const useTools = ({ refresh, status }: UseToolsOptions) => {
+  const { modalComponent, onEdit, showModal } = useEditModal(refresh)
+
   const [loading, setLoading] = useState(false)
   const [checked, setChecked] = useState(status)
   useEffect(() => {
@@ -141,8 +142,12 @@ export const useTools = ({ refresh, showModal, status }: UseToolsOptions) => {
         <div>批量开关：</div>
         <Switch checked={checked} loading={loading} onChange={onUpdateEnabled} />
       </div>
+      {modalComponent}
     </Space>
   )
 
-  return toolsComponent
+  return {
+    onEdit,
+    tools: toolsComponent,
+  }
 }

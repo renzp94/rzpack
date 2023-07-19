@@ -53,11 +53,13 @@ const EditModal = ({ data, ...modalProps }: EditModalProps) => {
   const title = data ? '编辑' : '添加'
 
   useEffect(() => {
-    form.setFieldsValue({
-      ...data,
-      options: data?.options ? JSON.stringify(data?.options, null, 2) : undefined,
-    })
-  }, [data, form])
+    if (modalProps?.open) {
+      form.setFieldsValue({
+        ...data,
+        options: data?.options ? JSON.stringify(data?.options, null, 2) : undefined,
+      })
+    }
+  }, [data, form, modalProps?.open])
 
   const [confirmLoading, setConfirmLoading] = useState(false)
   const onSave = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

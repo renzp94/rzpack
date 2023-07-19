@@ -1,58 +1,62 @@
-import type { DragEndEvent, UniqueIdentifier } from '@dnd-kit/core'
+import React, { useRef } from 'react'
+import { useDrag, useDrop } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
-import { DndContext, MouseSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
-import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
-import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import React from 'react'
+import { classNames } from '@/utils/tools'
 
 export interface DndProps {
   children?: React.ReactElement
-  keys?: UniqueIdentifier[]
-  onDragEnd?(event: DragEndEvent): void
 }
 
-const Dnd = ({ children, keys = [], onDragEnd }: DndProps) => {
-  const sensors = useSensors(
-    useSensor(MouseSensor, {
-      activationConstraint: {
-        distance: 5,
-      },
-    }),
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 5,
-      },
-    })
-  )
-  return (
-    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd} sensors={sensors}>
-      <SortableContext items={keys} strategy={verticalListSortingStrategy}>
-        {children}
-      </SortableContext>
-    </DndContext>
-  )
+const Dnd = ({ children }: DndProps) => {
+  return <DndProvider backend={HTML5Backend}>{children}</DndProvider>
 }
-
-interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
-  'data-row-key': string
-}
-
-export const DndRow = (props: RowProps) => {
-  const { attributes, isDragging, listeners, setNodeRef, transform, transition } = useSortable({
-    id: props['data-row-key'],
-  })
-
-  const style: React.CSSProperties = {
-    ...props.style,
-    cursor: 'move',
-    transform: CSS.Transform.toString(transform && { ...transform, scaleY: 1 }),
-    transition,
-    ...(isDragging ? { position: 'relative', zIndex: 99 } : {}),
-  }
-
-  return <tr {...props} ref={setNodeRef} style={style} {...attributes} {...listeners} />
-}
-export { arrayMove } from '@dnd-kit/sortable'
 
 export default Dnd
+
+export const ItemTypes = {
+  TYPE: 'DraggableBodyRow',
+}
+
+export interface DraggableBodyRowProps {
+  className?: string
+  index: number
+}
+
+export const DraggableBodyRow = ({ className, index, moveRow, style, ...restProps }: any) => {
+  const ref = useRef()
+  const [{ dropClassName, isOver }, drop] = useDrop({
+    accept: ItemTypes.TYPE,
+    collect: monitor => {
+      const { index: dragIndex } = monitor.getItem() || {}
+      if (dragIndex === index) {
+        return {}
+      }
+      return {
+        dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward',
+        isOver: monitor.isOver(),
+      }
+    },
+    drop: (item: any) => {
+      moveRow(item.index, index)
+    },
+  })
+  const [, drag] = useDrag({
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+    }),
+    item: { index },
+    type: ItemTypes.TYPE,
+  })
+  drop(drag(ref))
+
+  return (
+    <tr
+      className={classNames([className, { [dropClassName as string]: isOver }])}
+      ref={ref}
+      style={{ cursor: 'move', ...style }}
+      {...restProps}
+    />
+  )
+}

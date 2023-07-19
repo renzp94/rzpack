@@ -6,3 +6,15 @@
   display: flex;
   align-items: center;
 }
+
+.page {
+  :global {
+    tr.drop-over-downward td {
+      border-bottom: 2px dashed @colorPrimary;
+    }
+
+    tr.drop-over-upward td {
+      border-top: 2px dashed @colorPrimary;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+.pro-table-header {
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #fff;
+
+  &__btn-group {
+    text-align: right;
+  }
+
+  &__expand {
+    padding: 0 8px;
+    color: @colorPrimary;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: transparent;
+      color: @colorPrimary;
+
+      span::before {
+        height: 0;
+      }
+    }
+  }
+
+  .expand {
+    &-item {
+      display: flex;
+      align-items: center;
+      color: @colorPrimary;
+    }
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+      margin-left: 12px;
+      object-fit: cover;
+
+      &--close {
+        transform: rotateX(180deg);
+      }
+    }
+  }
+}

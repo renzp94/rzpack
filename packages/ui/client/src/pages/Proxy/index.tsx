@@ -1,64 +1,70 @@
-import { DragEndEvent } from '@dnd-kit/core'
 import { useRequest } from 'ahooks'
-import { Table } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
-import Dnd, { arrayMove, DndRow } from './components/Dnd'
-import { useColumns, useEditModal, useTools } from './hooks'
+import Dnd, { DraggableBodyRow } from './components/Dnd'
+import { useColumns, useTools } from './hooks'
 import { fetchProxyList, moveProxy } from '@/api/proxy'
+import { ProTable } from '@/components'
 import { ProxyModel } from '@/models/proxy'
+
+import classes from './index.module.less'
 
 const Proxy = () => {
   const { data, loading, refresh } = useRequest(fetchProxyList)
   const [dataSource, setDataSource] = useState<ProxyModel[]>([])
   useEffect(() => setDataSource(data?.data ?? []), [data])
 
-  const { modalComponent, onEdit, showModal } = useEditModal(refresh)
-  const columns = useColumns({ onEdit, refresh })
-  const tools = useTools({
+  const { onEdit, tools } = useTools({
     refresh,
-    showModal,
     status: dataSource.length > 0 && dataSource.every(item => item.enabled),
   })
+  const columns = useColumns({ onEdit, refresh })
 
-  const onDragEnd = async ({ active, over }: DragEndEvent) => {
-    if (active.id !== over?.id) {
-      let from = -1
-      let to = -1
-      setDataSource(prev => {
-        from = prev.findIndex(i => i.id === active.id)
-        to = prev.findIndex(i => i.id === over?.id)
-        return arrayMove(prev, from, to)
-      })
-
-      if (from > -1 && to > -1) {
-        try {
-          await moveProxy(from, to)
-        } catch {
-          setDataSource(data?.data ?? [])
-        }
-      }
-    }
+  const components = {
+    body: {
+      row: DraggableBodyRow,
+    },
   }
 
+  const moveRow = useCallback(
+    async (dragIndex: number, hoverIndex: number) => {
+      if (dragIndex === hoverIndex) {
+        return
+      }
+
+      setDataSource(val => {
+        const list = [...val]
+        list.splice(hoverIndex, 1, ...list.splice(dragIndex, 1, list[hoverIndex]))
+        return list
+      })
+      try {
+        await moveProxy(dragIndex, hoverIndex)
+      } catch {
+        setDataSource(data?.data ?? [])
+      }
+    },
+    [data?.data]
+  )
+
   return (
-    <div>
-      {tools}
-      <Dnd keys={dataSource.map(item => item.id)} onDragEnd={onDragEnd}>
-        <Table
+    <div className={classes.page}>
+      <Dnd>
+        <ProTable
           columns={columns}
-          components={{
-            body: {
-              row: DndRow,
-            },
-          }}
+          components={components}
           dataSource={dataSource}
           loading={loading}
+          onRow={(_: unknown, index?: number) =>
+            ({
+              index,
+              moveRow,
+            } as any)
+          }
           pagination={false}
           rowKey="id"
+          tools={tools}
         />
       </Dnd>
-      {modalComponent}
     </div>
   )
 }
