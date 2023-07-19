@@ -64,7 +64,8 @@ export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
     }
   }
 
-  if (rzpack.mode === 'development') {
+  const refresh = options?.reactRefresh ?? true
+  if (rzpack.mode === 'development' && refresh) {
     reactRefreshWebpackPlugin(webpackChain)
   }
 }

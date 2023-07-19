@@ -73,6 +73,8 @@ export interface RzpackConfigs {
   webpackChain?: RzpackWebpackChain
   // 可视化配置的代理，仅在开启可视化配置时才生效
   proxyFile?: string
+  // 是否开启React代码热更新
+  reactRefresh?: boolean
 }
 
 export const defineConfig = (configs: RzpackConfigs) => configs
