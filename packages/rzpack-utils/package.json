@@ -1,6 +1,6 @@
 {
   "name": "rzpack-utils",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "rzpack工具箱",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
