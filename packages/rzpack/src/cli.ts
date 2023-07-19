@@ -47,14 +47,14 @@ cli
   .option('--bundle-size', '[boolean] analysis package size')
   .option('--bundle-time', '[boolean] analyze packaging time')
   .action(async (options: BuildOptions) => {
-    const { c, m, mode, config, outDir, bundleSize, bundleTime } = options ?? {}
+    const { c, m, mode, config, outDir = 'dist', bundleSize, bundleTime } = options ?? {}
     rzpack.mode = m ?? mode ?? 'production'
     process.env.NODE_ENV = rzpack.mode
     rzpack.bundleSize = bundleSize ?? false
     rzpack.bundleTime = bundleTime ?? false
     try {
       const configs = rzpack.loadConfigFile(c ?? config)
-      if (outDir) {
+      if (!configs?.output) {
         configs.output = outDir
       }
       await rzpack.configs(configs)
@@ -69,22 +69,23 @@ cli
   .command('preview', 'preview for outDir')
   .option('--outDir <dir>', `[string] output directory (default: dist)`)
   .action(async (options: BuildOptions) => {
-    const { c, m, mode, config, outDir } = options ?? {}
-    let isPreview: boolean = fileExists(pathResolve(outDir, process.cwd()))
+    const { c, m, mode, config, outDir = 'dist' } = options ?? {}
+    rzpack.mode = m ?? mode ?? 'production'
+    process.env.NODE_ENV = rzpack.mode
+
+    const configs = rzpack.loadConfigFile(c ?? config)
+    if (!configs?.output) {
+      configs.output = outDir
+    }
+    const dir = typeof configs.output === 'string' ? configs.output : configs?.output?.path
+    const fullPath = pathResolve(dir, process.cwd())
+    let isPreview: boolean = fileExists(fullPath)
     if (!isPreview) {
-      rzpack.mode = m ?? mode ?? 'production'
-      process.env.NODE_ENV = rzpack.mode
-      const configs = rzpack.loadConfigFile(c ?? config)
-      if (outDir) {
-        configs.output = outDir
-      }
       await rzpack.configs(configs)
       isPreview = await runBuild(false)
     }
 
-    if (isPreview) {
-      runPreview(outDir)
-    }
+    runPreview(dir)
   })
 
 cli.help()
