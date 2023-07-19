@@ -2,6 +2,7 @@ import express from 'express'
 import { DEFAULT_CONFIG_FILE } from '../constants'
 import { fileExists, getFileFullPath } from 'rzpack-utils'
 import fs from 'node:fs'
+import { catchError } from '../tools'
 
 const router = express.Router()
 export interface ProxyConfig {
@@ -17,91 +18,112 @@ let configFilePath: string
 export let __proxyList__: ProxyConfig[] = []
 
 // 接口代理列表
-router.get('/rules', (_, res) => {
-  loadProxyConfigFile(process.env.PROXY_FILE)
-  res.json({
-    data: __proxyList__,
-    msg: '操作成功',
-    code: 0,
+router.get(
+  '/rules',
+  catchError((_, res) => {
+    loadProxyConfigFile(process.env.PROXY_FILE)
+    res.json({
+      data: __proxyList__,
+      msg: '操作成功',
+      code: 0,
+    })
   })
-})
+)
 // 新增
-router.post('/rule', (req, res) => {
-  const target = Object.assign(req.body, { id: generateId() })
-  __proxyList__.unshift(target)
-  updateProxyConfigFile()
-  res.json({
-    code: 0,
-    msg: '操作成功',
-    data: {
-      id: target.id,
-    },
+router.post(
+  '/rule',
+  catchError((req, res) => {
+    const target = Object.assign(req.body, { id: generateId() })
+    __proxyList__.unshift(target)
+    updateProxyConfigFile()
+    res.json({
+      code: 0,
+      msg: '操作成功',
+      data: {
+        id: target.id,
+      },
+    })
   })
-})
+)
 // 开启/关闭规则
-router.put('/rule/enabled/:id', (req, res) => {
-  __proxyList__ = __proxyList__.map((item) => {
-    if (item.id !== req.params.id) {
-      return item
-    }
+router.put(
+  '/rule/enabled/:id',
+  catchError((req, res) => {
+    __proxyList__ = __proxyList__.map((item) => {
+      if (item.id !== req.params.id) {
+        return item
+      }
 
-    return Object.assign({}, item, { enabled: req.body.enabled })
-  })
+      return Object.assign({}, item, { enabled: req.body.enabled })
+    })
 
-  res.json({
-    code: 0,
-    msg: '操作成功',
+    res.json({
+      code: 0,
+      msg: '操作成功',
+    })
   })
-})
+)
 // 全部开启/关闭规则
-router.put('/rule/all-enabled', (req, res) => {
-  __proxyList__ = __proxyList__.map((item) =>
-    Object.assign({}, item, { enabled: req.body.enabled })
-  )
+router.put(
+  '/rule/all-enabled',
+  catchError((req, res) => {
+    __proxyList__ = __proxyList__.map((item) =>
+      Object.assign({}, item, { enabled: req.body.enabled })
+    )
 
-  res.json({
-    code: 0,
-    msg: '操作成功',
+    res.json({
+      code: 0,
+      msg: '操作成功',
+    })
   })
-})
+)
 // 移动
-router.put('/rule/move', (req, res) => {
-  const { from, to } = req.body
-  __proxyList__.splice(to, 1, ...__proxyList__.splice(from, 1, __proxyList__[to]))
+router.put(
+  '/rule/move',
+  catchError((req, res) => {
+    const { from, to } = req.body
+    __proxyList__.splice(to, 1, ...__proxyList__.splice(from, 1, __proxyList__[to]))
 
-  updateProxyConfigFile()
+    updateProxyConfigFile()
 
-  res.json({
-    code: 0,
-    data: __proxyList__,
-    msg: '操作成功',
+    res.json({
+      code: 0,
+      data: __proxyList__,
+      msg: '操作成功',
+    })
   })
-})
+)
 // 编辑
-router.put('/rule/:id', (req, res) => {
-  __proxyList__ = __proxyList__.map((item) => {
-    if (item.id !== req.params.id) {
-      return item
-    }
+router.put(
+  '/rule/:id',
+  catchError((req, res) => {
+    __proxyList__ = __proxyList__.map((item) => {
+      if (item.id !== req.params.id) {
+        return item
+      }
 
-    return Object.assign({}, item, req.body)
-  })
+      return Object.assign({}, item, req.body)
+    })
 
-  updateProxyConfigFile()
-  res.json({
-    code: 0,
-    msg: '操作成功',
+    updateProxyConfigFile()
+    res.json({
+      code: 0,
+      msg: '操作成功',
+    })
   })
-})
+)
 // 删除
-router.delete('/rule/:id', (req, res) => {
-  __proxyList__ = __proxyList__.filter((item) => item.id !== req.params.id)
-  updateProxyConfigFile()
-  res.json({
-    code: 0,
-    msg: '操作成功',
+router.delete(
+  '/rule/:id',
+  catchError((req, res) => {
+    __proxyList__ = __proxyList__.filter((item) => item.id !== req.params.id)
+    updateProxyConfigFile()
+    res.json({
+      code: 0,
+      msg: '操作成功',
+    })
   })
-})
+)
 
 export default router
 
