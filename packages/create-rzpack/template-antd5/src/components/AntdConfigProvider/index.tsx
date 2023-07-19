@@ -1,4 +1,4 @@
-import { ConfigProvider } from 'antd'
+import { App, ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import React from 'react'
 
@@ -17,7 +17,7 @@ const AntdConfigProvider = (props: AntdConfigProvider) => {
       locale={zhCN}
       theme={{ token }}
     >
-      {props.children}
+      <App>{props.children}</App>
     </ConfigProvider>
   )
 }

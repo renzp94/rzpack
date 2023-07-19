@@ -8,7 +8,7 @@ import { getUserRoutes, RouteModel } from '@/router'
 import { BUTTON_KEY } from '@/utils/constants'
 
 export interface RouterStore {
-  buttonKeys: string[]
+  buttonKeys: Record<string, string[]>
   clear: () => void
   firstPath: string
   getUserAuths: () => void
@@ -35,7 +35,7 @@ export const deepFilterHidden = (item: RouteModel) => {
 
 const useRouterStore = create<RouterStore>()(
   devtools(set => ({
-    buttonKeys: [],
+    buttonKeys: {},
     clear: () => {
       set({ firstPath: '', menus: [], userAuths: [], userRoutes: [] })
     },

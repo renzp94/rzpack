@@ -41,7 +41,7 @@ export const renderTemplate = (src: string, dest: string) => {
  * 在目标目录下生成package.json文件
  * @param {string} projectName 项目名
  */
-export const renderPackage = ({ packageName, commitLint, template }: PromptsResult) => {
+export const renderPackage = async ({ packageName, commitLint, template }: PromptsResult) => {
   const isAntd4Template = [Template.ANTD4, Template.FULL_V6_3].includes(template)
   const isAntd5Template = [Template.ANTD5, Template.FULL_ANTD5_V6_3].includes(template)
   const isRouter6_3Template = [Template.FULL_V6_3, Template.FULL_ANTD5_V6_3].includes(template)
@@ -69,10 +69,16 @@ export const renderPackage = ({ packageName, commitLint, template }: PromptsResu
     },
   }
 
+  let rzpackLintVersion = '0.0.1'
+  try {
+    rzpackLintVersion = (await run('npm view eslint-config-rzpack version')).replace(/\s*/g, '')
+  } catch {
+    rzpackLintVersion = '0.0.1'
+  }
   const eslintPackages = {
     eslint: '^8.42.0',
     prettier: '^2.8.8',
-    'eslint-config-rzpack': '^0.0.1',
+    'eslint-config-rzpack': `^${rzpackLintVersion}`,
   }
   const huskyPackages = {
     'simple-git-hooks': '^2.8.1',
@@ -87,7 +93,7 @@ export const renderPackage = ({ packageName, commitLint, template }: PromptsResu
 
   const antdPackages = {
     '@ant-design/icons': '^4.7.0',
-    antd: isAntd5Template ? '^5.1.0' : '^4.24.2',
+    antd: isAntd5Template ? '^5.7.0' : '^4.24.2',
   }
 
   // antd4.x时将moment.js换成dayjs
@@ -109,6 +115,12 @@ export const renderPackage = ({ packageName, commitLint, template }: PromptsResu
     '@types/nprogress': '^0.2.0',
   }
 
+  let rzpackVersion = '0.1.5'
+  try {
+    rzpackVersion = (await run('npm view rzpack version')).replace(/\s*/g, '')
+  } catch {
+    rzpackVersion = '0.1.5'
+  }
   const pkg = {
     name: packageName,
     version: '0.0.1',
@@ -141,7 +153,7 @@ export const renderPackage = ({ packageName, commitLint, template }: PromptsResu
     devDependencies: {
       '@types/react': '^18.0.25',
       '@types/react-dom': '^18.0.9',
-      rzpack: '^0.1.5',
+      rzpack: `^${rzpackVersion}`,
       typescript: '4.8.4',
       ...(isRouter6_3Template ? fullDevDepPackages : {}),
       ...(commitLint ? commitlintPackages : {}),
@@ -212,7 +224,6 @@ export const renderReadme = ({ projectName }: PromptsResult) => {
  */
 export const renderConfig = (result: PromptsResult) => {
   const { projectName, cssScoped, jtsLoader, template } = result
-  const isFullTemplate = [Template.FULL_ANTD5_V6_3, Template.FULL_V6_3].includes(template)
   const isTsTemplate = template === Template.TS
 
   let assets = `  assets: {\n`
@@ -227,13 +238,6 @@ export const renderConfig = (result: PromptsResult) => {
 
   const hasAssets = cssScoped || jtsLoader
 
-  const server =
-    '  server: {\n' +
-    '    proxy: {\n' +
-    `      '/api': 'http://127.0.0.0:3000',\n` +
-    `    },\n` +
-    `  },\n`
-
   const antd = `  antdTheme: {\n` + `    file: './src/theme/index.ts',\n` + `  },\n`
   const lessVars = `  lessVars: {\n` + `    file: './src/theme/globalVars.ts',\n` + `  },\n`
 
@@ -246,7 +250,6 @@ export const renderConfig = (result: PromptsResult) => {
       `    title: '${projectName}',\n` +
       `  },\n` +
       (!isTsTemplate ? antd + lessVars : '') +
-      `${isFullTemplate ? server : ''}` +
       `})\n`
   )
 }

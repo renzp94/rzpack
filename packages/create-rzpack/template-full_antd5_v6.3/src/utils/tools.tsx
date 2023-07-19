@@ -32,7 +32,7 @@ export const recordValueTrim = (target: Record<string, any>) => {
   // 不为空且是对象或数组
   if (target && typeof target === 'object') {
     // 如果数组则使用数组解构，如果是对象则使用对象结构
-    const query = target instanceof Array ? [...target] : { ...target }
+    const query: Record<string, any> = target instanceof Array ? [...target] : { ...target }
     const keys = Object.keys(query)
     keys.forEach(key => {
       // 是string则进行trim

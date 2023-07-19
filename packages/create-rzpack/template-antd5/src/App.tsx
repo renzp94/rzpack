@@ -1,8 +1,27 @@
-import { Button } from 'antd'
+import type { MessageInstance } from 'antd/es/message/interface'
+import type { ModalStaticFunctions } from 'antd/es/modal/confirm'
+import type { NotificationInstance } from 'antd/es/notification/interface'
+
+import {
+  App as antdApp,
+  message as antdMessage,
+  Modal as antdModal,
+  notification as antdNotification,
+  Button,
+} from 'antd'
 import React, { useState } from 'react'
+
+let message: MessageInstance = antdMessage
+let notification: NotificationInstance = antdNotification
+let modal: Omit<ModalStaticFunctions, 'warn'> = antdModal
 
 const App: React.FC = () => {
   const [count, setCount] = useState(0)
+
+  const staticFunctions = antdApp.useApp()
+  message = staticFunctions.message
+  notification = staticFunctions.notification
+  modal = staticFunctions.modal
 
   return (
     <div
@@ -16,3 +35,4 @@ const App: React.FC = () => {
 }
 
 export default App
+export { message, modal, notification }

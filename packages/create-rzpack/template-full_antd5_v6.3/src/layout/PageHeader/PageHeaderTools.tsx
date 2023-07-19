@@ -1,8 +1,8 @@
-import { ExclamationCircleFilled } from '@ant-design/icons'
-import { Dropdown, Modal } from 'antd'
+import { Dropdown } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { modal } from '@/App'
 import { logout } from '@/api/system'
 import DownIcon from '@/assets/svg/down.svg'
 import LogoutIcon from '@/assets/svg/logout.svg'
@@ -16,8 +16,7 @@ const PageHeaderTools = () => {
   const [userInfo, clearUserInfo] = userInfoStore(state => [state.userInfo, state.clear])
 
   const onLogout = () => {
-    Modal.confirm({
-      icon: <ExclamationCircleFilled />,
+    modal.confirm({
       onOk: async () => {
         await logout()
         clearUserInfo()
@@ -29,7 +28,7 @@ const PageHeaderTools = () => {
   }
 
   const onMenuClick = ({ key }: { key: string }) => {
-    const methods = {
+    const methods: any = {
       logout: onLogout,
     }
     methods?.[key]?.()

@@ -25,7 +25,7 @@ const createProject = async (options: PromptsResult) => {
     fs.mkdirSync(ROOT)
   }
   // 渲染package.json,第一步必须先生成package,因为后续会根据选项做出调整
-  renderPackage(options)
+  await renderPackage(options)
   // 渲染基础文件
   renderTemplate(pathResolve('../template-base', __dirname), ROOT)
   const templateDir = pathResolve(`../template-${template}`, __dirname)

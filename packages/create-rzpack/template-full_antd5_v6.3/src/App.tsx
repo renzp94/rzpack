@@ -1,5 +1,14 @@
-import { useEffect } from 'react'
-import React, { useRef } from 'react'
+import type { MessageInstance } from 'antd/es/message/interface'
+import type { ModalStaticFunctions } from 'antd/es/modal/confirm'
+import type { NotificationInstance } from 'antd/es/notification/interface'
+
+import {
+  App as antdApp,
+  message as antdMessage,
+  Modal as antdModal,
+  notification as antdNotification,
+} from 'antd'
+import React, { useEffect, useRef } from 'react'
 import { useMatch, useRoutes } from 'react-router-dom'
 
 import { CenterSpin } from './components'
@@ -8,7 +17,16 @@ import useRouterStore from './stores/router'
 import storage, { TOKEN } from './utils/storage'
 import userInfoStore from '@/stores/user'
 
+let message: MessageInstance = antdMessage
+let notification: NotificationInstance = antdNotification
+let modal: Omit<ModalStaticFunctions, 'warn'> = antdModal
+
 const App = () => {
+  const staticFunctions = antdApp.useApp()
+  message = staticFunctions.message
+  notification = staticFunctions.notification
+  modal = staticFunctions.modal
+
   const isLogin = useMatch('/login')
   const refreshUserInfo = userInfoStore(state => state.refreshUserInfo)
   const { getUserAuths, loading, userRoutes } = useRouterStore(state => ({
@@ -35,3 +53,4 @@ const App = () => {
 }
 
 export default App
+export { message, modal, notification }

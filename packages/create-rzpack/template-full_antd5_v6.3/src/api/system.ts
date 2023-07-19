@@ -76,7 +76,7 @@ export const fetchAuths = (): Promise<any> => {
     setTimeout(() => {
       resolve({
         data: {
-          buttonKeys: [],
+          buttonKeys: {},
           menuTree: routes,
         },
       })
