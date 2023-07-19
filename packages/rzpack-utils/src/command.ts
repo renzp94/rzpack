@@ -7,13 +7,13 @@ import { exec } from 'child_process'
  * @returns 返回命令执行的结果
  */
 export const run = async (command: string) => {
-  return new Promise((resolve, reject) => {
-    exec(command, { cwd: process.env.ROOT }, (err) => {
+  return new Promise<string>((resolve, reject) => {
+    exec(command, { cwd: process.env.ROOT }, (err, stdout) => {
       if (err != null) {
         return reject(err)
       }
 
-      return resolve(null)
+      return resolve(stdout)
     })
   })
 }
