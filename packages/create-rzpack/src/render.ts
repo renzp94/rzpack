@@ -92,26 +92,26 @@ export const renderPackage = async ({ packageName, commitLint, template }: Promp
   }
 
   const antdPackages = {
-    '@ant-design/icons': '^4.7.0',
-    antd: isAntd5Template ? '^5.7.0' : '^4.24.2',
+    '@ant-design/icons': '^5.1.4',
+    antd: isAntd5Template ? '^5.7.1' : '^4.24.2',
   }
 
   // antd4.x时将moment.js换成dayjs
   if (isAntd4Template) {
-    antdPackages['dayjs'] = '^1.11.6'
+    antdPackages['dayjs'] = '^1.11.9'
   }
 
   const fullDepPackages = {
     '@renzp/storage': '^0.0.1',
     axios: '^1.1.3',
-    dayjs: '^1.11.7',
+    dayjs: '^1.11.9',
     'lodash-es': '^4.17.21',
     nprogress: '^0.2.0',
-    'react-router-dom': isRouter6_3Template ? '6.3.0' : '^6.4.3',
-    zustand: '^4.1.4',
+    'react-router-dom': isRouter6_3Template ? '6.3.0' : '^6.14.1',
+    zustand: '^4.3.9',
   }
   const fullDevDepPackages = {
-    '@types/lodash-es': '^4.17.6',
+    '@types/lodash-es': '^4.17.7',
     '@types/nprogress': '^0.2.0',
   }
 
@@ -154,7 +154,7 @@ export const renderPackage = async ({ packageName, commitLint, template }: Promp
       '@types/react': '^18.0.25',
       '@types/react-dom': '^18.0.9',
       rzpack: `^${rzpackVersion}`,
-      typescript: '4.8.4',
+      typescript: '5.1.6',
       ...(isRouter6_3Template ? fullDevDepPackages : {}),
       ...(commitLint ? commitlintPackages : {}),
       ...eslintPackages,

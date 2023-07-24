@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash-es'
 import { RouteObject, useLocation, useParams } from 'react-router-dom'
-import create from 'zustand'
+import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 import { fetchAuths } from '@/api/system'
