@@ -41,7 +41,7 @@ export const renderTemplate = (src: string, dest: string) => {
  * 在目标目录下生成package.json文件
  * @param {string} projectName 项目名
  */
-export const renderPackage = async ({ packageName, commitLint, template }: PromptsResult) => {
+export const renderPackage = async ({ packageName, commitLint, template, rs }: PromptsResult) => {
   const isAntd4Template = [Template.ANTD4, Template.FULL_V6_3].includes(template)
   const isAntd5Template = [Template.ANTD5, Template.FULL_ANTD5_V6_3].includes(template)
   const isRouter6_3Template = [Template.FULL_V6_3, Template.FULL_ANTD5_V6_3].includes(template)
@@ -126,6 +126,7 @@ export const renderPackage = async ({ packageName, commitLint, template }: Promp
     version: '0.0.1',
     scripts: {
       dev: 'rzpack',
+      ...(rs ? { 'dev:rs': 'nodemon' } : {}),
       build: 'rzpack build',
       'build:time': 'rzpack build --bundle-time',
       'build:size': 'rzpack build --bundle-size',
@@ -155,6 +156,7 @@ export const renderPackage = async ({ packageName, commitLint, template }: Promp
       '@types/react-dom': '^18.0.9',
       rzpack: `^${rzpackVersion}`,
       typescript: '5.1.6',
+      nodemon: '^3.0.1',
       ...(isRouter6_3Template ? fullDevDepPackages : {}),
       ...(commitLint ? commitlintPackages : {}),
       ...eslintPackages,
@@ -326,4 +328,15 @@ export const renderGitignore = () => {
     pathResolve('.gitignore', process.env.ROOT),
     'node_modules\nbin\n*.log\n.vscode\n.DS_Store\ndist'
   )
+}
+
+/**
+ * 在目标目录下生成nodemon.json文件
+ */
+export const renderNodemon = async () => {
+  const config = {
+    watch: ['rzpack.config.ts'],
+    exec: 'npm run dev',
+  }
+  fs.writeFileSync(path.resolve(process.env.ROOT, 'nodemon.json'), JSON.stringify(config, null, 2))
 }

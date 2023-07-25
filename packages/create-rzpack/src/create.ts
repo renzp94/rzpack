@@ -7,13 +7,14 @@ import {
   renderConfig,
   renderGitignore,
   renderLintConfig,
+  renderNodemon,
   renderPackage,
   renderReadme,
   renderTemplate,
 } from './render'
 
 const createProject = async (options: PromptsResult) => {
-  const { projectName, template, overwrite, commitLint } = options
+  const { projectName, template, overwrite, commitLint, rs } = options
   const { ROOT } = process.env
 
   if (overwrite) {
@@ -39,6 +40,9 @@ const createProject = async (options: PromptsResult) => {
   if (commitLint) {
     // 渲染commitLint配置
     renderLintConfig()
+  }
+  if (rs) {
+    renderNodemon()
   }
   // 渲染Readme
   renderReadme(options)

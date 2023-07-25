@@ -17,6 +17,7 @@ export interface PromptsResult {
   jtsLoader?: string
   cssScoped?: string
   commitLint?: boolean
+  rs?: boolean
 }
 
 const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
@@ -108,6 +109,14 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
         name: 'commitLint',
         type: () => 'toggle',
         message: yellow('是否使用CommitLint ?'),
+        initial: true,
+        active: '是',
+        inactive: '否',
+      },
+      {
+        name: 'rs',
+        type: () => 'toggle',
+        message: yellow('是否开启配置文件更改自动重启?'),
         initial: true,
         active: '是',
         inactive: '否',
