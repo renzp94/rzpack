@@ -58,7 +58,8 @@ export const recordValueTrim = (target: Record<string, any>) => {
 
   return target
 }
-type FlattenDeepByKey<T = any> = (list: Array<T>, key: string) => Array<T>
+
+type FlattenDeepByKey = <T = any>(list: Array<T>, key: keyof T) => T[]
 /**
  * 通过指定key深度递归扁平化数组
  * @param list 要扁平化的数组
@@ -70,7 +71,7 @@ export const flattenDeepByKey: FlattenDeepByKey = (list, key) => {
     (prev: Parameters<FlattenDeepByKey>[0], curr: Parameters<FlattenDeepByKey>[0][0]) => [
       ...prev,
       curr,
-      ...(curr[key] ? flattenDeepByKey(curr[key], key) : []),
+      ...((curr as any)[key] ? flattenDeepByKey((curr as any)[key], key) : []),
     ],
     []
   ) as ReturnType<FlattenDeepByKey>

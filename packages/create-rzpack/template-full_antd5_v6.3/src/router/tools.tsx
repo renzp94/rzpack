@@ -87,7 +87,7 @@ export const getUserRoutes = (configs: RouteModel[]): [RouteObject[], string] =>
 
   let firstPath = '/404'
   if (userRoutes?.length) {
-    firstPath = userRoutes[0]?.path
+    firstPath = userRoutes[0]?.path as string
   }
 
   return [userRoutes, firstPath]

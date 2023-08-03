@@ -1,10 +1,11 @@
 import type { RouteModel } from '@/router'
 
-import { Breadcrumb } from 'antd'
+import { Breadcrumb, BreadcrumbProps } from 'antd'
 import React, { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import DynamicIcon from '../DynamicIcon'
+import { flattenDeepByKey } from '@/utils/tools'
 
 export interface ProBreadcrumbRoute extends RouteModel {
   children: ProBreadcrumbRoute[]
@@ -13,16 +14,10 @@ export interface ProBreadcrumbRoute extends RouteModel {
   isChildOverlayMenu?: boolean
 }
 
-export interface ProBreadcrumbProps {
+export interface ProBreadcrumbProps extends Omit<BreadcrumbProps, 'routes'> {
   children?: React.ReactNode
   className?: string
   isIconRender?: boolean
-  itemRender?: (
-    route: ProBreadcrumbRoute,
-    params: any,
-    routes: ProBreadcrumbRoute[],
-    paths: string[]
-  ) => React.ReactNode
   params?: any
   prefixCls?: string
   routes: ProBreadcrumbRoute[]
@@ -30,12 +25,36 @@ export interface ProBreadcrumbProps {
   style?: React.CSSProperties
 }
 
-const flattenDeepRoute = (routes: Array<ProBreadcrumbRoute>): Array<ProBreadcrumbRoute> => {
-  return routes.reduce(
-    (prev, curr) => [...prev, curr, ...(curr?.children ? flattenDeepRoute(curr.children) : [])],
-    [] as Array<ProBreadcrumbRoute>
+const ProBreadcrumb = (props: ProBreadcrumbProps) => {
+  const { isIconRender, routes = [], ...breadcrumbProps } = props
+  const location = useLocation()
+
+  const breadcrumbRoutes = useMemo(
+    () => getCurrentRoutes(routes, location.pathname),
+    [routes, location]
   )
+
+  const getBreadcrumbItems = (routes: ProBreadcrumbRoute[]) => {
+    return routes?.map((item, index) => {
+      const isLastItem = index === breadcrumbRoutes.length - 1
+      const menuItems = getBreadcrumbMenus(routes, item.path, isIconRender)
+
+      return {
+        key: item.path,
+        menu: menuItems ? { items: menuItems } : undefined,
+        title: isLastItem
+          ? itemDefaultRender(item, isIconRender)
+          : itemLinkRender(item, isIconRender),
+      }
+    })
+  }
+
+  const items = getBreadcrumbItems(breadcrumbRoutes)
+
+  return <Breadcrumb {...breadcrumbProps} items={items} />
 }
+
+export default ProBreadcrumb
 
 const getCurrentRoutes = (routes: ProBreadcrumbRoute[], pathname: string) => {
   for (const item of routes) {
@@ -96,54 +115,15 @@ export const getBreadcrumbMenus = (
   pathname: string,
   isIconRender?: boolean
 ) => {
-  const flattenRoutes = flattenDeepRoute(routes)
+  const flattenRoutes = flattenDeepByKey<ProBreadcrumbRoute>(routes, 'children')
   const route = flattenRoutes.find(item => item.isChildOverlayMenu && item.path === pathname)
 
   if (route && route?.children?.length) {
     return route.children.map(item => ({
       key: item.path,
-      label: itemLinkRender(item, isIconRender),
+      title: itemLinkRender(item, isIconRender),
     }))
   }
 
   return undefined
 }
-
-const ProBreadcrumb = (props: ProBreadcrumbProps) => {
-  const { isIconRender, itemRender, routes = [], ...breadcrumbProps } = props
-  const location = useLocation()
-
-  const breadcrumbRoutes = useMemo(
-    () => getCurrentRoutes(routes, location.pathname),
-    [routes, location]
-  )
-
-  return (
-    <Breadcrumb {...breadcrumbProps}>
-      {breadcrumbRoutes?.map((item, index) => {
-        if (itemRender) {
-          return itemRender(
-            item,
-            breadcrumbProps.params,
-            routes,
-            breadcrumbRoutes.map(item => item.path)
-          )
-        }
-
-        const isLastItem = index === breadcrumbRoutes.length - 1
-
-        const menuItems = getBreadcrumbMenus(routes, item.path, isIconRender)
-
-        return (
-          <Breadcrumb.Item key={item.path} menu={menuItems ? { items: menuItems } : undefined}>
-            {isLastItem
-              ? itemDefaultRender(item, isIconRender)
-              : itemLinkRender(item, isIconRender)}
-          </Breadcrumb.Item>
-        )
-      })}
-    </Breadcrumb>
-  )
-}
-
-export default ProBreadcrumb
