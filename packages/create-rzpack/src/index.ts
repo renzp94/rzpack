@@ -9,10 +9,9 @@ const cli = cac()
 
 export enum Template {
   TS = 'react-ts',
-  ANTD4 = 'antd',
-  ANTD5 = 'antd5',
-  FULL_V6_3 = 'full_v6.3',
-  FULL_ANTD5_V6_3 = 'full_antd5_v6.3',
+  ANTD = 'antd',
+  ADMIN = 'admin',
+  ADMIN_HEADER_MENU = 'admin-header-menu',
 }
 
 export interface CLIOptions {

@@ -1,4 +1,4 @@
-import type { PromptsResult } from './prompts'
+import { JS_LINT, type PromptsResult } from './prompts'
 import { fileExists, logInfo, pathResolve, bold, logSuccess } from 'rzpack-utils'
 import { clearDir } from './utils'
 import fs from 'fs'
@@ -14,7 +14,7 @@ import {
 } from './render'
 
 const createProject = async (options: PromptsResult) => {
-  const { projectName, template, overwrite, commitLint, rs } = options
+  const { projectName, template, overwrite, styleLint, jsLint, commitLint, rs } = options
   const { ROOT } = process.env
 
   if (overwrite) {
@@ -29,6 +29,15 @@ const createProject = async (options: PromptsResult) => {
   await renderPackage(options)
   // 渲染基础文件
   renderTemplate(pathResolve('../template-base', __dirname), ROOT)
+  // 渲染jsLint
+  if (jsLint) {
+    const lint = jsLint === JS_LINT.ROME ? JS_LINT.ROME : JS_LINT.ESLINT
+    renderTemplate(pathResolve(`../template-${lint}`, __dirname), ROOT)
+  }
+  // 渲染styleLint
+  if (styleLint) {
+    renderTemplate(pathResolve('../template-stylelint', __dirname), ROOT)
+  }
   const templateDir = pathResolve(`../template-${template}`, __dirname)
   // 渲染指定模板
   renderTemplate(templateDir, ROOT)

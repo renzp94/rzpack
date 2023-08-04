@@ -2,8 +2,9 @@ import { pathResolve, run } from 'rzpack-utils'
 import fs from 'fs'
 import path from 'path'
 import { Template } from '.'
-import { PromptsResult } from './prompts'
+import { JS_LINT, PromptsResult } from './prompts'
 import { deepMerge, sortDependencies } from './utils'
+import romeVscodeSettings from '../template-rome/.vscode/settings.json'
 
 /**
  * 将源目录下的文件复制到指定目录目录下
@@ -41,21 +42,27 @@ export const renderTemplate = (src: string, dest: string) => {
  * 在目标目录下生成package.json文件
  * @param {string} projectName 项目名
  */
-export const renderPackage = async ({ packageName, commitLint, template, rs }: PromptsResult) => {
-  const isAntd4Template = [Template.ANTD4, Template.FULL_V6_3].includes(template)
-  const isAntd5Template = [Template.ANTD5, Template.FULL_ANTD5_V6_3].includes(template)
-  const isRouter6_3Template = [Template.FULL_V6_3, Template.FULL_ANTD5_V6_3].includes(template)
+export const renderPackage = async ({
+  packageName,
+  jsLint,
+  styleLint,
+  commitLint,
+  template,
+  rs,
+}: PromptsResult) => {
+  const isAdminTemplate = [Template.ADMIN, Template.ADMIN_HEADER_MENU].includes(template)
+  const isTSTemplate = template === Template.TS
 
   const commitScripts = {
     cz: 'git-cz',
     release: 'standard-version',
   }
   const commitlintPackages = {
-    '@commitlint/cli': '^17.2.0',
-    '@commitlint/config-conventional': '^17.2.0',
+    '@commitlint/cli': '^17.6.7',
+    '@commitlint/config-conventional': '^17.6.7',
     'commitlint-config-cz': '^0.13.3',
     'cz-customizable': '^7.0.0',
-    commitizen: '^4.2.5',
+    commitizen: '^4.3.0',
     'standard-version': '^9.5.0',
   }
   const commitizenConfig = {
@@ -76,50 +83,73 @@ export const renderPackage = async ({ packageName, commitLint, template, rs }: P
     rzpackLintVersion = '0.0.1'
   }
   const eslintPackages = {
-    eslint: '^8.42.0',
+    eslint: '^8.46.0',
     prettier: '^2.8.8',
     'eslint-config-rzpack': `^${rzpackLintVersion}`,
   }
-  const huskyPackages = {
-    'simple-git-hooks': '^2.8.1',
-    'lint-staged': '^13.2.2',
+  const romePackages = {
+    rome: '^12.1.3',
   }
+  let jsLintPackages = {}
+  if (jsLint) {
+    jsLintPackages = jsLint === JS_LINT.ROME ? romePackages : eslintPackages
+  }
+
+  const huskyPackages = {
+    'simple-git-hooks': '^2.9.0',
+    'lint-staged': '^13.2.3',
+  }
+  let lintStagedScripts = {}
+  if (jsLint) {
+    lintStagedScripts = {
+      'src/**/*.{js,jsx,ts,tsx}':
+        jsLint === JS_LINT.ROME
+          ? ['rome check', 'rome format --write']
+          : ['eslint --fix', 'prettier --write'],
+    }
+  }
+  if (styleLint) {
+    lintStagedScripts = {
+      ...lintStagedScripts,
+      'src/**/*.{less,css}': 'stylelint --fix',
+    }
+  }
+  if (Object.keys(lintStagedScripts).length > 0) {
+    lintStagedScripts = {
+      'lint-staged': lintStagedScripts,
+    }
+  }
+
   const stylelintPackage = {
-    stylelint: '^14.15.0',
-    'stylelint-config-property-sort-order-smacss': '^9.0.0',
+    stylelint: '^14.16.1',
+    'stylelint-config-property-sort-order-smacss': '^9.1.0',
     'stylelint-config-standard': '^29.0.0',
     'stylelint-order': '^5.0.0',
   }
 
   const antdPackages = {
-    '@ant-design/icons': '^5.1.4',
-    antd: isAntd5Template ? '^5.7.1' : '^4.24.2',
-  }
-
-  // antd4.x时将moment.js换成dayjs
-  if (isAntd4Template) {
-    antdPackages['dayjs'] = '^1.11.9'
+    '@ant-design/icons': '^5.2.4',
+    antd: '^5.8.1',
   }
 
   const fullDepPackages = {
     '@renzp/storage': '^0.0.1',
-    axios: '^1.1.3',
-    dayjs: '^1.11.9',
+    axios: '^1.4.0',
     'lodash-es': '^4.17.21',
     nprogress: '^0.2.0',
-    'react-router-dom': isRouter6_3Template ? '6.3.0' : '^6.14.1',
-    zustand: '^4.3.9',
+    'react-router-dom': '^6.14.2',
+    zustand: '^4.4.0',
   }
   const fullDevDepPackages = {
-    '@types/lodash-es': '^4.17.7',
+    '@types/lodash-es': '^4.17.8',
     '@types/nprogress': '^0.2.0',
   }
 
-  let rzpackVersion = '0.1.5'
+  let rzpackVersion = '0.1.6'
   try {
     rzpackVersion = (await run('npm view rzpack version')).replace(/\s*/g, '')
   } catch {
-    rzpackVersion = '0.1.5'
+    rzpackVersion = '0.1.6'
   }
   const pkg = {
     name: packageName,
@@ -139,17 +169,15 @@ export const renderPackage = async ({ packageName, commitLint, template, rs }: P
       'pre-commit': 'npx lint-staged',
       ...(commitLint ? { 'commit-msg': 'npx --no -- commitlint --edit $1' } : {}),
     },
-    'lint-staged': {
-      'src/**/*.{js,jsx,ts,tsx}': ['eslint --fix', 'prettier --write'],
-      'src/**/*.{less,css}': 'stylelint --fix',
-    },
+    ...lintStagedScripts,
     license: 'MIT',
     ...(commitLint ? commitizenConfig : {}),
     dependencies: {
       react: '^18.2.0',
       'react-dom': '^18.2.0',
       ...(template !== 'react-ts' ? antdPackages : {}),
-      ...(isRouter6_3Template ? fullDepPackages : {}),
+      ...(isTSTemplate ? {} : { dayjs: '^1.11.9' }),
+      ...(isAdminTemplate ? fullDepPackages : {}),
     },
     devDependencies: {
       '@types/react': '^18.0.25',
@@ -157,11 +185,11 @@ export const renderPackage = async ({ packageName, commitLint, template, rs }: P
       rzpack: `^${rzpackVersion}`,
       typescript: '5.1.6',
       nodemon: '^3.0.1',
-      ...(isRouter6_3Template ? fullDevDepPackages : {}),
+      ...(isAdminTemplate ? fullDevDepPackages : {}),
       ...(commitLint ? commitlintPackages : {}),
-      ...eslintPackages,
+      ...jsLintPackages,
       ...huskyPackages,
-      ...stylelintPackage,
+      ...(styleLint ? stylelintPackage : {}),
     },
   }
   fs.writeFileSync(path.resolve(process.env.ROOT, 'package.json'), JSON.stringify(pkg, null, 2))
@@ -170,39 +198,56 @@ export const renderPackage = async ({ packageName, commitLint, template, rs }: P
  * 在目标目录下生成README.md
  * @param {string} projectName 项目名
  */
-export const renderReadme = ({ projectName }: PromptsResult) => {
+export const renderReadme = ({ projectName, styleLint, jsLint }: PromptsResult) => {
   let pluginInfo = '\n'
   const eslintPlugin = '- `ESLint`\n' + '- `Prettier - Code formatter`\n'
-  const stylelintPlugin = '- `Stylelint`\n'
+  const romePlugin = '- `Rome`\n'
+  let jsLintPlugin = ''
+  if (jsLint) {
+    jsLintPlugin = jsLint === JS_LINT.ROME ? romePlugin : eslintPlugin
+  }
+  const stylelintPlugin = styleLint ? '- `Stylelint`\n' : ''
   const cssModulePlugin = '- `CSS Modules`\n'
-  const vscodeSettingTitle =
-    '## 配置 Vscode\n\n' + '在`Vscode`配置文件`settings.json`中添加如下配置\n\n'
 
-  const eslintSettings =
-    '### 配置 Eslint+Prettier\n\n' +
+  const vscodeSettingTitle =
+    '## 配置 Vscode\n\n' +
+    '在`Vscode`配置文件`settings.json`中添加如下配置\n\n' +
     '```json\n' +
     '"editor.formatOnSave": true,\n' +
-    '"editor.fontLigatures": true,\n' +
-    '"svelte.enable-ts-plugin": true,\n' +
-    '"explorer.confirmDelete": false,\n' +
-    '"prettier.jsxSingleQuote": true,\n' +
-    '"prettier.requireConfig": true,\n' +
-    '"prettier.semi": false,\n' +
-    '"prettier.singleQuote": true,\n' +
-    '"prettier.arrowParens": "avoid",\n' +
     '"editor.codeActionsOnSave": {\n' +
     '    "source.fixAll": true\n' +
     '}\n' +
     '```\n\n'
 
+  const prettierSettings =
+    '"prettier.jsxSingleQuote": true,\n' +
+    '"prettier.requireConfig": true,\n' +
+    '"prettier.semi": false,\n' +
+    '"prettier.singleQuote": true,\n' +
+    '"prettier.arrowParens": "avoid",\n'
+
+  const eslintSettings =
+    '### 配置 Eslint+Prettier\n\n' +
+    '在`Vscode`配置文件`settings.json`中添加如下配置\n\n' +
+    '```json\n' +
+    prettierSettings +
+    '```\n\n'
+
+  const romeSettings =
+    '### 配置 Rome\n\n' +
+    '在根目录下创建`.vscode/settings.json`\n' +
+    '```json\n' +
+    `${JSON.stringify(romeVscodeSettings, null, 2)}\n` +
+    '```\n\n'
+
   pluginInfo +=
     '## Vscode 插件\n\n' +
-    eslintPlugin +
+    jsLintPlugin +
     stylelintPlugin +
     cssModulePlugin +
     '\n' +
     vscodeSettingTitle +
-    eslintSettings +
+    (jsLint === JS_LINT.ROME ? romeSettings : eslintSettings) +
     '\n'
 
   const info =

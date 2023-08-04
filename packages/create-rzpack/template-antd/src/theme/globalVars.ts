@@ -1,3 +1,1 @@
-export default {
-  '@text-color-disabled': '#c5cee0',
-}
+export default {}

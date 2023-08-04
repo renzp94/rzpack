@@ -5,4 +5,6 @@ export default {
   colorSuccess: '#00c48c',
   colorText: '#3c4761',
   colorWarning: '#ffc245',
+  textColorDisabled: '#c5cee0',
+  textColorSecondary: '#7487a3',
 }

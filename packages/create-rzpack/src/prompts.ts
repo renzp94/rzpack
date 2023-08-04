@@ -9,6 +9,11 @@ import {
 } from './utils'
 import { DEFAULT_CONFIG } from './constant'
 
+export enum JS_LINT {
+  ESLINT = 'eslint',
+  ROME = 'rome',
+}
+
 export interface PromptsResult {
   projectName?: string
   packageName?: string
@@ -16,6 +21,8 @@ export interface PromptsResult {
   template?: Template
   jtsLoader?: string
   cssScoped?: string
+  jsLint?: JS_LINT
+  styleLint?: boolean
   commitLint?: boolean
   rs?: boolean
 }
@@ -69,20 +76,15 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
         message: yellow('请选择模板'),
         hint: '用于创建项目的模板',
         choices: [
-          { title: cyan(`${bold(Template.TS)} - Typescript模板`), value: Template.TS },
-          { title: yellow(`${bold(Template.ANTD4)} - antd4.x模版`), value: Template.ANTD4 },
-          { title: yellow(`${bold(Template.ANTD5)} - antd5.x模版`), value: Template.ANTD5 },
+          { title: cyan(`${bold(Template.TS)} - ts模板`), value: Template.TS },
+          { title: yellow(`${bold(Template.ANTD)} - antd模版`), value: Template.ANTD },
           {
-            title: blue(
-              `${bold(Template.FULL_V6_3)} - antd4.x + zustand + router6.3.0 + 基础框架的模版`
-            ),
-            value: Template.FULL_V6_3,
+            title: blue(`${bold(Template.ADMIN)} - 基础后台管理平台(侧边菜单版)的模版`),
+            value: Template.ADMIN,
           },
           {
-            title: blue(
-              `${bold(Template.FULL_ANTD5_V6_3)} - antd5.x + zustand + router6.3.0 + 基础框架的模版`
-            ),
-            value: Template.FULL_ANTD5_V6_3,
+            title: blue(`${bold(Template.ADMIN_HEADER_MENU)} - 基础后台管理平台(顶部菜单版)的模版`),
+            value: Template.ADMIN_HEADER_MENU,
           },
         ],
       },
@@ -102,6 +104,24 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
         type: () => 'toggle',
         message: yellow('是否使用Css Scoped ?'),
         initial: false,
+        active: '是',
+        inactive: '否',
+      },
+      {
+        name: 'jsLint',
+        type: 'select',
+        message: yellow('请选择Jslint'),
+        choices: [
+          { title: cyan(JS_LINT.ESLINT), value: JS_LINT.ESLINT },
+          { title: yellow(`${JS_LINT.ROME}(实验性)`), value: JS_LINT.ROME },
+          { title: blue('无'), value: undefined },
+        ],
+      },
+      {
+        name: 'styleLint',
+        type: () => 'toggle',
+        message: yellow('是否使用styleLint ?'),
+        initial: true,
         active: '是',
         inactive: '否',
       },
