@@ -3,5 +3,11 @@
   "plugins": ["stylelint-order"],
   "rules": {
     "selector-pseudo-class-no-unknown": null
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.less"],
+      "customSyntax": "postcss-less"
+    }
+  ]
 }

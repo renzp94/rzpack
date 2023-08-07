@@ -125,6 +125,7 @@ export const renderPackage = async ({
     'stylelint-config-property-sort-order-smacss': '^9.1.0',
     'stylelint-config-standard': '^29.0.0',
     'stylelint-order': '^5.0.0',
+    'postcss-less': '^6.0.0',
   }
 
   const antdPackages = {
