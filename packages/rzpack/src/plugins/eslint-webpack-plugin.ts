@@ -14,7 +14,6 @@ export default (webpackChain: WebpackChain) => {
         requireResolve('eslint/package.json', { paths: [cwd] }) ||
           requireResolve('eslint/package.json', { paths: [__dirname] })
       ),
-      fix: true,
       cache: true,
       cacheLocation: getFileFullPath('node_modules/.cache/.eslint-cache'),
     },
