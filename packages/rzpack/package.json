@@ -41,7 +41,7 @@
     "@babel/core": "^7.18.13",
     "@module-federation/fmr": "^0.0.7",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
-    "@renzp/build-info-webpack-plugin": "^0.0.10",
+    "@renzp/build-info-webpack-plugin": "^0.0.11",
     "@renzp/css-scoped-loader": "0.0.14",
     "@renzp/jsx-scoped-loader": "0.0.23",
     "@soda/friendly-errors-webpack-plugin": "^1.8.1",

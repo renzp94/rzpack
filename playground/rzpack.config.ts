@@ -13,4 +13,5 @@ export default defineConfig({
   assets: {
     jsxTools: JSX_TOOLS.ESBUILD,
   },
+  buildInfo: true,
 })

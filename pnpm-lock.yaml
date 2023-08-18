@@ -102,8 +102,8 @@ importers:
         specifier: ^0.5.10
         version: 0.5.10(@types/webpack@5.28.1)(react-refresh@0.14.0)(webpack-dev-server@4.15.0)(webpack@5.76.3)
       '@renzp/build-info-webpack-plugin':
-        specifier: ^0.0.10
-        version: 0.0.10(webpack@5.76.3)
+        specifier: ^0.0.11
+        version: 0.0.11(webpack@5.76.3)
       '@renzp/css-scoped-loader':
         specifier: 0.0.14
         version: 0.0.14
@@ -2827,8 +2827,8 @@ packages:
     resolution: {integrity: sha512-aoldSKxncKupEPejWGMcSNco4+UWUuJ0poH6lUCGxE1wCM7irzc3BY+ggndTl66raaPZD1h20TiC6fg9C2FecA==}
     dev: false
 
-  /@renzp/build-info-webpack-plugin@0.0.10(webpack@5.76.3):
-    resolution: {integrity: sha512-4xyg4CPKpqYHYNPZSqF4E/YD6ngIjqebCoPEFxhknOhNXvaXoxJkL8n4+b8whuLGSWh/KLUkYTcFpCL9UUiMXQ==}
+  /@renzp/build-info-webpack-plugin@0.0.11(webpack@5.76.3):
+    resolution: {integrity: sha512-acdb0h77bbpUD64HOX5l0lY4aRK2XIA+BtclKEPc3PKEigi4YXV3BWl/hqQtb2+P7TvHli/H4eEVNCsJHyuWRQ==}
     dependencies:
       html-webpack-plugin: 5.5.0(webpack@5.76.3)
     transitivePeerDependencies:
