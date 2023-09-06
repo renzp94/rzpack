@@ -4,7 +4,7 @@ import { DEFAULT_CONFIG_FILE, PREFIX_URL } from './constants'
 import proxyRoutes from './routes/proxy'
 import systemRoutes from './routes/system'
 import events from 'node:events'
-import { createDynamicsProxyMiddleware, dynamic } from './middlewares/dynamics-proxy'
+import { httpProxyMiddleware } from './middlewares/http-proxy'
 
 export default async (app: express.Application, proxyFile?: string, appTitle?: string) => {
   // 移除频繁开启关闭代理时报MaxListenersExceededWarning
@@ -13,8 +13,7 @@ export default async (app: express.Application, proxyFile?: string, appTitle?: s
   process.env.APP_TITLE = appTitle
 
   const staticDir = path.join(__dirname, './client')
-  app.use(createDynamicsProxyMiddleware)
-  app.use(dynamic.handle())
+  app.use(httpProxyMiddleware)
   app.use(express.json())
 
   app.get(`${PREFIX_URL}/`, (_, res) => {
