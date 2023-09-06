@@ -4,7 +4,7 @@ export default {
   colorPrimary: '#4170ff',
   colorSuccess: '#00c48c',
   colorText: '#3c4761',
+  colorTextDisabled: '#c5cee0',
+  colorTextSecondary: '#7487a3',
   colorWarning: '#ffc245',
-  textColorDisabled: '#c5cee0',
-  textColorSecondary: '#7487a3',
 }
