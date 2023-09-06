@@ -3,7 +3,7 @@ import { spinner } from 'zx/experimental'
 // 是否重新发布，用于打包及版本更新后发布时出错后使用
 const isRepublish = argv.r
 const packageList = await fs.readdir("./packages")
-const packageNames = packageList.map(item => chalk.blue(item)).toString()
+const packageNames = packageList.filter(item => !item.includes('.')).map(item => chalk.blue(item)).toString()
 const noBuildPackageNames = ['eslint-config-rzpack']
 
 let packageName
