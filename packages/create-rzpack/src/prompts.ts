@@ -94,7 +94,6 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
         message: yellow('请选择Js/Ts文件的loader'),
         hint: '用于编译时处理JSX文件',
         choices: [
-          { title: cyan('Babel'), value: 'babel' },
           { title: yellow('Esbuild'), value: 'esbuild' },
           { title: blue('Swc'), value: 'swc' },
         ],

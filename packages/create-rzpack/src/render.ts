@@ -146,11 +146,11 @@ export const renderPackage = async ({
     '@types/nprogress': '^0.2.0',
   }
 
-  let rzpackVersion = '0.1.6'
+  let rzpackVersion = '0.2.0'
   try {
     rzpackVersion = (await run('npm view rzpack version')).replace(/\s*/g, '')
   } catch {
-    rzpackVersion = '0.1.6'
+    rzpackVersion = '0.2.0'
   }
 
   const styleLintScripts = styleLint ? '&& stylelint --fix src/**/*.{less,css}' : ''
