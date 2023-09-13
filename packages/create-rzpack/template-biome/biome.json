@@ -33,7 +33,7 @@
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"indentStyle": "tab",
+		"indentStyle": "space",
 		"indentSize": 2,
 		"lineWidth": 80
 	}
