@@ -11,7 +11,7 @@ import { DEFAULT_CONFIG } from './constant'
 
 export enum JS_LINT {
   ESLINT = 'eslint',
-  ROME = 'rome',
+  BIOME = 'biome',
 }
 
 export interface PromptsResult {
@@ -113,7 +113,7 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
         message: yellow('请选择Jslint'),
         choices: [
           { title: cyan(JS_LINT.ESLINT), value: JS_LINT.ESLINT },
-          { title: yellow(`${JS_LINT.ROME}(实验性)`), value: JS_LINT.ROME },
+          { title: yellow(`${JS_LINT.BIOME}(实验性)`), value: JS_LINT.BIOME },
           { title: blue('无'), value: undefined },
         ],
       },

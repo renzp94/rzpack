@@ -12,6 +12,7 @@ import {
   renderReadme,
   renderTemplate,
 } from './render'
+import { yellow } from 'rzpack-utils'
 
 const createProject = async (options: PromptsResult) => {
   const { projectName, template, overwrite, styleLint, jsLint, commitLint, rs } = options
@@ -31,7 +32,7 @@ const createProject = async (options: PromptsResult) => {
   renderTemplate(pathResolve('../template-base', __dirname), ROOT)
   // 渲染jsLint
   if (jsLint) {
-    const lint = jsLint === JS_LINT.ROME ? JS_LINT.ROME : JS_LINT.ESLINT
+    const lint = jsLint === JS_LINT.BIOME ? JS_LINT.BIOME : JS_LINT.ESLINT
     renderTemplate(pathResolve(`../template-${lint}`, __dirname), ROOT)
   }
   // 渲染styleLint
@@ -65,6 +66,13 @@ const createProject = async (options: PromptsResult) => {
     👉 npm run dev
     `
   )
+  if (jsLint === JS_LINT.BIOME) {
+    logInfo(
+      `模版是基于eslint开发的, 检测到使用了${
+        JS_LINT.BIOME
+      } lint, 所以最好下载依赖以后执行一下${yellow(bold('npm run lint:unsafe'))}`
+    )
+  }
 }
 
 export default createProject

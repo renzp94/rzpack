@@ -5,7 +5,7 @@ import React from 'react'
 
 import { LazyLoadSpin } from '@/components'
 import PageLayout from '@/layout/PageLayout'
-import Error from '@/pages/Error'
+import ErrorPage from '@/pages/Error'
 import Login from '@/pages/Login'
 import { flattenDeepByKey } from '@/utils/tools'
 
@@ -30,7 +30,7 @@ export interface RouteModel {
   type?: number
 }
 export const notFoundRoute: RouteObject = {
-  element: <Error />,
+  element: <ErrorPage />,
   path: '*',
 }
 export const layoutRoute: RouteObject = {

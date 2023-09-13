@@ -4,7 +4,7 @@ import path from 'path'
 import { Template } from '.'
 import { JS_LINT, PromptsResult } from './prompts'
 import { deepMerge, sortDependencies } from './utils'
-import romeVscodeSettings from '../template-rome/.vscode/settings.json'
+import biomeVscodeSettings from '../template-biome/.vscode/settings.json'
 
 /**
  * 将源目录下的文件复制到指定目录目录下
@@ -87,12 +87,12 @@ export const renderPackage = async ({
     prettier: '^2.8.8',
     'eslint-config-rzpack': `^${rzpackLintVersion}`,
   }
-  const romePackages = {
-    rome: '^12.1.3',
+  const biomePackages = {
+    '@biomejs/biome': '^1.1.2',
   }
   let jsLintPackages = {}
   if (jsLint) {
-    jsLintPackages = jsLint === JS_LINT.ROME ? romePackages : eslintPackages
+    jsLintPackages = jsLint === JS_LINT.BIOME ? biomePackages : eslintPackages
   }
 
   const huskyPackages = {
@@ -103,8 +103,8 @@ export const renderPackage = async ({
   if (jsLint) {
     lintStagedScripts = {
       'src/**/*.{js,jsx,ts,tsx}':
-        jsLint === JS_LINT.ROME
-          ? ['rome check', 'rome format --write']
+        jsLint === JS_LINT.BIOME
+          ? ['biome check', 'biome format --write']
           : ['eslint --fix', 'prettier --write'],
     }
   }
@@ -152,6 +152,22 @@ export const renderPackage = async ({
   } catch {
     rzpackVersion = '0.1.6'
   }
+
+  const styleLintScripts = styleLint ? '&& stylelint --fix src/**/*.{less,css}' : ''
+  const jsLintScripts =
+    jsLint === JS_LINT.BIOME
+      ? 'biome check --apply src && biome format --write src'
+      : 'eslint --fix src && prettier --write src'
+
+  const lintScripts = {
+    lint: `${jsLintScripts} ${styleLintScripts}`,
+    ...(jsLint === JS_LINT.BIOME
+      ? {
+          'lint:unsafe': `biome check --apply-unsafe src && biome format --write src ${styleLintScripts}`,
+        }
+      : {}),
+  }
+
   const pkg = {
     name: packageName,
     version: '0.0.1',
@@ -164,6 +180,7 @@ export const renderPackage = async ({
       preview: 'rzpack preview',
       prepare: 'npx simple-git-hooks',
       ...(commitLint ? commitScripts : {}),
+      ...lintScripts,
     },
     browserslist: ['>0.2%', 'not dead', 'not IE 11', 'not op_mini all'],
     'simple-git-hooks': {
@@ -202,10 +219,10 @@ export const renderPackage = async ({
 export const renderReadme = ({ projectName, styleLint, jsLint }: PromptsResult) => {
   let pluginInfo = '\n'
   const eslintPlugin = '- `ESLint`\n' + '- `Prettier - Code formatter`\n'
-  const romePlugin = '- `Rome`\n'
+  const biomePlugin = '- `Biome`\n'
   let jsLintPlugin = ''
   if (jsLint) {
-    jsLintPlugin = jsLint === JS_LINT.ROME ? romePlugin : eslintPlugin
+    jsLintPlugin = jsLint === JS_LINT.BIOME ? biomePlugin : eslintPlugin
   }
   const stylelintPlugin = styleLint ? '- `Stylelint`\n' : ''
   const cssModulePlugin = '- `CSS Modules`\n'
@@ -234,11 +251,11 @@ export const renderReadme = ({ projectName, styleLint, jsLint }: PromptsResult) 
     prettierSettings +
     '```\n\n'
 
-  const romeSettings =
-    '### 配置 Rome\n\n' +
+  const biomeSettings =
+    '### 配置 Biome\n\n' +
     '在根目录下创建`.vscode/settings.json`\n' +
     '```json\n' +
-    `${JSON.stringify(romeVscodeSettings, null, 2)}\n` +
+    `${JSON.stringify(biomeVscodeSettings, null, 2)}\n` +
     '```\n\n'
 
   pluginInfo +=
@@ -248,7 +265,7 @@ export const renderReadme = ({ projectName, styleLint, jsLint }: PromptsResult) 
     cssModulePlugin +
     '\n' +
     vscodeSettingTitle +
-    (jsLint === JS_LINT.ROME ? romeSettings : eslintSettings) +
+    (jsLint === JS_LINT.BIOME ? biomeSettings : eslintSettings) +
     '\n'
 
   const info =

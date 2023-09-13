@@ -2,7 +2,7 @@ import { Button, Result } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Error: React.FC = () => {
+const ErrorPage: React.FC = () => {
   const navigate = useNavigate()
 
   return (
@@ -16,4 +16,4 @@ const Error: React.FC = () => {
   )
 }
 
-export default Error
+export default ErrorPage
