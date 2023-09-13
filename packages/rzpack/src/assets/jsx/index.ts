@@ -1,15 +1,13 @@
 import { RzpackAssets } from './../index'
 import type WebpackChain from 'webpack-chain'
-import babel from './babel'
 import esbuild from './esbuild'
 import swc from './swc'
 import { requireResolve } from 'rzpack-utils'
 import { JSX_TOOLS } from '../..'
 
 const jsx = (webpackChain: WebpackChain, assets: RzpackAssets) => {
-  const { jsxTools = JSX_TOOLS.BABEL, cssScoped } = assets ?? {}
+  const { jsxTools = JSX_TOOLS.ESBUILD, cssScoped } = assets ?? {}
   const transformTools = {
-    [JSX_TOOLS.BABEL]: babel,
     [JSX_TOOLS.ESBUILD]: esbuild,
     [JSX_TOOLS.SWC]: swc,
   }

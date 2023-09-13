@@ -80,7 +80,6 @@ export interface RzpackConfigs {
 export const defineConfig = (configs: RzpackConfigs) => configs
 
 export enum JSX_TOOLS {
-  BABEL = 'babel',
   ESBUILD = 'esbuild',
   SWC = 'swc',
 }
