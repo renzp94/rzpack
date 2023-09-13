@@ -61,6 +61,7 @@ export default (webpackChain: WebpackChain, miniTools: JSX_TOOLS = JSX_TOOLS.BAB
 
   const minimizers = {
     babel: babelMinimizer,
+    swc: esbuildMinimizer,
     esbuild: esbuildMinimizer,
   }
 
