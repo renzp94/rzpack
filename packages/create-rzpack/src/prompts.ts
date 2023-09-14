@@ -26,6 +26,7 @@ export interface PromptsResult {
   commitLint?: boolean
   rs?: boolean
   imageMini?: boolean
+  million?: boolean
 }
 
 const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
@@ -121,6 +122,14 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
         name: 'imageMini',
         type: () => 'toggle',
         message: yellow('是否开启图片无损压缩?'),
+        initial: false,
+        active: '是',
+        inactive: '否',
+      },
+      {
+        name: 'million',
+        type: () => 'toggle',
+        message: yellow('是否使用Million.js优化jsx性能(实验性)?'),
         initial: false,
         active: '是',
         inactive: '否',
