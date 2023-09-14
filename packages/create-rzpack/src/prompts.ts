@@ -25,6 +25,7 @@ export interface PromptsResult {
   styleLint?: boolean
   commitLint?: boolean
   rs?: boolean
+  imageMini?: boolean
 }
 
 const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
@@ -115,6 +116,14 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
           { title: yellow(`${JS_LINT.BIOME}(实验性)`), value: JS_LINT.BIOME },
           { title: blue('无'), value: undefined },
         ],
+      },
+      {
+        name: 'imageMini',
+        type: () => 'toggle',
+        message: yellow('是否开启图片无损压缩?'),
+        initial: false,
+        active: '是',
+        inactive: '否',
       },
       {
         name: 'styleLint',

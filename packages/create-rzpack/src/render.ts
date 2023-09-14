@@ -288,7 +288,7 @@ export const renderReadme = ({ projectName, styleLint, jsLint }: PromptsResult) 
  * @param {PromptsResult} result
  */
 export const renderConfig = (result: PromptsResult) => {
-  const { projectName, cssScoped, jtsLoader, template } = result
+  const { projectName, cssScoped, jtsLoader, template, imageMini } = result
   const isTsTemplate = template === Template.TS
 
   let assets = `  assets: {\n`
@@ -315,6 +315,7 @@ export const renderConfig = (result: PromptsResult) => {
       `    title: '${projectName}',\n` +
       `  },\n` +
       (!isTsTemplate ? antd + lessVars : '') +
+      (imageMini ? `  imageMini: true,\n` : '') +
       `})\n`
   )
 }
