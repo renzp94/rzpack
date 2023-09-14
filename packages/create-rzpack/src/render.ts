@@ -76,11 +76,11 @@ export const renderPackage = async ({
     },
   }
 
-  let rzpackLintVersion = '0.0.1'
+  let rzpackLintVersion = '0.0.2'
   try {
     rzpackLintVersion = (await run('npm view eslint-config-rzpack version')).replace(/\s*/g, '')
   } catch {
-    rzpackLintVersion = '0.0.1'
+    rzpackLintVersion = '0.0.2'
   }
   const eslintPackages = {
     eslint: '^8.46.0',
