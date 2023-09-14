@@ -1,6 +1,6 @@
 {
   "name": "create-rzpack",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "用于创建项目模板",
   "main": "bin/index.js",
   "bin": {
