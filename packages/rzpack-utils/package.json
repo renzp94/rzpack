@@ -30,12 +30,12 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "address": "^1.2.0",
+    "address": "^1.2.2",
     "check-dependencies": "^1.1.0",
-    "dotenv": "^16.0.2",
+    "dotenv": "^16.3.1",
     "dotenv-expand": "^9.0.0",
-    "esbuild": "^0.15.5",
-    "kolorist": "^1.5.1",
+    "esbuild": "^0.15.18",
+    "kolorist": "^1.8.0",
     "portfinder": "^1.0.32"
   }
 }

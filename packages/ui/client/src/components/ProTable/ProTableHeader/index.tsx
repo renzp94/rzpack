@@ -82,7 +82,7 @@ const ProTableHeader = (props: ProTableHeaderProps) => {
                 </Button>
               ) : null}
               {buttons.includes('reset') ? (
-                <Button htmlType="reset" onClick={onReset} type="ghost">
+                <Button ghost htmlType="reset" onClick={onReset} type="primary">
                   重置
                 </Button>
               ) : null}

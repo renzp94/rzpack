@@ -266,7 +266,7 @@ export default () => {
   const tools = (
     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
       <Button type="primary">更新</Button>
-      <Button type="ghost">导出</Button>
+      <Button type="primary" ghost>导出</Button>
     </div>
   )
 
