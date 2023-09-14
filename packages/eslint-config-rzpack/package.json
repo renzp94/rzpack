@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-rzpack",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "rzpack eslint config",
   "main": "index.js",
   "keywords": [
