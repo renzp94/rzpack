@@ -17,6 +17,7 @@ import buildInfoWebpackPlugin from './build-info-webpack-plugin'
 import compressionWebpackPlugin from './compression-webpack-plugin'
 import reactRefreshWebpackPlugin from './react-refresh-webpack-plugin'
 import moduleFederationWebpackPlugin from './module-federation-plugin'
+import millionWebpackPlugin from './million-webpack-plugin'
 
 export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
   htmlWebpackPlugin(webpackChain, options?.html)
@@ -53,6 +54,13 @@ export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
   if (options?.moduleFederation) {
     moduleFederationWebpackPlugin(webpackChain, options?.moduleFederation)
   }
+  if (options?.million) {
+    millionWebpackPlugin(
+      webpackChain,
+      typeof options?.million === 'boolean' ? undefined : options?.million
+    )
+  }
+
   if (rzpack.mode === 'production') {
     copyWebpackPlugin(webpackChain, options.publicPath)
     miniCssExtractPlugin(webpackChain)

@@ -6,6 +6,7 @@ import type { RzpackAssets } from './assets'
 import type { LazyCompilationOptions } from './configs/lazyCompilation'
 import type { ModuleFederationPluginOptions } from './plugins/module-federation-plugin'
 import type { Output } from './configs/output'
+import { MillionOptions } from './plugins/million-webpack-plugin'
 
 interface CLIOptions {
   '--'?: string[]
@@ -75,6 +76,8 @@ export interface RzpackConfigs {
   proxyFile?: string
   // 是否开启React代码热更新
   reactRefresh?: boolean
+  // 是否使用Million.js
+  million?: boolean | MillionOptions
 }
 
 export const defineConfig = (configs: RzpackConfigs) => configs
