@@ -2,7 +2,7 @@ import type WebpackChain from 'webpack-chain'
 import type { Optimization } from 'webpack-chain'
 import { ESBuildMinifyPlugin } from 'esbuild-loader'
 import { JSX_TOOLS } from '..'
-import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin'
+import ImageMinimizerPlugin, { FilterFn } from 'image-minimizer-webpack-plugin'
 
 /**
  * esbuild压缩
@@ -18,7 +18,7 @@ const esbuildMinimizer = (minimizer: Optimization) => {
 export default (
   webpackChain: WebpackChain,
   miniTools: JSX_TOOLS = JSX_TOOLS.ESBUILD,
-  imageMini: boolean
+  imageMini: boolean | FilterFn
 ) => {
   // css压缩
   const minimizer = webpackChain.optimization
@@ -38,7 +38,10 @@ export default (
       .use(ImageMinimizerPlugin, [
         {
           minimizer: {
-            filter: (source) => source.byteLength > 10 * 1024,
+            filter:
+              typeof imageMini === 'boolean'
+                ? (source) => source.byteLength >= 1024 * 1024
+                : imageMini,
             implementation: ImageMinimizerPlugin.imageminMinify,
             options: {
               plugins: [

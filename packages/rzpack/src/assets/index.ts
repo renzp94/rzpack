@@ -5,6 +5,7 @@ import jsx from './jsx'
 import font from './font'
 import image from './image'
 import css from './css'
+import { FilterFn } from 'image-minimizer-webpack-plugin'
 
 export interface RzpackAssets {
   // jsx编译处理器
@@ -12,7 +13,7 @@ export interface RzpackAssets {
   // 是否使用cssScoped(类似Vue的scoped功能)
   cssScoped?: boolean
   // 是否压缩图片
-  imageMini?: boolean
+  imageMini?: boolean | FilterFn
 }
 
 const resolveAssets = (webpackChain: WebpackChain, options: RzpackConfigs) => {
