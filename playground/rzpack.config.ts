@@ -14,4 +14,5 @@ export default defineConfig({
     jsxTools: JSX_TOOLS.ESBUILD,
   },
   buildInfo: true,
+  million: true,
 })
