@@ -2,6 +2,7 @@ import type WebpackChain from 'webpack-chain'
 import type { Optimization } from 'webpack-chain'
 import { ESBuildMinifyPlugin } from 'esbuild-loader'
 import { JSX_TOOLS } from '..'
+import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin'
 
 /**
  * esbuild压缩
@@ -14,7 +15,11 @@ const esbuildMinimizer = (minimizer: Optimization) => {
     ])
 }
 
-export default (webpackChain: WebpackChain, miniTools: JSX_TOOLS = JSX_TOOLS.ESBUILD) => {
+export default (
+  webpackChain: WebpackChain,
+  miniTools: JSX_TOOLS = JSX_TOOLS.ESBUILD,
+  imageMini: boolean
+) => {
   // css压缩
   const minimizer = webpackChain.optimization
 
@@ -24,4 +29,47 @@ export default (webpackChain: WebpackChain, miniTools: JSX_TOOLS = JSX_TOOLS.ESB
   }
 
   minimizers[miniTools]?.(minimizer)
+
+  // 图片压缩
+  if (imageMini) {
+    minimizer
+      .minimize(true)
+      .minimizer('image-minimizer')
+      .use(ImageMinimizerPlugin, [
+        {
+          minimizer: {
+            filter: (source) => source.byteLength > 10 * 1024,
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['gifsicle', { interlaced: true }],
+                ['jpegtran', { progressive: true }],
+                ['optipng', { optimizationLevel: 5 }],
+                [
+                  'svgo',
+                  {
+                    plugins: [
+                      {
+                        name: 'preset-default',
+                        params: {
+                          overrides: {
+                            removeViewBox: false,
+                            addAttributesToSVGElement: {
+                              params: {
+                                attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }],
+                              },
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                ],
+              ],
+            },
+          },
+        },
+      ])
+      .end()
+  }
 }

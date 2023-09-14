@@ -11,6 +11,8 @@ export interface RzpackAssets {
   jsxTools?: JSX_TOOLS
   // 是否使用cssScoped(类似Vue的scoped功能)
   cssScoped?: boolean
+  // 是否压缩图片
+  imageMini?: boolean
 }
 
 const resolveAssets = (webpackChain: WebpackChain, options: RzpackConfigs) => {

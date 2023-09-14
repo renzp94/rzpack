@@ -120,7 +120,7 @@ export class RzpackContext {
       resolveLazyCompilation(this.webpackChain, lazyCompilation)
       await resolvePlugins(this.webpackChain, { ...configs, publicPath })
       if (this.mode === 'production') {
-        resolveMinimizer(this.webpackChain, assets?.jsxTools)
+        resolveMinimizer(this.webpackChain, assets?.jsxTools, assets?.imageMini)
       }
 
       const { network, local, port } = await getNetwork(server?.port as unknown as number)
