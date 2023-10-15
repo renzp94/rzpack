@@ -1,8 +1,8 @@
-import { logError } from './log'
-import path from 'path'
 import fs from 'fs'
 import { createHash } from 'node:crypto'
+import path from 'path'
 import * as esbuild from 'esbuild'
+import { logError } from './log'
 
 /**
  * 判断文件是否存在
@@ -15,20 +15,25 @@ export const fileExists = (file: string): boolean => fs.existsSync(file)
  * @param module 模块
  * @returns 返回加载的模块
  */
-export const requireResolve = (module: string, opts?: unknown) => require.resolve(module, opts)
+export const requireResolve = (module: string, opts?: unknown) =>
+  require.resolve(module, opts)
 /**
  * 将相对路径转为绝对路径
  * @param dir 相对路径
  * @param root 主路径, 默认为__dirname
  * @returns 返回绝对路径
  */
-export const pathResolve = (dir: string, root = __dirname) => path.resolve(root, dir)
+export const pathResolve = (dir: string, root = __dirname) =>
+  path.resolve(root, dir)
 /**
  * 获取配置文件全路径，默认从当前项目目录(process.cwd())下查询
  * @param file 文件路径
  * @returns 找到则返回全路径，否则返回undefined
  */
-export const getFileFullPath = (file: string, root = process.cwd()): string | undefined => {
+export const getFileFullPath = (
+  file: string,
+  root = process.cwd(),
+): string | undefined => {
   if (!file) {
     logError('参数file不能为空')
     return

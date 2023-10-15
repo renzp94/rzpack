@@ -1,16 +1,16 @@
-import type { LessVars, RzpackConfigs } from './../index'
-import type WebpackChain from 'webpack-chain'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import {
+  bundleTsFile,
   fileExists,
   getFileFullPath,
+  getPackageVersion,
   requireFile,
   requireResolve,
-  bundleTsFile,
-  getPackageVersion,
 } from 'rzpack-utils'
+import type WebpackChain from 'webpack-chain'
 import { rzpack } from '../cli'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { getBuildTmpFilePath } from '../configs'
+import type { LessVars, RzpackConfigs } from './../index'
 
 /**
  * 应用公共css loader
@@ -19,7 +19,7 @@ import { getBuildTmpFilePath } from '../configs'
  */
 const applyCommonLoader = (
   rule: WebpackChain.Rule<WebpackChain.Rule<WebpackChain.Module>>,
-  cssScoped?: boolean
+  cssScoped?: boolean,
 ) => {
   if (rzpack.mode === 'development') {
     rule.use('style-loader').loader(requireResolve('style-loader'))
@@ -63,7 +63,10 @@ const applyCommonLoader = (
     .end()
 
   if (cssScoped) {
-    rule.use('css-scoped-loader').loader(requireResolve('@renzp/css-scoped-loader')).end()
+    rule
+      .use('css-scoped-loader')
+      .loader(requireResolve('@renzp/css-scoped-loader'))
+      .end()
   }
 
   return rule
@@ -118,7 +121,9 @@ const useAntdTheme = (antdTheme: LessVars) => {
     }
 
     if (antdVersion > 4) {
-      const keys = Object.keys(modifyVars).filter((key) => !skipToPxKeys.includes(key))
+      const keys = Object.keys(modifyVars).filter(
+        (key) => !skipToPxKeys.includes(key),
+      )
       modifyVars = keys.reduce((prev, curr) => {
         let value = modifyVars[curr]
         if (typeof value === 'number') {
@@ -169,7 +174,7 @@ const applyPreCssLoader = (
   rule: WebpackChain.Rule<WebpackChain.Rule<WebpackChain.Module>>,
   loader: string,
   antdTheme?: LessVars,
-  lessVars?: LessVars
+  lessVars?: LessVars,
 ) => {
   if (loader) {
     const modifyVars = useAntdTheme(antdTheme)
@@ -201,7 +206,7 @@ export const createCssRule = (
   lang: string,
   cssScoped: boolean,
   antdTheme?: LessVars,
-  lessVars?: LessVars
+  lessVars?: LessVars,
 ) => {
   const regexps = {
     css: [/\.css$/, /\.module\.css$/, /\.scoped\.css$/],
@@ -231,7 +236,10 @@ export const createCssRule = (
   }
 }
 
-export default (webpackChain: WebpackChain, { antdTheme, lessVars, assets }: RzpackConfigs) => {
+export default (
+  webpackChain: WebpackChain,
+  { antdTheme, lessVars, assets }: RzpackConfigs,
+) => {
   const baseRule = webpackChain.module.rule('css')
   createCssRule(baseRule, 'css', assets?.cssScoped)
   createCssRule(baseRule, 'less', assets?.cssScoped, antdTheme, lessVars)

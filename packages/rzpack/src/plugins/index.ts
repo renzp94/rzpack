@@ -1,23 +1,23 @@
-import type { RzpackConfigs } from '..'
-import type WebpackChain from 'webpack-chain'
 import { fileExists, getFileFullPath } from 'rzpack-utils'
+import type WebpackChain from 'webpack-chain'
+import type { RzpackConfigs } from '..'
 import { rzpack } from './../cli'
-import htmlWebpackPlugin from './html-webpack-plugin'
-import webpackbar from './webpackbar'
-import friendlyErrorsWebpackPlugin from './friendly-errors-webpack-plugin'
-import miniCssExtractPlugin from './mini-css-extract-plugin'
+import buildInfoWebpackPlugin from './build-info-webpack-plugin'
+import compressionWebpackPlugin from './compression-webpack-plugin'
 import copyWebpackPlugin from './copy-webpack-plugin'
 import definePlugin from './define-plugin'
 import eslintWebpackPlugin from './eslint-webpack-plugin'
 import forkTsCheckerWebpackPlugin from './fork-ts-checker-webpack-plugin'
+import friendlyErrorsWebpackPlugin from './friendly-errors-webpack-plugin'
+import htmlWebpackPlugin from './html-webpack-plugin'
+import millionWebpackPlugin from './million-webpack-plugin'
+import miniCssExtractPlugin from './mini-css-extract-plugin'
+import moduleFederationWebpackPlugin from './module-federation-plugin'
+import reactRefreshWebpackPlugin from './react-refresh-webpack-plugin'
+import speedMeasureWebpackPlugin from './speed-measure-webpack-plugin'
 // import dllPlugin, { useDll } from './dll-plugin'
 import webpackBundleAnalyzer from './webpack-bundle-analyzer'
-import speedMeasureWebpackPlugin from './speed-measure-webpack-plugin'
-import buildInfoWebpackPlugin from './build-info-webpack-plugin'
-import compressionWebpackPlugin from './compression-webpack-plugin'
-import reactRefreshWebpackPlugin from './react-refresh-webpack-plugin'
-import moduleFederationWebpackPlugin from './module-federation-plugin'
-import millionWebpackPlugin from './million-webpack-plugin'
+import webpackbar from './webpackbar'
 
 export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
   htmlWebpackPlugin(webpackChain, options?.html)
@@ -57,7 +57,7 @@ export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
   if (options?.million) {
     millionWebpackPlugin(
       webpackChain,
-      typeof options?.million === 'boolean' ? undefined : options?.million
+      typeof options?.million === 'boolean' ? undefined : options?.million,
     )
   }
 

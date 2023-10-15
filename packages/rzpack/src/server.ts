@@ -1,9 +1,13 @@
-import { logError, cyan, logWarning } from 'rzpack-utils'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import runUI, {
+  DEFAULT_CONFIG_FILE,
+  PREFIX_URL,
+  validateConfigFile,
+} from 'rzpack-ui'
+import { cyan, logError, logWarning } from 'rzpack-utils'
 import Webpack from 'webpack'
 import WebpackDevServer, { Configuration } from 'webpack-dev-server'
 import { rzpack } from './cli'
-import runUI, { PREFIX_URL, validateConfigFile, DEFAULT_CONFIG_FILE } from 'rzpack-ui'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const runServer = async (startUI: boolean, proxyFile: string) => {
   rzpack.webpackChain.devtool('cheap-module-source-map')
@@ -24,7 +28,7 @@ const runServer = async (startUI: boolean, proxyFile: string) => {
       console.log(
         'Rzpack UI run at: \n',
         `- Local:     ${cyan(`http://${local}:${port}${PREFIX_URL}`)}\n`,
-        `- Network:   ${cyan(`http://${network}:${port}${PREFIX_URL}`)}\n\n`
+        `- Network:   ${cyan(`http://${network}:${port}${PREFIX_URL}`)}\n\n`,
       )
     }
 
@@ -33,7 +37,7 @@ const runServer = async (startUI: boolean, proxyFile: string) => {
       `- Local:    ${cyan(`http://${local}:${port}`)}\n`,
       `- Network:  ${cyan(`http://${network}:${port}`)}\n\n`,
       'Note that the development build is not optimized.\n',
-      `To create a production build, run ${cyan('yarn build')}.\n`
+      `To create a production build, run ${cyan('yarn build')}.\n`,
     )
   })
   const clientOverlay = {
@@ -54,7 +58,7 @@ const runServer = async (startUI: boolean, proxyFile: string) => {
   if (startUI) {
     if (devServerOptions.proxy) {
       logWarning(
-        `检测到使用Rzpack UI的同时，在配置文件配置了接口代理。配置文件中的配置将失效，优先使用Rzpack UI的代理模式`
+        '检测到使用Rzpack UI的同时，在配置文件配置了接口代理。配置文件中的配置将失效，优先使用Rzpack UI的代理模式',
       )
     }
     // 开启可视化配置时配置文件中配置的proxy将无效
@@ -62,12 +66,12 @@ const runServer = async (startUI: boolean, proxyFile: string) => {
     let proxyFilePath = proxyFile
     if (proxyFilePath && !validateConfigFile(proxyFilePath)) {
       logWarning(
-        `接口代理配置文件仅支持json文件，${proxyFilePath}文件格式不对，将使用默认配置文件: ${DEFAULT_CONFIG_FILE}`
+        `接口代理配置文件仅支持json文件，${proxyFilePath}文件格式不对，将使用默认配置文件: ${DEFAULT_CONFIG_FILE}`,
       )
       proxyFilePath = undefined
     }
     const htmlWebpackPlugin = webpackConfigs.plugins?.find(
-      (item) => item instanceof HtmlWebpackPlugin
+      (item) => item instanceof HtmlWebpackPlugin,
     ) as {
       userOptions?: { title?: string }
     }
@@ -84,7 +88,7 @@ const runServer = async (startUI: boolean, proxyFile: string) => {
       server.stopCallback(() => process.exit(0))
       // 不用等dev server停掉再关闭进程，否则会出现Ctrl+C要等一会才能停止
       process.exit(0)
-    })
+    }),
   )
   server.start()
 }

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-import type { BuildOptions, ServerOptions, RzpackConfigs } from '.'
-import { NAME, VERSION } from './constant'
 import { cac } from 'cac'
-import runServer from './server'
+import { fileExists, logError, pathResolve } from 'rzpack-utils'
+import type { BuildOptions, RzpackConfigs, ServerOptions } from '.'
 import runBuild from './build'
-import runPreview from './preview'
 import { RzpackContext } from './configs'
-import { fileExists, pathResolve, logError } from 'rzpack-utils'
+import { NAME, VERSION } from './constant'
+import runPreview from './preview'
+import runServer from './server'
 
 export const rzpack = new RzpackContext()
 
@@ -43,11 +43,19 @@ cli
 // build
 cli
   .command('build', 'build for production')
-  .option('--outDir <dir>', `[string] output directory (default: dist)`)
+  .option('--outDir <dir>', '[string] output directory (default: dist)')
   .option('--bundle-size', '[boolean] analysis package size')
   .option('--bundle-time', '[boolean] analyze packaging time')
   .action(async (options: BuildOptions) => {
-    const { c, m, mode, config, outDir = 'dist', bundleSize, bundleTime } = options ?? {}
+    const {
+      c,
+      m,
+      mode,
+      config,
+      outDir = 'dist',
+      bundleSize,
+      bundleTime,
+    } = options ?? {}
     rzpack.mode = m ?? mode ?? 'production'
     process.env.NODE_ENV = rzpack.mode
     rzpack.bundleSize = bundleSize ?? false
@@ -67,7 +75,7 @@ cli
 // preview
 cli
   .command('preview', 'preview for outDir')
-  .option('--outDir <dir>', `[string] output directory (default: dist)`)
+  .option('--outDir <dir>', '[string] output directory (default: dist)')
   .action(async (options: BuildOptions) => {
     const { c, m, mode, config, outDir = 'dist' } = options ?? {}
     rzpack.mode = m ?? mode ?? 'production'
@@ -77,7 +85,10 @@ cli
     if (!configs?.output) {
       configs.output = outDir
     }
-    const dir = typeof configs.output === 'string' ? configs.output : configs?.output?.path
+    const dir =
+      typeof configs.output === 'string'
+        ? configs.output
+        : configs?.output?.path
     const fullPath = pathResolve(dir, process.cwd())
     let isPreview: boolean = fileExists(fullPath)
     if (!isPreview) {

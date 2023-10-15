@@ -1,7 +1,13 @@
-import { JS_LINT, type PromptsResult } from './prompts'
-import { fileExists, logInfo, pathResolve, bold, logSuccess } from 'rzpack-utils'
-import { clearDir } from './utils'
 import fs from 'fs'
+import {
+  bold,
+  fileExists,
+  logInfo,
+  logSuccess,
+  pathResolve,
+} from 'rzpack-utils'
+import { yellow } from 'rzpack-utils'
+import { JS_LINT, type PromptsResult } from './prompts'
 import {
   gitInit,
   renderConfig,
@@ -12,10 +18,18 @@ import {
   renderReadme,
   renderTemplate,
 } from './render'
-import { yellow } from 'rzpack-utils'
+import { clearDir } from './utils'
 
 const createProject = async (options: PromptsResult) => {
-  const { projectName, template, overwrite, styleLint, jsLint, commitLint, rs } = options
+  const {
+    projectName,
+    template,
+    overwrite,
+    styleLint,
+    jsLint,
+    commitLint,
+    rs,
+  } = options
   const { ROOT } = process.env
 
   if (overwrite) {
@@ -64,13 +78,15 @@ const createProject = async (options: PromptsResult) => {
     👉 cd ${projectName}
     👉 npm install
     👉 npm run dev
-    `
+    `,
   )
   if (jsLint === JS_LINT.BIOME) {
     logInfo(
       `模版是基于eslint开发的, 检测到使用了${
         JS_LINT.BIOME
-      } lint, 所以最好下载依赖以后执行一下${yellow(bold('npm run lint:unsafe'))}`
+      } lint, 所以最好下载依赖以后执行一下${yellow(
+        bold('npm run lint:unsafe'),
+      )}`,
     )
   }
 }

@@ -1,13 +1,13 @@
-import { fileExists, pathResolve } from './file'
 import dotenv from 'dotenv'
 import { expand as dotenvExpand } from 'dotenv-expand'
+import { fileExists, pathResolve } from './file'
 
 /**
  * 加载环境变量文件
  * @param {string} mode 开发模式
  */
 export const loadEnv = (mode?: string) => {
-  const basePath = pathResolve(`.env${mode ? `.${mode}` : ``}`, process.cwd())
+  const basePath = pathResolve(`.env${mode ? `.${mode}` : ''}`, process.cwd())
   const localPath = pathResolve(`${basePath}.local`, process.cwd())
 
   const load = (envPath: string) => {

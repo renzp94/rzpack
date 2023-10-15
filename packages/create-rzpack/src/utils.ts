@@ -50,7 +50,7 @@ export const clearDir = (dir: string) => {
   postOrderDirectoryTraverse(
     dir,
     (dir) => fs.rmdirSync(dir),
-    (file) => fs.unlinkSync(file)
+    (file) => fs.unlinkSync(file),
   )
 }
 
@@ -82,7 +82,12 @@ export const deepMerge = (target, obj) => {
 export const sortDependencies = (packageJson) => {
   const sorted = {}
 
-  const depTypes = ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies']
+  const depTypes = [
+    'dependencies',
+    'devDependencies',
+    'peerDependencies',
+    'optionalDependencies',
+  ]
 
   for (const depType of depTypes) {
     if (packageJson[depType]) {
@@ -107,13 +112,18 @@ export const sortDependencies = (packageJson) => {
  * @param data 追加的内容
  * @param line 要追加的位置，未指定则追加到最后
  */
-export const appendFileContent = (file: string, data: string, line?: number) => {
+export const appendFileContent = (
+  file: string,
+  data: string,
+  line?: number,
+) => {
   const content = fs.readFileSync(file, 'utf-8').split(/\r\n|\n|\r/gm)
-  if (!line) {
-    line = content.length
+  let index = line
+  if (!index) {
+    index = content.length
   } else {
-    line = line < content.length ? line : content.length
+    index = index < content.length ? index : content.length
   }
-  content.splice(line, 0, data)
+  content.splice(index, 0, data)
   fs.writeFileSync(file, content.join('\n'))
 }

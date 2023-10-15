@@ -1,9 +1,12 @@
-import type WebpackChain from 'webpack-chain'
-import { fileExists, getFileFullPath } from 'rzpack-utils'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import { fileExists, getFileFullPath } from 'rzpack-utils'
+import type WebpackChain from 'webpack-chain'
 import { DEFAULT_CONFIG } from '../constant'
 
-export default (webpackChain: WebpackChain, options: HtmlWebpackPlugin.Options = {}) => {
+export default (
+  webpackChain: WebpackChain,
+  options: HtmlWebpackPlugin.Options = {},
+) => {
   const {
     title = 'rzpack demo',
     template = DEFAULT_CONFIG.HTML,

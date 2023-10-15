@@ -1,15 +1,15 @@
-import type WebpackChain from 'webpack-chain'
-import webpack from 'webpack'
+import fs from 'fs'
 import {
+  checkDllVersion,
   dllManifestPath,
   dllPath,
   fileExists,
   logInfo,
   logSuccess,
   logWarning,
-  checkDllVersion,
 } from 'rzpack-utils'
-import fs from 'fs'
+import webpack from 'webpack'
+import type WebpackChain from 'webpack-chain'
 
 /**
  * 构建依赖包的Dll
@@ -34,7 +34,10 @@ export const useDll = async (dll: Array<string>) => {
     fs.rmdirSync(dllPath)
 
     const msg = rebuildList
-      .map((item) => `\n${item.name}: Dll版本是${item.dll},当前安装版本是${item.installed}`)
+      .map(
+        (item) =>
+          `\n${item.name}: Dll版本是${item.dll},当前安装版本是${item.installed}`,
+      )
       .toString()
     logWarning(msg)
   }
@@ -68,7 +71,7 @@ export const buildDll = (dll: Array<string>) => {
 
   const compiler = webpack(dllConfig)
   return new Promise((resolve) =>
-    compiler.run((err, stats) => resolve(!(err || stats.hasErrors())))
+    compiler.run((err, stats) => resolve(!(err || stats.hasErrors()))),
   )
 }
 /**

@@ -1,10 +1,10 @@
-import { pathResolve, run } from 'rzpack-utils'
 import fs from 'fs'
 import path from 'path'
+import { pathResolve, run } from 'rzpack-utils'
 import { Template } from '.'
+import biomeVscodeSettings from '../template-biome/.vscode/settings.json'
 import { JS_LINT, PromptsResult } from './prompts'
 import { deepMerge, sortDependencies } from './utils'
-import biomeVscodeSettings from '../template-biome/.vscode/settings.json'
 
 /**
  * 将源目录下的文件复制到指定目录目录下
@@ -50,7 +50,9 @@ export const renderPackage = async ({
   template,
   rs,
 }: PromptsResult) => {
-  const isAdminTemplate = [Template.ADMIN, Template.ADMIN_HEADER_MENU].includes(template)
+  const isAdminTemplate = [Template.ADMIN, Template.ADMIN_HEADER_MENU].includes(
+    template,
+  )
   const isTSTemplate = template === Template.TS
 
   const commitScripts = {
@@ -78,7 +80,9 @@ export const renderPackage = async ({
 
   let rzpackLintVersion = '0.0.2'
   try {
-    rzpackLintVersion = (await run('npm view eslint-config-rzpack version')).replace(/\s*/g, '')
+    rzpackLintVersion = (
+      await run('npm view eslint-config-rzpack version')
+    ).replace(/\s*/g, '')
   } catch {
     rzpackLintVersion = '0.0.2'
   }
@@ -153,7 +157,9 @@ export const renderPackage = async ({
     rzpackVersion = '0.2.0'
   }
 
-  const styleLintScripts = styleLint ? '&& stylelint --fix src/**/*.{less,css}' : ''
+  const styleLintScripts = styleLint
+    ? '&& stylelint --fix src/**/*.{less,css}'
+    : ''
   const jsLintScripts =
     jsLint === JS_LINT.BIOME
       ? 'biome check --apply src && biome format --write src'
@@ -185,7 +191,9 @@ export const renderPackage = async ({
     browserslist: ['>0.2%', 'not dead', 'not IE 11', 'not op_mini all'],
     'simple-git-hooks': {
       'pre-commit': 'npx lint-staged',
-      ...(commitLint ? { 'commit-msg': 'npx --no -- commitlint --edit $1' } : {}),
+      ...(commitLint
+        ? { 'commit-msg': 'npx --no -- commitlint --edit $1' }
+        : {}),
     },
     ...lintStagedScripts,
     license: 'MIT',
@@ -210,13 +218,20 @@ export const renderPackage = async ({
       ...(styleLint ? stylelintPackage : {}),
     },
   }
-  fs.writeFileSync(path.resolve(process.env.ROOT, 'package.json'), JSON.stringify(pkg, null, 2))
+  fs.writeFileSync(
+    path.resolve(process.env.ROOT, 'package.json'),
+    JSON.stringify(pkg, null, 2),
+  )
 }
 /**
  * 在目标目录下生成README.md
  * @param {string} projectName 项目名
  */
-export const renderReadme = ({ projectName, styleLint, jsLint }: PromptsResult) => {
+export const renderReadme = ({
+  projectName,
+  styleLint,
+  jsLint,
+}: PromptsResult) => {
   let pluginInfo = '\n'
   const eslintPlugin = '- `ESLint`\n' + '- `Prettier - Code formatter`\n'
   const biomePlugin = '- `Biome`\n'
@@ -288,12 +303,13 @@ export const renderReadme = ({ projectName, styleLint, jsLint }: PromptsResult) 
  * @param {PromptsResult} result
  */
 export const renderConfig = (result: PromptsResult) => {
-  const { projectName, cssScoped, jtsLoader, template, million, imageMini } = result
+  const { projectName, cssScoped, jtsLoader, template, million, imageMini } =
+    result
   const isTsTemplate = template === Template.TS
 
-  let assets = `  assets: {\n`
+  let assets = '  assets: {\n'
   if (cssScoped) {
-    assets += `    cssScoped: true,\n`
+    assets += '    cssScoped: true,\n'
   }
 
   if (jtsLoader) {
@@ -303,21 +319,25 @@ export const renderConfig = (result: PromptsResult) => {
 
   const hasAssets = cssScoped || jtsLoader
 
-  const antd = `  antdTheme: {\n` + `    file: './src/theme/index.ts',\n` + `  },\n`
-  const lessVars = `  lessVars: {\n` + `    file: './src/theme/globalVars.ts',\n` + `  },\n`
+  const antd =
+    '  antdTheme: {\n' + `    file: './src/theme/index.ts',\n` + '  },\n'
+  const lessVars =
+    '  lessVars: {\n' + `    file: './src/theme/globalVars.ts',\n` + '  },\n'
 
   fs.writeFileSync(
     path.resolve(process.env.ROOT, 'rzpack.config.ts'),
-    `import { defineConfig${jtsLoader ? ', JSX_TOOLS' : ''} } from 'rzpack'\n\n` +
-      `export default defineConfig({\n` +
+    `import { defineConfig${
+      jtsLoader ? ', JSX_TOOLS' : ''
+    } } from 'rzpack'\n\n` +
+      'export default defineConfig({\n' +
       `${hasAssets ? assets : ''}` +
-      `  html: {\n` +
+      '  html: {\n' +
       `    title: '${projectName}',\n` +
-      `  },\n` +
+      '  },\n' +
       (!isTsTemplate ? antd + lessVars : '') +
-      (million ? `  million: true,\n` : '') +
-      (imageMini ? `  imageMini: true,\n` : '') +
-      `})\n`
+      (million ? '  million: true,\n' : '') +
+      (imageMini ? '  imageMini: true,\n' : '') +
+      '})\n',
   )
 }
 /**
@@ -326,20 +346,22 @@ export const renderConfig = (result: PromptsResult) => {
 export const renderLintConfig = () => {
   fs.writeFileSync(
     pathResolve('commitlint.config.js', process.env.ROOT),
-    `module.exports = {\n` + `  extends: ['@commitlint/config-conventional', 'cz'],\n` + `}\n`
+    'module.exports = {\n' +
+      `  extends: ['@commitlint/config-conventional', 'cz'],\n` +
+      '}\n',
   )
   fs.writeFileSync(
     pathResolve('cz.config.js', process.env.ROOT),
-    `module.exports = {\n` +
-      `  messages: {\n` +
+    'module.exports = {\n' +
+      '  messages: {\n' +
       `    type: '请选择要提交的更改类型: ',\n` +
       `    subject: '请输入此次更改内容的简短描述:',\n` +
       `    body: '请输入此次更改内容的详细描述[可选]:',\n` +
       `    confirmCommit: '是否提交本次内容?',\n` +
-      `  },\n` +
+      '  },\n' +
       `  skipQuestions: ['breaking', 'scope', 'footer'],\n` +
-      `  subjectLimit: 100,\n` +
-      `  types: [\n` +
+      '  subjectLimit: 100,\n' +
+      '  types: [\n' +
       `    { value: 'feat', name: 'feat: 新功能' },\n` +
       `    { value: 'fix', name: 'fix: Bug修复' },\n` +
       `    { value: 'docs', name: 'docs: 文档更改' },\n` +
@@ -347,15 +369,15 @@ export const renderLintConfig = () => {
       `    { value: 'refactor', name: 'refactor: 代码重构' },\n` +
       `    { value: 'perf', name: 'perf: 性能优化' },\n` +
       `    { value: 'test', name: 'test: 测试更改' },\n` +
-      `    {\n` +
+      '    {\n' +
       `      value: 'build',\n` +
       `      name: 'build: 影响构建系统或外部依赖关系的更改(示例范围: gulp、Brocoli、npm)',\n` +
-      `    },\n` +
+      '    },\n' +
       `    { value: 'ci', name: 'ci: CI配置文件和脚本更改' },\n` +
       `    { value: 'chore', name: 'chore: 其他' },\n` +
       `    { value: 'revert', name: 'revert: 代码回退' },\n` +
-      `  ],\n` +
-      `}\n`
+      '  ],\n' +
+      '}\n',
   )
   const versionConfig = {
     types: [
@@ -374,7 +396,7 @@ export const renderLintConfig = () => {
   }
   fs.writeFileSync(
     pathResolve('.versionrc', process.env.ROOT),
-    JSON.stringify(versionConfig, null, 2)
+    JSON.stringify(versionConfig, null, 2),
   )
 }
 /**
@@ -391,7 +413,7 @@ export const gitInit = async () => {
 export const renderGitignore = () => {
   fs.writeFileSync(
     pathResolve('.gitignore', process.env.ROOT),
-    'node_modules\nbin\n*.log\n.vscode\n.DS_Store\ndist'
+    'node_modules\nbin\n*.log\n.vscode\n.DS_Store\ndist',
   )
 }
 
@@ -403,5 +425,8 @@ export const renderNodemon = async () => {
     watch: ['rzpack.config.ts'],
     exec: 'npm run dev',
   }
-  fs.writeFileSync(path.resolve(process.env.ROOT, 'nodemon.json'), JSON.stringify(config, null, 2))
+  fs.writeFileSync(
+    path.resolve(process.env.ROOT, 'nodemon.json'),
+    JSON.stringify(config, null, 2),
+  )
 }

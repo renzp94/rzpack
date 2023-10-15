@@ -1,6 +1,6 @@
-import type WebpackChain from 'webpack-chain'
-import type { Configuration } from 'webpack'
 import { pathResolve } from 'rzpack-utils'
+import type { Configuration } from 'webpack'
+import type WebpackChain from 'webpack-chain'
 import { rzpack } from '../cli'
 
 export type Output = Configuration['output'] | string

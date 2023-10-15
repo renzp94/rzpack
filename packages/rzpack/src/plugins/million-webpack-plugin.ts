@@ -1,5 +1,5 @@
-import type WebpackChain from 'webpack-chain'
 import million from 'million/compiler'
+import type WebpackChain from 'webpack-chain'
 
 export interface MillionOptions {
   optimize?: boolean
@@ -16,6 +16,9 @@ export interface MillionOptions {
   _file?: string
 }
 
-export default (webpackChain: WebpackChain, options: MillionOptions = { auto: true }) => {
+export default (
+  webpackChain: WebpackChain,
+  options: MillionOptions = { auto: true },
+) => {
   webpackChain.plugin('million-webpack-plugin').use(million.webpack(options))
 }

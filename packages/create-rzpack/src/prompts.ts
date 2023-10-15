@@ -1,13 +1,13 @@
-import { CLIOptions, Template } from '.'
 import prompts from 'prompts'
-import { red, yellow, blue, cyan, getFileFullPath, bold } from 'rzpack-utils'
+import { blue, bold, cyan, getFileFullPath, red, yellow } from 'rzpack-utils'
+import { CLIOptions, Template } from '.'
+import { DEFAULT_CONFIG } from './constant'
 import {
   canSafelyOverwrite,
   isValidPackageName,
   isValidTemplate,
   toValidPackageName,
 } from './utils'
-import { DEFAULT_CONFIG } from './constant'
 
 export enum JS_LINT {
   ESLINT = 'eslint',
@@ -45,13 +45,16 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
         type: targetDir ? null : 'text',
         message: yellow('请输入项目名称: '),
         initial: projectName ?? DEFAULT_CONFIG.PROJECT_NAME,
-        onState: (state) => (targetDir = String(state.value).trim() || projectName),
+        onState: (state) => {
+          targetDir = String(state.value).trim() || projectName
+        },
       },
       {
         name: 'overwrite',
         type: () => (canSafelyOverwrite(targetDir) || force ? null : 'confirm'),
         message: () => {
-          const dirForPrompt = targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}"`
+          const dirForPrompt =
+            targetDir === '.' ? '当前目录' : `目标目录 "${targetDir}"`
 
           return red(`${dirForPrompt} 不为空. 是否删除${dirForPrompt}并继续?`)
         },
@@ -79,13 +82,22 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
         hint: '用于创建项目的模板',
         choices: [
           { title: cyan(`${bold(Template.TS)} - ts模板`), value: Template.TS },
-          { title: yellow(`${bold(Template.ANTD)} - antd模版`), value: Template.ANTD },
           {
-            title: blue(`${bold(Template.ADMIN)} - 基础后台管理平台(侧边菜单版)的模版`),
+            title: yellow(`${bold(Template.ANTD)} - antd模版`),
+            value: Template.ANTD,
+          },
+          {
+            title: blue(
+              `${bold(Template.ADMIN)} - 基础后台管理平台(侧边菜单版)的模版`,
+            ),
             value: Template.ADMIN,
           },
           {
-            title: blue(`${bold(Template.ADMIN_HEADER_MENU)} - 基础后台管理平台(顶部菜单版)的模版`),
+            title: blue(
+              `${bold(
+                Template.ADMIN_HEADER_MENU,
+              )} - 基础后台管理平台(顶部菜单版)的模版`,
+            ),
             value: Template.ADMIN_HEADER_MENU,
           },
         ],
@@ -161,7 +173,7 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
     ],
     {
       onCancel: () => process.exit(0),
-    }
+    },
   )
 
   process.env.ROOT = getFileFullPath(targetDir)

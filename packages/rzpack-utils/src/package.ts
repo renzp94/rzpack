@@ -1,6 +1,6 @@
-import { fileExists, pathResolve } from './file'
-import check from 'check-dependencies'
 import fs from 'fs'
+import check from 'check-dependencies'
+import { fileExists, pathResolve } from './file'
 
 export const dllPath = pathResolve('./node_modules/.dll', process.cwd())
 export const dllManifestPath = `${dllPath}/manifest.json`
@@ -52,11 +52,18 @@ export const checkDllVersion = async (dll: Array<string>) => {
 
     const rebuildList = dllPackages.reduce((prev, curr) => {
       const packageTarget = packages.find(
-        (pack) => pack.name === curr.name && pack.installed !== curr.version
+        (pack) => pack.name === curr.name && pack.installed !== curr.version,
       )
 
       if (packageTarget) {
-        return [...prev, { name: curr.name, dll: curr.version, installed: packageTarget.installed }]
+        return [
+          ...prev,
+          {
+            name: curr.name,
+            dll: curr.version,
+            installed: packageTarget.installed,
+          },
+        ]
       }
 
       return prev

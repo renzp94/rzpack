@@ -1,12 +1,12 @@
-import type { BuildInfoWebpackPluginOptions } from './plugins/build-info-webpack-plugin'
 import type HtmlWebpackPlugin from 'html-webpack-plugin'
 import type WebpackChain from 'webpack-chain'
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
 import type { RzpackAssets } from './assets'
 import type { LazyCompilationOptions } from './configs/lazyCompilation'
-import type { ModuleFederationPluginOptions } from './plugins/module-federation-plugin'
 import type { Output } from './configs/output'
+import type { BuildInfoWebpackPluginOptions } from './plugins/build-info-webpack-plugin'
 import { MillionOptions } from './plugins/million-webpack-plugin'
+import type { ModuleFederationPluginOptions } from './plugins/module-federation-plugin'
 
 interface CLIOptions {
   '--'?: string[]
@@ -29,7 +29,8 @@ export interface BuildOptions extends CLIOptions {
   bundleTime?: boolean
 }
 
-export interface PreviewOptions extends Omit<BuildOptions, 'bundleSize' | 'bundleTime'> {
+export interface PreviewOptions
+  extends Omit<BuildOptions, 'bundleSize' | 'bundleTime'> {
   outDir?: string
 }
 

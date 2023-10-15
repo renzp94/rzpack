@@ -1,9 +1,9 @@
-import { RzpackAssets } from './../index'
+import { requireResolve } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
+import { JSX_TOOLS } from '../..'
+import { RzpackAssets } from './../index'
 import esbuild from './esbuild'
 import swc from './swc'
-import { requireResolve } from 'rzpack-utils'
-import { JSX_TOOLS } from '../..'
 
 const jsx = (webpackChain: WebpackChain, assets: RzpackAssets) => {
   const { jsxTools = JSX_TOOLS.ESBUILD, cssScoped } = assets ?? {}
@@ -14,7 +14,10 @@ const jsx = (webpackChain: WebpackChain, assets: RzpackAssets) => {
 
   const rule = transformTools[jsxTools](webpackChain)
   if (cssScoped) {
-    rule.use('jsx-scoped-loader').loader(requireResolve('@renzp/jsx-scoped-loader')).end()
+    rule
+      .use('jsx-scoped-loader')
+      .loader(requireResolve('@renzp/jsx-scoped-loader'))
+      .end()
   }
 }
 

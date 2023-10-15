@@ -1,8 +1,10 @@
+import path from 'path'
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { requireResolve } from 'rzpack-utils'
-import path from 'path'
 
-const absoluteRuntime = path.dirname(requireResolve('@babel/runtime/package.json'))
+const absoluteRuntime = path.dirname(
+  requireResolve('@babel/runtime/package.json'),
+)
 const version = require('@babel/runtime/package.json').version
 
 export default [

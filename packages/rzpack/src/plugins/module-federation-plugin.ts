@@ -1,14 +1,15 @@
-import type WebpackChain from 'webpack-chain'
-import ModuleFederationPlugin from 'webpack/lib/container/ModuleFederationPlugin'
 import { MFLiveReloadPlugin } from '@module-federation/fmr'
 import { fileExists, getFileFullPath } from 'rzpack-utils'
+import type WebpackChain from 'webpack-chain'
+import ModuleFederationPlugin from 'webpack/lib/container/ModuleFederationPlugin'
 
 export interface ModuleFederationPluginModule {
   name: string
   filename: string
 }
 
-export interface ModuleFederationPluginApp extends ModuleFederationPluginModule {
+export interface ModuleFederationPluginApp
+  extends ModuleFederationPluginModule {
   name: string
   remotes: Record<string, string>
 }
@@ -54,7 +55,10 @@ const getSharedConfigs = (shared: ModuleFederationSharedAuto) => {
       sharedRecord = shared?.deps?.reduce((prev, name) => {
         return {
           ...prev,
-          [name]: { requiredVersion: deps[name] ?? devDeps[name], singleton: true },
+          [name]: {
+            requiredVersion: deps[name] ?? devDeps[name],
+            singleton: true,
+          },
         }
       }, {})
     }
@@ -63,8 +67,16 @@ const getSharedConfigs = (shared: ModuleFederationSharedAuto) => {
   return sharedRecord
 }
 
-export default (webpackChain: WebpackChain, options: ModuleFederationPluginOptions) => {
-  const { filename = 'remote.js', shared, exposes, ...restOptions } = options ?? {}
+export default (
+  webpackChain: WebpackChain,
+  options: ModuleFederationPluginOptions,
+) => {
+  const {
+    filename = 'remote.js',
+    shared,
+    exposes,
+    ...restOptions
+  } = options ?? {}
   const providerDefaultOption = exposes ? { runtime: false } : {}
   let sharedConfigs
   if (shared) {
@@ -72,7 +84,10 @@ export default (webpackChain: WebpackChain, options: ModuleFederationPluginOptio
       sharedConfigs = shared.reduce((prev, item) => {
         return {
           ...prev,
-          [item.name]: { requiredVersion: item.requiredVersion, singleton: true },
+          [item.name]: {
+            requiredVersion: item.requiredVersion,
+            singleton: true,
+          },
         }
       }, {})
     } else {

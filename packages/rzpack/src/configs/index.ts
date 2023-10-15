@@ -1,24 +1,24 @@
-import type { RzpackConfigs, RzpackWebpackChain } from '..'
+import {
+  fileExists,
+  getFileFullPath,
+  getNetwork,
+  loadEnv,
+  logError,
+  requireFile,
+} from 'rzpack-utils'
+import { bundleTsFile } from 'rzpack-utils'
 import type { Configuration } from 'webpack'
 import WebpackChain from 'webpack-chain'
-import {
-  logError,
-  getFileFullPath,
-  requireFile,
-  loadEnv,
-  fileExists,
-  getNetwork,
-} from 'rzpack-utils'
-import { DEFAULT_CONFIG } from '../constant'
-import resolveEntry from './entry'
-import resolveOutput from './output'
-import resolveMinimizer from './minimizer'
-import resolveAlias from './alias'
-import resolveExtensions from './extensions'
+import type { RzpackConfigs, RzpackWebpackChain } from '..'
 import resolveAssets from '../assets'
+import { DEFAULT_CONFIG } from '../constant'
 import resolvePlugins from '../plugins'
+import resolveAlias from './alias'
+import resolveEntry from './entry'
+import resolveExtensions from './extensions'
 import resolveLazyCompilation from './lazyCompilation'
-import { bundleTsFile } from 'rzpack-utils'
+import resolveMinimizer from './minimizer'
+import resolveOutput from './output'
 
 export interface RzpackContextConfigs extends Configuration {
   network?: string
@@ -34,7 +34,7 @@ export interface RzpackContextConfigs extends Configuration {
 export const getBuildTmpFilePath = (filename: string) => {
   const splitSeparator = __dirname.includes('/') ? '/' : '\\'
   const rootDir = __dirname.split('node_modules').shift()
-  const rootFullDir = `${getFileFullPath(`.`)}`
+  const rootFullDir = `${getFileFullPath('.')}`
   let filepath = `.${splitSeparator}node_modules${splitSeparator}${filename}.tmp.js`
   // 如果当前执行路径没有node_modules，则说明是当前仓库使用的
   //  当前执行根路径不等于项目根路径，则说明是多仓库
@@ -82,7 +82,9 @@ export class RzpackContext {
     if (!configFile) {
       configFileName = DEFAULT_CONFIG.CONFIG_FILE.replace(/.(t|j)s$/, '')
       const suffix = ['.ts', '.js']
-      const configFiles = suffix.map((key) => getFileFullPath(`${configFileName}${key}`))
+      const configFiles = suffix.map((key) =>
+        getFileFullPath(`${configFileName}${key}`),
+      )
       configFile = configFiles.find(fileExists)
     }
 
@@ -123,7 +125,9 @@ export class RzpackContext {
         resolveMinimizer(this.webpackChain, assets?.jsxTools, assets?.imageMini)
       }
 
-      const { network, local, port } = await getNetwork(server?.port as unknown as number)
+      const { network, local, port } = await getNetwork(
+        server?.port as unknown as number,
+      )
       if (this.mode === 'development') {
         this.set('network', network)
         this.set('local', local)

@@ -1,5 +1,13 @@
 import { getFileFullPath } from 'rzpack-utils'
-import { createEnvHash, fileExists, lightYellow, lightBlue, cyan, gray, bold } from 'rzpack-utils'
+import {
+  bold,
+  createEnvHash,
+  cyan,
+  fileExists,
+  gray,
+  lightBlue,
+  lightYellow,
+} from 'rzpack-utils'
 import Webpack from 'webpack'
 import { rzpack } from './cli'
 
@@ -17,7 +25,7 @@ const runBuild = (isLog = true) => {
           chunks: 'initial',
         },
         common: {
-          name: `chunk-common`,
+          name: 'chunk-common',
           minChunks: 2,
           priority: -20,
           chunks: 'initial',
@@ -36,9 +44,10 @@ const runBuild = (isLog = true) => {
       store: 'pack',
       buildDependencies: {
         config: [__filename],
-        tsconfig: [getFileFullPath('tsconfig.json'), getFileFullPath('jsconfig.json')].filter((f) =>
-          fileExists(f)
-        ),
+        tsconfig: [
+          getFileFullPath('tsconfig.json'),
+          getFileFullPath('jsconfig.json'),
+        ].filter((f) => fileExists(f)),
       },
     })
   }
@@ -63,7 +72,9 @@ const runBuild = (isLog = true) => {
   })
 
   return new Promise<boolean>((resolve) =>
-    compiler.hooks.afterDone.tap('rzpack', (stats) => resolve(!stats?.hasErrors?.()))
+    compiler.hooks.afterDone.tap('rzpack', (stats) =>
+      resolve(!stats?.hasErrors?.()),
+    ),
   )
 }
 
@@ -91,15 +102,17 @@ const logBuildAssets = (stats) => {
         gzip?.info?.immutable ? 'immutable ' : ''
       }${gzip?.info?.minimized ? 'minimized' : ''}`.trim()
       gzipInfo = `\n${gray(
-        `${gzip.name} ${(gzip?.size / 1024).toFixed(3)}KB  ${gzipStatus ? `[${gzipStatus}]` : ''}`
+        `${gzip.name} ${(gzip?.size / 1024).toFixed(3)}KB  ${
+          gzipStatus ? `[${gzipStatus}]` : ''
+        }`,
       )}`
     }
 
     console.log(
-      `${cyan(`${name} `)} ${lightYellow(bold(`${(size / 1024).toFixed(3)}KB`))}  ${
-        status ? lightBlue(`[${status}]`) : ''
-      }`,
-      gzipInfo ?? ''
+      `${cyan(`${name} `)} ${lightYellow(
+        bold(`${(size / 1024).toFixed(3)}KB`),
+      )}  ${status ? lightBlue(`[${status}]`) : ''}`,
+      gzipInfo ?? '',
     )
   })
 

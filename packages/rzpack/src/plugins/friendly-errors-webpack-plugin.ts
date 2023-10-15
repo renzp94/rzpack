@@ -1,5 +1,5 @@
-import type WebpackChain from 'webpack-chain'
 import FriendlyErrorsWebpackPlugin from '@soda/friendly-errors-webpack-plugin'
+import type WebpackChain from 'webpack-chain'
 
 export default (webpackChain: WebpackChain) => {
   webpackChain.stats('errors-only').set('infrastructureLogging', {

@@ -1,5 +1,5 @@
-import type WebpackChain from 'webpack-chain'
 import { requireResolve } from 'rzpack-utils'
+import type WebpackChain from 'webpack-chain'
 
 export default (webpackChain: WebpackChain) => {
   // 处理图片

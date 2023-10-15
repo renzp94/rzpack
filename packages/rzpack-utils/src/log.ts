@@ -1,4 +1,14 @@
-import { bgGray, bgGreen, bgRed, bgYellow, gray, green, red, white, yellow } from 'kolorist'
+import {
+  bgGray,
+  bgGreen,
+  bgRed,
+  bgYellow,
+  gray,
+  green,
+  red,
+  white,
+  yellow,
+} from 'kolorist'
 
 export const logSuccess = (msg: string) => {
   console.log(`${bgGreen(white('SUCCESS: '))} ${green(msg)}`)

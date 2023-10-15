@@ -1,8 +1,8 @@
-import sirv from 'sirv'
-import polka from 'polka'
 import compression from 'compression'
+import polka from 'polka'
 import { getNetwork } from 'rzpack-utils'
 import { cyan } from 'rzpack-utils'
+import sirv from 'sirv'
 
 const runPreview = async (outDir: string) => {
   const assets = sirv(outDir, {
@@ -13,11 +13,13 @@ const runPreview = async (outDir: string) => {
   polka()
     .use(compression(), assets)
     .listen(port, (err) => {
-      if (err) throw err
+      if (err) {
+        throw err
+      }
       console.log(
         'App preview at: \n',
         `- Local:    ${cyan(`http://${local}:${port}`)}\n`,
-        `- Network:  ${cyan(`http://${network}:${port}`)}\n\n`
+        `- Network:  ${cyan(`http://${network}:${port}`)}\n\n`,
       )
     })
 }

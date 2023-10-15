@@ -11,7 +11,7 @@ export interface LazyCompilationOptions {
 // 懒编译
 const resolveLazyCompilation = (
   webpackChain: WebpackChain,
-  lazyCompilation: boolean | LazyCompilationOptions
+  lazyCompilation: boolean | LazyCompilationOptions,
 ) => {
   webpackChain.set('experiments', { lazyCompilation })
 }

@@ -15,7 +15,14 @@ module.exports = {
       {
         type: 'natural',
         groups: [
-          ['type', 'builtin-type', 'internal-type', 'parent-type', 'sibling-type', 'index-type'],
+          [
+            'type',
+            'builtin-type',
+            'internal-type',
+            'parent-type',
+            'sibling-type',
+            'index-type',
+          ],
           ['builtin', 'external'],
           ['internal', 'parent', 'sibling', 'index'],
           'side-effect',

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { blue, bold } from 'rzpack-utils'
 import cac from 'cac'
+import { blue, bold } from 'rzpack-utils'
 import getCommands from './command'
 import { NAME, VERSION } from './constant'
 import createProject from './create'

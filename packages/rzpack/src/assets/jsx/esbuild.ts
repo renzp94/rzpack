@@ -1,5 +1,5 @@
+import { fileExists, getFileFullPath, requireResolve } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
-import { getFileFullPath, requireResolve, fileExists } from 'rzpack-utils'
 
 export default (webpackChain: WebpackChain) => {
   const tsconfig = getFileFullPath('./tsconfig.json')

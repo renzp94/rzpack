@@ -1,8 +1,8 @@
+import { ESBuildMinifyPlugin } from 'esbuild-loader'
+import ImageMinimizerPlugin, { FilterFn } from 'image-minimizer-webpack-plugin'
 import type WebpackChain from 'webpack-chain'
 import type { Optimization } from 'webpack-chain'
-import { ESBuildMinifyPlugin } from 'esbuild-loader'
 import { JSX_TOOLS } from '..'
-import ImageMinimizerPlugin, { FilterFn } from 'image-minimizer-webpack-plugin'
 
 /**
  * esbuild压缩
@@ -17,8 +17,8 @@ const esbuildMinimizer = (minimizer: Optimization) => {
 
 export default (
   webpackChain: WebpackChain,
-  miniTools: JSX_TOOLS = JSX_TOOLS.ESBUILD,
-  imageMini: boolean | FilterFn
+  miniTools: JSX_TOOLS,
+  imageMini: boolean | FilterFn,
 ) => {
   // css压缩
   const minimizer = webpackChain.optimization
@@ -59,7 +59,9 @@ export default (
                             removeViewBox: false,
                             addAttributesToSVGElement: {
                               params: {
-                                attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }],
+                                attributes: [
+                                  { xmlns: 'http://www.w3.org/2000/svg' },
+                                ],
                               },
                             },
                           },

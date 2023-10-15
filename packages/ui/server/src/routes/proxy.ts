@@ -1,7 +1,7 @@
-import express from 'express'
-import { DEFAULT_CONFIG_FILE } from '../constants'
-import { fileExists, getFileFullPath } from 'rzpack-utils'
 import fs from 'node:fs'
+import express from 'express'
+import { fileExists, getFileFullPath } from 'rzpack-utils'
+import { DEFAULT_CONFIG_FILE } from '../constants'
 import { catchError } from '../tools'
 
 const router = express.Router()
@@ -27,7 +27,7 @@ router.get(
       msg: '操作成功',
       code: 0,
     })
-  })
+  }),
 )
 // 新增
 router.post(
@@ -43,7 +43,7 @@ router.post(
         id: target.id,
       },
     })
-  })
+  }),
 )
 // 开启/关闭规则
 router.put(
@@ -61,28 +61,32 @@ router.put(
       code: 0,
       msg: '操作成功',
     })
-  })
+  }),
 )
 // 全部开启/关闭规则
 router.put(
   '/rule/all-enabled',
   catchError((req, res) => {
     __proxyList__ = __proxyList__.map((item) =>
-      Object.assign({}, item, { enabled: req.body.enabled })
+      Object.assign({}, item, { enabled: req.body.enabled }),
     )
 
     res.json({
       code: 0,
       msg: '操作成功',
     })
-  })
+  }),
 )
 // 移动
 router.put(
   '/rule/move',
   catchError((req, res) => {
     const { from, to } = req.body
-    __proxyList__.splice(to, 1, ...__proxyList__.splice(from, 1, __proxyList__[to]))
+    __proxyList__.splice(
+      to,
+      1,
+      ...__proxyList__.splice(from, 1, __proxyList__[to]),
+    )
 
     updateProxyConfigFile()
 
@@ -91,7 +95,7 @@ router.put(
       data: __proxyList__,
       msg: '操作成功',
     })
-  })
+  }),
 )
 // 编辑
 router.put(
@@ -110,7 +114,7 @@ router.put(
       code: 0,
       msg: '操作成功',
     })
-  })
+  }),
 )
 // 删除
 router.delete(
@@ -122,13 +126,14 @@ router.delete(
       code: 0,
       msg: '操作成功',
     })
-  })
+  }),
 )
 
 export default router
 
 // 生成随机ID
-const generateId = () => Math.random().toString(36).substring(2) + new Date().getTime().toString(36)
+const generateId = () =>
+  Math.random().toString(36).substring(2) + new Date().getTime().toString(36)
 
 /**
  * 加载代理配置文件
@@ -143,7 +148,11 @@ export const loadProxyConfigFile = (filepath = DEFAULT_CONFIG_FILE) => {
       const content = JSON.parse(fs.readFileSync(fullPath, 'utf-8'))
       __proxyList__ = content?.map((item, index) => {
         const target = __proxyList__[index]
-        return { id: generateId(), ...item, enabled: target?.enabled ?? item?.enabled ?? false }
+        return {
+          id: generateId(),
+          ...item,
+          enabled: target?.enabled ?? item?.enabled ?? false,
+        }
       })
     } catch {
       __proxyList__ = []
@@ -165,9 +174,9 @@ export const updateProxyConfigFile = () => {
     JSON.stringify(
       removeFiled(__proxyList__, 'id'),
       (key, value) => (key === 'enabled' ? undefined : value),
-      2
+      2,
     ),
-    'utf-8'
+    'utf-8',
   )
 }
 

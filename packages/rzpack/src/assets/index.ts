@@ -1,11 +1,11 @@
-import type { RzpackConfigs } from './../index'
+import { FilterFn } from 'image-minimizer-webpack-plugin'
 import type WebpackChain from 'webpack-chain'
 import type { JSX_TOOLS } from '../'
-import jsx from './jsx'
+import type { RzpackConfigs } from './../index'
+import css from './css'
 import font from './font'
 import image from './image'
-import css from './css'
-import { FilterFn } from 'image-minimizer-webpack-plugin'
+import jsx from './jsx'
 
 export interface RzpackAssets {
   // jsx编译处理器

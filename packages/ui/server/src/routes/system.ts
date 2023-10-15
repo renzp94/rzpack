@@ -1,5 +1,5 @@
-import { getFileFullPath, requireFile } from 'rzpack-utils'
 import express from 'express'
+import { getFileFullPath, requireFile } from 'rzpack-utils'
 import { catchError } from '../tools'
 
 const router = express.Router()
@@ -20,7 +20,7 @@ router.get(
       msg: '操作成功',
       code: 0,
     })
-  })
+  }),
 )
 
 export default router
