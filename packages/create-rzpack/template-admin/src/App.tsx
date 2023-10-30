@@ -15,7 +15,6 @@ import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { CenterSpin } from './components'
 import { mergeUserRoutes } from './router'
 import useRouterStore from './stores/router'
-import storage, { TOKEN } from './utils/storage'
 import userInfoStore from '@/stores/user'
 
 let message: MessageInstance = antdMessage
@@ -28,8 +27,7 @@ const App = () => {
   notification = staticFunctions.notification
   modal = staticFunctions.modal
 
-  const isLogin = window?.location?.hash === '#/login'
-  const refreshUserInfo = userInfoStore(state => state.refreshUserInfo)
+  const [token, refreshUserInfo] = userInfoStore(state => [state.token, state.refreshUserInfo])
   const { getUserAuths, loading, userRoutes } = useRouterStore(state => ({
     getUserAuths: state.getUserAuths,
     loading: state.loading,
@@ -42,11 +40,11 @@ const App = () => {
   })
 
   useEffect(() => {
-    const token = storage.get(TOKEN)
-    if (!isLogin && token) {
+    const isLoginPage = window?.location?.hash === '#/login'
+    if (!isLoginPage && token) {
       refreshWebData.current()
     }
-  }, [isLogin])
+  }, [token])
 
   const router = createHashRouter(mergeUserRoutes(userRoutes))
 
