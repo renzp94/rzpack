@@ -1,4 +1,4 @@
-import { getFileFullPath } from 'rzpack-utils'
+import { getFileFullPath, logError } from 'rzpack-utils'
 import {
   bold,
   createEnvHash,
@@ -55,8 +55,13 @@ const runBuild = (isLog = true) => {
 
   const compiler = Webpack(configs)
 
+  compiler.hooks.failed.tap('rzpack build', (msg) => {
+    logError(msg.toString())
+    process.exit(1)
+  })
+
   compiler.run((_, stats) => {
-    if (stats.hasErrors()) {
+    if (stats?.hasErrors()) {
       return false
     }
 
