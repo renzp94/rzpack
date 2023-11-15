@@ -11,7 +11,7 @@ const esbuildMinimizer = (minimizer: Optimization) => {
   minimizer
     .minimizer('js-esbuild-minimizer')
     .use(ESBuildMinifyPlugin, [
-      { target: 'es2015', legalComments: 'none', css: true, drop: ['console'] },
+      { legalComments: 'none', css: true, drop: ['console'] },
     ])
 }
 

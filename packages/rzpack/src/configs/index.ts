@@ -118,7 +118,7 @@ export class RzpackContext {
       resolveOutput(this.webpackChain, output)
       resolveAlias(this.webpackChain)
       resolveExtensions(this.webpackChain)
-      resolveAssets(this.webpackChain, configs)
+      resolveAssets(this.webpackChain, { ...configs, publicPath })
       resolveLazyCompilation(this.webpackChain, lazyCompilation)
       await resolvePlugins(this.webpackChain, { ...configs, publicPath })
       if (this.mode === 'production') {
