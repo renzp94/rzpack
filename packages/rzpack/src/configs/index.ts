@@ -9,7 +9,7 @@ import {
 import { bundleTsFile } from 'rzpack-utils'
 import type { Configuration } from 'webpack'
 import WebpackChain from 'webpack-chain'
-import type { RzpackConfigs, RzpackWebpackChain } from '..'
+import type { RzpackConfigs, RzpackWebpackChain, Yagt } from '..'
 import resolveAssets from '../assets'
 import { DEFAULT_CONFIG } from '../constant'
 import resolvePlugins from '../plugins'
@@ -57,6 +57,7 @@ export class RzpackContext {
   public cache: boolean
   public bundleSize: boolean
   public bundleTime: boolean
+  public yagt: Yagt
   constructor() {
     this.webpackChain = new WebpackChain()
     this.bundleSize = false
@@ -112,8 +113,10 @@ export class RzpackContext {
         webpackChain: resolveWebpackChain,
         server,
         lazyCompilation,
+        yagt,
       } = configs
       this.cache = cache
+      this.yagt = yagt
       resolveEntry(this.webpackChain, entry)
       resolveOutput(this.webpackChain, output)
       resolveAlias(this.webpackChain)

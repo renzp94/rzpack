@@ -1,13 +1,14 @@
 import { Menu } from 'antd'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import Logo from './Logo'
-import { routeModels } from '@/router'
+import { AppContext } from '@/App'
 
 const LayoutSider = () => {
   const location = useLocation()
   const navigate = useNavigate()
+  const authRouteModels = useContext(AppContext)
 
   const selectedKeys: string[] = [location.pathname]
 
@@ -15,7 +16,7 @@ const LayoutSider = () => {
     navigate(key)
   }
 
-  const menus = routeModels.map(item => {
+  const menus = authRouteModels.map(item => {
     return {
       icon: item.icon,
       key: item.path,
@@ -25,7 +26,7 @@ const LayoutSider = () => {
   })
 
   return (
-    <div>
+    <>
       <Logo />
       <Menu
         items={menus}
@@ -34,7 +35,7 @@ const LayoutSider = () => {
         selectedKeys={selectedKeys}
         theme="light"
       />
-    </div>
+    </>
   )
 }
 

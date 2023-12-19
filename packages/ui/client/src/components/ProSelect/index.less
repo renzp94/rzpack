@@ -1,0 +1,31 @@
+.pro-select {
+  .ant-select-selector {
+    height: 32px;
+    overflow-y: hidden;
+
+    .ant-select-selection-overflow {
+      margin-top: 1px;
+    }
+  }
+
+  .ant-select-selection-overflow-item-suffix {
+    display: none;
+  }
+
+  &.ant-select-show-search .ant-select-selection-overflow-item-suffix {
+    display: block;
+  }
+
+  &__max-tag {
+    display: flex;
+    align-items: center;
+
+    &-text {
+      width: 90%;
+      margin-right: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}

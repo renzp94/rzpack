@@ -1,4 +1,4 @@
-import { defineConfig, JSX_TOOLS } from 'rzpack'
+import { JSX_TOOLS, defineConfig } from 'rzpack'
 
 export default defineConfig({
   html: {

@@ -1,2 +1,2 @@
-export { default as routes, routeModels } from './routes'
+export { default as routes, getAuthRoutes, routeModels } from './routes'
 export * from './tools'

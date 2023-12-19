@@ -26,6 +26,12 @@
         "noExplicitAny": "off",
         "noExtraNonNullAssertion": "error",
         "noConsoleLog": "off"
+      },
+      "performance": {
+        "noAccumulatingSpread": "off"
+      },
+      "complexity": {
+        "noForEach": "off"
       }
     }
   },
@@ -39,7 +45,7 @@
     "enabled": true,
     "formatWithErrors": false,
     "indentStyle": "space",
-    "indentSize": 2,
+    "indentWidth": 2,
     "lineWidth": 80,
     "ignore": [
       "packages/create-rzpack/template-*/**",

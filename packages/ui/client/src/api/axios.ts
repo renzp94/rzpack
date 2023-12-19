@@ -66,3 +66,12 @@ export interface ResponseBody<T> extends AxiosResponse {
   data: T
   msg: string
 }
+export interface ResponseDataList<T> {
+  list: T[]
+  total: number
+}
+// 分页参数
+export interface PaginationParams {
+  limit?: number
+  page?: number
+}

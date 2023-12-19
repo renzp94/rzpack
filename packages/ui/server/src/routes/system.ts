@@ -9,6 +9,7 @@ router.get(
   '/info',
   catchError((_, res) => {
     let title = process.env.APP_TITLE
+    const yagt = process.env.YAGT_URL
     if (!title) {
       const pkgs = requireFile(getFileFullPath('./package.json'))
       title = pkgs?.name
@@ -16,6 +17,7 @@ router.get(
     res.json({
       data: {
         title,
+        yagt: !!yagt,
       },
       msg: '操作成功',
       code: 0,

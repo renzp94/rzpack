@@ -44,6 +44,13 @@ export interface LessVars {
   file?: string
 }
 
+export interface Yagt {
+  // yapi地址
+  url: string
+  // 项目token
+  token: string
+}
+
 export interface RzpackConfigs {
   // antd主题变量设置
   antdTheme?: LessVars
@@ -79,6 +86,8 @@ export interface RzpackConfigs {
   reactRefresh?: boolean
   // 是否使用Million.js
   million?: boolean | MillionOptions
+  // 类型生成配置
+  yagt?: Yagt
 }
 
 export const defineConfig = (configs: RzpackConfigs) => configs

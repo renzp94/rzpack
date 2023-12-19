@@ -52,7 +52,7 @@ const runServer = async (startUI: boolean, proxyFile: string) => {
   const devServerOptions: Configuration = {
     port,
     ...clientOverlay,
-    ...(webpackConfigs.devServer ?? {}),
+    ...((webpackConfigs as any).devServer ?? {}),
   }
 
   if (startUI) {
@@ -76,12 +76,22 @@ const runServer = async (startUI: boolean, proxyFile: string) => {
       userOptions?: { title?: string }
     }
     devServerOptions.setupMiddlewares = (middlewares, devServer) => {
-      runUI(devServer.app, proxyFilePath, htmlWebpackPlugin?.userOptions?.title)
+      try {
+        runUI({
+          app: devServer.app,
+          proxyFile: proxyFilePath,
+          appTitle: htmlWebpackPlugin?.userOptions?.title,
+          yagt: rzpack.yagt,
+        })
+      } catch (error) {
+        console.log(error)
+      }
+
       return middlewares
     }
   }
 
-  const server = new WebpackDevServer(devServerOptions, compiler)
+  const server = new WebpackDevServer(devServerOptions, compiler as any)
   const signals = ['SIGINT', 'SIGTERM']
   signals.forEach((signal) =>
     process.on(signal, () => {
