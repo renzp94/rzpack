@@ -1,5 +1,6 @@
 import { defineConfig } from 'tsup'
 import baseConfigs from '../../../configs/tsup.config.base'
+import pkg from './package.json'
 
 export default defineConfig([
   {
@@ -13,6 +14,6 @@ export default defineConfig([
     sourcemap: false,
     clean: false,
     external: ['esbuild'],
-    noExternal: ['express', 'rzpack-utils', 'express-dynamic-middleware'],
+    noExternal: Object.keys(pkg.dependencies),
   },
 ])
