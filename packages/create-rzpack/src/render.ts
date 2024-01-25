@@ -60,8 +60,8 @@ export const renderPackage = async ({
     release: 'standard-version',
   }
   const commitlintPackages = {
-    '@commitlint/cli': '^17.6.7',
-    '@commitlint/config-conventional': '^17.6.7',
+    '@commitlint/cli': '^18.5.0',
+    '@commitlint/config-conventional': '^18.5.0',
     'commitlint-config-cz': '^0.13.3',
     'cz-customizable': '^7.0.0',
     commitizen: '^4.3.0',
@@ -87,12 +87,12 @@ export const renderPackage = async ({
     rzpackLintVersion = '0.0.2'
   }
   const eslintPackages = {
-    eslint: '^8.46.0',
-    prettier: '^2.8.8',
+    eslint: '^8.56.0',
+    prettier: '^3.2.4',
     'eslint-config-rzpack': `^${rzpackLintVersion}`,
   }
   const biomePackages = {
-    '@biomejs/biome': '^1.1.2',
+    '@biomejs/biome': '^1.5.3',
   }
   let jsLintPackages = {}
   if (jsLint) {
@@ -101,7 +101,7 @@ export const renderPackage = async ({
 
   const huskyPackages = {
     'simple-git-hooks': '^2.9.0',
-    'lint-staged': '^13.2.3',
+    'lint-staged': '^15.2.0',
   }
   let lintStagedScripts = {}
   if (jsLint) {
@@ -125,36 +125,36 @@ export const renderPackage = async ({
   }
 
   const stylelintPackage = {
-    stylelint: '^14.16.1',
-    'stylelint-config-property-sort-order-smacss': '^9.1.0',
-    'stylelint-config-standard': '^29.0.0',
-    'stylelint-order': '^5.0.0',
+    stylelint: '^16.2.0',
+    'stylelint-config-property-sort-order-smacss': '^10.0.0',
+    'stylelint-config-standard': '^36.0.0',
+    'stylelint-order': '^6.0.4',
     'postcss-less': '^6.0.0',
   }
 
   const antdPackages = {
-    '@ant-design/icons': '^5.2.4',
-    antd: '^5.8.1',
+    '@ant-design/icons': '^5.2.6',
+    antd: '^5.13.2',
   }
 
   const fullDepPackages = {
-    '@renzp/storage': '^0.0.1',
-    axios: '^1.4.0',
+    '@renzp/storage': '^0.0.2',
+    axios: '^1.6.6',
     'lodash-es': '^4.17.21',
     nprogress: '^0.2.0',
     'react-router-dom': '^6.14.2',
-    zustand: '^4.4.0',
+    zustand: '^4.5.0',
   }
   const fullDevDepPackages = {
-    '@types/lodash-es': '^4.17.8',
-    '@types/nprogress': '^0.2.0',
+    '@types/lodash-es': '^4.17.12',
+    '@types/nprogress': '^0.2.3',
   }
 
-  let rzpackVersion = '0.2.0'
+  let rzpackVersion = '0.2.6'
   try {
     rzpackVersion = (await run('npm view rzpack version')).replace(/\s*/g, '')
   } catch {
-    rzpackVersion = '0.2.0'
+    rzpackVersion = '0.2.6'
   }
 
   const styleLintScripts = styleLint
@@ -202,15 +202,15 @@ export const renderPackage = async ({
       react: '^18.2.0',
       'react-dom': '^18.2.0',
       ...(template !== 'react-ts' ? antdPackages : {}),
-      ...(isTSTemplate ? {} : { dayjs: '^1.11.9' }),
+      ...(isTSTemplate ? {} : { dayjs: '^1.11.10' }),
       ...(isAdminTemplate ? fullDepPackages : {}),
     },
     devDependencies: {
-      '@types/react': '^18.0.25',
-      '@types/react-dom': '^18.0.9',
+      '@types/react': '^18.2.48',
+      '@types/react-dom': '^18.2.18',
       rzpack: `^${rzpackVersion}`,
-      typescript: '5.1.6',
-      nodemon: '^3.0.1',
+      typescript: '5.3.3',
+      nodemon: '^3.0.3',
       ...(isAdminTemplate ? fullDevDepPackages : {}),
       ...(commitLint ? commitlintPackages : {}),
       ...jsLintPackages,
