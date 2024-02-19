@@ -16,7 +16,7 @@ export interface RouteModel {
   // 是否隐藏
   hidden: boolean
   // 图标
-  icon?: string
+  icon?: string | React.ReactNode
   id?: number | string
   // 元信息
   meta?: string

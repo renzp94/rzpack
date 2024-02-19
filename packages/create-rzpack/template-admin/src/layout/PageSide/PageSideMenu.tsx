@@ -77,9 +77,13 @@ const getOpenKeysByPath = (path: string) => {
 const getMenuItems = (path: string, routes?: RouteModel[]): ItemType[] => {
   return (
     routes?.map(item => {
+      let icon = null
+      if(item.icon){
+        icon = typeof item.icon === "string" ? <DynamicIcon name={`menu/${item.icon}`} /> : item.icon
+      }
       return {
         children: item?.children?.length ? getMenuItems(path, item?.children) : undefined,
-        icon: item.icon ? <DynamicIcon name={`menu/${item.icon}`} /> : null,
+        icon,
         key: item.path,
         label: item.title,
       }
