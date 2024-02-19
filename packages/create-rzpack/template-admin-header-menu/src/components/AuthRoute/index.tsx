@@ -9,10 +9,12 @@ export interface AuthRouteProps {
 
 const AuthRoute = (props: AuthRouteProps) => {
   const isLogin = storage.get(TOKEN)
-  const isLoginPath = useMatch('/login')
+  const isLoginPath = useMatch('/login') || window.location.hash.includes('#/login')
 
   if (!isLogin && !isLoginPath) {
-    return <Navigate replace to="/login" />
+    const redirectUrl = window.location.hash.replace('#', '')
+    const url = `/login${redirectUrl && redirectUrl !== '/' ? `?redirectUrl=${redirectUrl}` : ''}`
+    return <Navigate to={url} replace />
   }
 
   return <>{props.children}</>
