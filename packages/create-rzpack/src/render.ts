@@ -49,121 +49,96 @@ export const renderPackage = async ({
   commitLint,
   template,
   rs,
+  million,
 }: PromptsResult) => {
   const isAdminTemplate = [Template.ADMIN, Template.ADMIN_HEADER_MENU].includes(
     template,
   )
   const isTSTemplate = template === Template.TS
 
-  const commitScripts = {
-    cz: 'git-cz',
-    release: 'standard-version',
-  }
-  const commitlintPackages = {
-    '@commitlint/cli': '^18.5.0',
-    '@commitlint/config-conventional': '^18.5.0',
-    'commitlint-config-cz': '^0.13.3',
-    'cz-customizable': '^7.0.0',
-    commitizen: '^4.3.0',
-    'standard-version': '^9.5.0',
-  }
-  const commitizenConfig = {
-    config: {
-      commitizen: {
-        path: 'node_modules/cz-customizable',
+  let commitScripts = {}
+  let commitLintPackages = {}
+  let commitizenConfig = {}
+  let commitGitHooks = {}
+  if (commitLint) {
+    commitScripts = {
+      cz: 'git-cz',
+      release: 'standard-version',
+    }
+
+    commitLintPackages = {
+      '@commitlint/cli': '^18.5.0',
+      '@commitlint/config-conventional': '^18.5.0',
+      'commitlint-config-cz': '^0.13.3',
+      'cz-customizable': '^7.0.0',
+      commitizen: '^4.3.0',
+      'standard-version': '^9.5.0',
+    }
+
+    commitizenConfig = {
+      config: {
+        commitizen: {
+          path: 'node_modules/cz-customizable',
+        },
+        'cz-customizable': {
+          config: 'cz.config.js',
+        },
       },
-      'cz-customizable': {
-        config: 'cz.config.js',
-      },
-    },
+    }
+
+    commitGitHooks = { 'commit-msg': 'npx --no -- commitlint --edit $1' }
   }
 
-  let rzpackLintVersion = '0.0.2'
-  try {
-    rzpackLintVersion = (
-      await run('npm view eslint-config-rzpack version')
-    ).replace(/\s*/g, '')
-  } catch {
-    rzpackLintVersion = '0.0.2'
-  }
-  const eslintPackages = {
-    eslint: '^8.56.0',
-    prettier: '^3.2.4',
-    'eslint-config-rzpack': `^${rzpackLintVersion}`,
-  }
-  const biomePackages = {
-    '@biomejs/biome': '^1.5.3',
-  }
   let jsLintPackages = {}
   if (jsLint) {
+    let rzpackLintVersion = '0.0.2'
+    try {
+      rzpackLintVersion = (
+        await run('npm view eslint-config-rzpack version')
+      ).replace(/\s*/g, '')
+    } catch {
+      rzpackLintVersion = '0.0.2'
+    }
+
+    const eslintPackages = {
+      eslint: '^8.56.0',
+      prettier: '^3.2.4',
+      'eslint-config-rzpack': `^${rzpackLintVersion}`,
+    }
+    const biomePackages = {
+      '@biomejs/biome': '^1.5.3',
+    }
+
     jsLintPackages = jsLint === JS_LINT.BIOME ? biomePackages : eslintPackages
   }
+  const jsLintScripts =
+    jsLint === JS_LINT.BIOME
+      ? 'biome check --apply src && biome format --write src'
+      : 'eslint --fix src && prettier --write src'
 
-  const huskyPackages = {
-    'simple-git-hooks': '^2.9.0',
-    'lint-staged': '^15.2.0',
+  let lintStagedScripts: Record<string, any> = {
+    'src/**/*.{js,jsx,ts,tsx}':
+      jsLint === JS_LINT.BIOME
+        ? ['biome check', 'biome format --write']
+        : ['eslint --fix', 'prettier --write'],
   }
-  let lintStagedScripts = {}
-  if (jsLint) {
-    lintStagedScripts = {
-      'src/**/*.{js,jsx,ts,tsx}':
-        jsLint === JS_LINT.BIOME
-          ? ['biome check', 'biome format --write']
-          : ['eslint --fix', 'prettier --write'],
-    }
-  }
+  let stylelintPackage = {}
   if (styleLint) {
     lintStagedScripts = {
       ...lintStagedScripts,
       'src/**/*.{less,css}': 'stylelint --fix',
     }
-  }
-  if (Object.keys(lintStagedScripts).length > 0) {
-    lintStagedScripts = {
-      'lint-staged': lintStagedScripts,
+    stylelintPackage = {
+      stylelint: '^16.2.0',
+      'stylelint-config-property-sort-order-smacss': '^10.0.0',
+      'stylelint-config-standard': '^36.0.0',
+      'stylelint-order': '^6.0.4',
+      'postcss-less': '^6.0.0',
     }
   }
-
-  const stylelintPackage = {
-    stylelint: '^16.2.0',
-    'stylelint-config-property-sort-order-smacss': '^10.0.0',
-    'stylelint-config-standard': '^36.0.0',
-    'stylelint-order': '^6.0.4',
-    'postcss-less': '^6.0.0',
-  }
-
-  const antdPackages = {
-    '@ant-design/icons': '^5.2.6',
-    antd: '^5.13.2',
-  }
-
-  const fullDepPackages = {
-    '@renzp/storage': '^0.0.2',
-    axios: '^1.6.6',
-    'lodash-es': '^4.17.21',
-    nprogress: '^0.2.0',
-    'react-router-dom': '^6.14.2',
-    zustand: '^4.5.0',
-  }
-  const fullDevDepPackages = {
-    '@types/lodash-es': '^4.17.12',
-    '@types/nprogress': '^0.2.3',
-  }
-
-  let rzpackVersion = '0.2.6'
-  try {
-    rzpackVersion = (await run('npm view rzpack version')).replace(/\s*/g, '')
-  } catch {
-    rzpackVersion = '0.2.6'
-  }
-
   const styleLintScripts = styleLint
     ? '&& stylelint --fix src/**/*.{less,css}'
     : ''
-  const jsLintScripts =
-    jsLint === JS_LINT.BIOME
-      ? 'biome check --apply src && biome format --write src'
-      : 'eslint --fix src && prettier --write src'
 
   const lintScripts = {
     lint: `${jsLintScripts} ${styleLintScripts}`,
@@ -172,6 +147,60 @@ export const renderPackage = async ({
           'lint:unsafe': `biome check --apply-unsafe src && biome format --write src ${styleLintScripts}`,
         }
       : {}),
+  }
+
+  if (Object.keys(lintStagedScripts).length > 0) {
+    lintStagedScripts = {
+      'lint-staged': lintStagedScripts,
+    }
+  }
+
+  let antdPackages = {}
+
+  if (!isTSTemplate) {
+    antdPackages = {
+      '@ant-design/icons': '^5.2.6',
+      antd: '^5.13.2',
+      dayjs: '^1.11.10',
+    }
+  }
+
+  let fullDepPackages = {}
+  let fullDevDepPackages = {}
+  if (isAdminTemplate) {
+    fullDepPackages = {
+      '@renzp/storage': '^0.0.2',
+      axios: '^1.6.6',
+      'lodash-es': '^4.17.21',
+      nprogress: '^0.2.0',
+      'react-router-dom': '^6.14.2',
+      zustand: '^4.5.0',
+    }
+
+    fullDevDepPackages = {
+      '@types/lodash-es': '^4.17.12',
+      '@types/nprogress': '^0.2.3',
+    }
+  }
+
+  let millionPackage = {}
+
+  if (million) {
+    millionPackage = {
+      million: '^3.0.3',
+    }
+  }
+
+  const huskyPackages = {
+    'simple-git-hooks': '^2.9.0',
+    'lint-staged': '^15.2.0',
+  }
+
+  let rzpackVersion = '0.2.6'
+  try {
+    rzpackVersion = (await run('npm view rzpack version')).replace(/\s*/g, '')
+  } catch {
+    rzpackVersion = '0.2.6'
   }
 
   const pkg = {
@@ -185,25 +214,22 @@ export const renderPackage = async ({
       'build:size': 'rzpack build --bundle-size',
       preview: 'rzpack preview',
       prepare: 'npx simple-git-hooks',
-      ...(commitLint ? commitScripts : {}),
+      ...commitScripts,
       ...lintScripts,
     },
     browserslist: ['>0.2%', 'not dead', 'not IE 11', 'not op_mini all'],
     'simple-git-hooks': {
       'pre-commit': 'npx lint-staged',
-      ...(commitLint
-        ? { 'commit-msg': 'npx --no -- commitlint --edit $1' }
-        : {}),
+      ...commitGitHooks,
     },
     ...lintStagedScripts,
     license: 'MIT',
-    ...(commitLint ? commitizenConfig : {}),
+    ...commitizenConfig,
     dependencies: {
       react: '^18.2.0',
       'react-dom': '^18.2.0',
-      ...(template !== 'react-ts' ? antdPackages : {}),
-      ...(isTSTemplate ? {} : { dayjs: '^1.11.10' }),
-      ...(isAdminTemplate ? fullDepPackages : {}),
+      ...antdPackages,
+      ...fullDepPackages,
     },
     devDependencies: {
       '@types/react': '^18.2.48',
@@ -211,11 +237,12 @@ export const renderPackage = async ({
       rzpack: `^${rzpackVersion}`,
       typescript: '5.3.3',
       nodemon: '^3.0.3',
-      ...(isAdminTemplate ? fullDevDepPackages : {}),
-      ...(commitLint ? commitlintPackages : {}),
+      ...fullDevDepPackages,
+      ...commitLintPackages,
       ...jsLintPackages,
       ...huskyPackages,
-      ...(styleLint ? stylelintPackage : {}),
+      ...stylelintPackage,
+      ...millionPackage,
     },
   }
   fs.writeFileSync(
