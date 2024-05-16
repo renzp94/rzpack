@@ -15,7 +15,10 @@
     "playground:preview": "pnpm --filter=./playground preview",
     "prepare": "npx simple-git-hooks",
     "pub": "zx ./scripts/publish.mjs",
-    "lint": "biome check --apply-unsafe packages && biome format --write packages"
+    "lint": "biome check --apply-unsafe packages && biome format --write packages",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "author": "renzp94",
   "license": "MIT",
@@ -27,6 +30,7 @@
     "simple-git-hooks": "^2.9.0",
     "tsup": "^6.7.0",
     "typescript": "^4.9.5",
+    "vitepress": "^1.1.4",
     "zx": "^7.2.3"
   },
   "simple-git-hooks": {
