@@ -4,9 +4,9 @@ import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev
 import type { RzpackAssets } from './assets'
 import type { LazyCompilationOptions } from './configs/lazyCompilation'
 import type { Output } from './configs/output'
-import type { BuildInfoWebpackPluginOptions } from './plugins/build-info-webpack-plugin'
-import { MillionOptions } from './plugins/million-webpack-plugin'
+import type { MillionOptions } from './plugins/million-webpack-plugin'
 import type { ModuleFederationPluginOptions } from './plugins/module-federation-plugin'
+import type { BuildInfoWebpackPluginOptions } from './plugins/unplugin-build-info'
 
 interface CLIOptions {
   '--'?: string[]

@@ -2,7 +2,6 @@ import { fileExists, getFileFullPath } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
 import type { RzpackConfigs } from '..'
 import { rzpack } from './../cli'
-import buildInfoWebpackPlugin from './build-info-webpack-plugin'
 import compressionWebpackPlugin from './compression-webpack-plugin'
 import copyWebpackPlugin from './copy-webpack-plugin'
 import definePlugin from './define-plugin'
@@ -15,6 +14,7 @@ import miniCssExtractPlugin from './mini-css-extract-plugin'
 import moduleFederationWebpackPlugin from './module-federation-plugin'
 import reactRefreshWebpackPlugin from './react-refresh-webpack-plugin'
 import speedMeasureWebpackPlugin from './speed-measure-webpack-plugin'
+import unpluginBuildInfo from './unplugin-build-info'
 // import dllPlugin, { useDll } from './dll-plugin'
 import webpackBundleAnalyzer from './webpack-bundle-analyzer'
 import webpackbar from './webpackbar'
@@ -45,7 +45,7 @@ export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
   //   dllPlugin(webpackChain)
   // }
   if (options?.buildInfo) {
-    buildInfoWebpackPlugin(webpackChain, options?.buildInfo)
+    unpluginBuildInfo(webpackChain, options?.buildInfo)
   }
 
   if (options?.gzip) {
