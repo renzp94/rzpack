@@ -82,6 +82,12 @@ export default defineConfig({
         timeStyle: 'medium',
       },
     },
+    notFound: {
+      title: '迷途',
+      quote: '前方已是未知路，望君回头。',
+      linkLabel: '回到首页',
+      linkText: '回到首页',
+    },
     docFooter: {
       prev: '上一页',
       next: '下一页',
