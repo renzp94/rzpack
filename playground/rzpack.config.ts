@@ -1,6 +1,7 @@
-import { JSX_TOOLS, defineConfig } from 'rzpack'
+import { BUILDER, JSX_TOOLS, defineConfig } from 'rzpack'
 
 export default defineConfig({
+  builder: BUILDER.RSPACK,
   html: {
     title: 'rzpack-antd',
   },
@@ -12,7 +13,8 @@ export default defineConfig({
   },
   assets: {
     jsxTools: JSX_TOOLS.ESBUILD,
+    cssScoped: true,
   },
+  gzip:true,
   buildInfo: true,
-  million: true,
 })

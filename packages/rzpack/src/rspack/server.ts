@@ -1,19 +1,19 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin'
+import rspack, { HtmlRspackPlugin } from '@rspack/core'
+import { type Configuration, RspackDevServer } from '@rspack/dev-server'
 import runUI, {
   DEFAULT_CONFIG_FILE,
   PREFIX_URL,
   validateConfigFile,
 } from 'rzpack-ui'
 import { cyan, logError, logWarning } from 'rzpack-utils'
-import Webpack from 'webpack'
-import WebpackDevServer, { type Configuration } from 'webpack-dev-server'
 import { rzpack } from '../cli'
 
 export default async (startUI: boolean, proxyFile: string) => {
   rzpack.chain.devtool('cheap-module-source-map')
-  const { network, local, port, ...webpackConfigs } = rzpack.toConfig()
+  const { network, local, port, ...configs } = rzpack.toConfig()
 
-  const compiler = Webpack(webpackConfigs)
+  // @ts-ignore
+  const compiler = rspack(configs)
   compiler.hooks.failed.tap('rzpack', (msg) => {
     logError(msg.toString())
     process.exit(1)
@@ -51,8 +51,9 @@ export default async (startUI: boolean, proxyFile: string) => {
   }
   const devServerOptions: Configuration = {
     port,
+    compress: true,
     ...clientOverlay,
-    ...((webpackConfigs as any).devServer ?? {}),
+    ...((configs as any).devServer ?? {}),
   }
 
   if (startUI) {
@@ -63,24 +64,25 @@ export default async (startUI: boolean, proxyFile: string) => {
     }
     // 开启可视化配置时配置文件中配置的proxy将无效
     devServerOptions.proxy = undefined
-    let proxyFilePath = proxyFile
+    let proxyFilePath: string | undefined = proxyFile
     if (proxyFilePath && !validateConfigFile(proxyFilePath)) {
       logWarning(
         `接口代理配置文件仅支持json文件，${proxyFilePath}文件格式不对，将使用默认配置文件: ${DEFAULT_CONFIG_FILE}`,
       )
       proxyFilePath = undefined
     }
-    const htmlWebpackPlugin = webpackConfigs.plugins?.find(
-      (item) => item instanceof HtmlWebpackPlugin,
+
+    const htmlRspackPlugin = configs.plugins?.find(
+      (item) => item instanceof HtmlRspackPlugin,
     ) as {
-      userOptions?: { title?: string }
+      _options?: { title?: string }
     }
     devServerOptions.setupMiddlewares = (middlewares, devServer) => {
       try {
         runUI({
           app: devServer.app,
           proxyFile: proxyFilePath,
-          appTitle: htmlWebpackPlugin?.userOptions?.title,
+          appTitle: htmlRspackPlugin?._options?.title,
           yagt: rzpack.yagt,
         })
       } catch (error) {
@@ -91,7 +93,7 @@ export default async (startUI: boolean, proxyFile: string) => {
     }
   }
 
-  const server = new WebpackDevServer(devServerOptions, compiler as any)
+  const server = new RspackDevServer(devServerOptions, compiler as any)
   const signals = ['SIGINT', 'SIGTERM']
   signals.forEach((signal) =>
     process.on(signal, () => {

@@ -6,10 +6,12 @@ const getEntryKey = (entry: string) =>
   entry
     .split('/')
     .pop()
-    .replace('.tsx', '')
-    .replace('.jsx', '')
-    .replace('.ts', '')
-    .replace('.js', '')
+    ?.replace('.tsx', '')
+    ?.replace('.jsx', '')
+    ?.replace('.ts', '')
+    ?.replace('.js', '')
+
+const EntryDefaultKey = 'main'
 
 export default (
   webpackChain: WebpackChain,
@@ -18,8 +20,7 @@ export default (
   if (entry) {
     switch (true) {
       case typeof entry === 'string': {
-        // eslint-disable-next-line no-case-declarations
-        const key = getEntryKey(entry as string)
+        const key = getEntryKey(entry as string) ?? EntryDefaultKey
         webpackChain.entry(key).add(entry as string)
         break
       }
@@ -34,7 +35,7 @@ export default (
             )
             process.exit(-1)
           }
-          const key = getEntryKey(item)
+          const key = getEntryKey(item) ?? EntryDefaultKey
           return {
             [key]: item,
           }
@@ -53,6 +54,6 @@ export default (
       }
     }
   } else {
-    webpackChain.entry('main').add(DEFAULT_CONFIG.ENTRY)
+    webpackChain.entry(EntryDefaultKey).add(DEFAULT_CONFIG.ENTRY)
   }
 }

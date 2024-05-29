@@ -1,13 +1,17 @@
 import { pathResolve } from 'rzpack-utils'
 import type { Configuration } from 'webpack'
 import type WebpackChain from 'webpack-chain'
+import { DEFAULT_CONFIG } from '../../constant'
 
 export type Output = Configuration['output'] | string
 
 const defaultFileName = 'assets/js/[name].[contenthash].js'
 const defaultChunkFilename = 'assets/js/[name].[contenthash].js'
 
-export default (webpackChain: WebpackChain, output: Output = 'dist') => {
+export default (
+  webpackChain: WebpackChain,
+  output: Output = DEFAULT_CONFIG.OUTPUT,
+) => {
   let configs: Output = {
     filename: defaultFileName,
     chunkFilename: defaultChunkFilename,
@@ -19,7 +23,7 @@ export default (webpackChain: WebpackChain, output: Output = 'dist') => {
     configs = {
       ...configs,
       ...output,
-      path: pathResolve(output?.path, process.cwd()),
+      path: pathResolve(output?.path ?? DEFAULT_CONFIG.OUTPUT, process.cwd()),
     }
   }
 

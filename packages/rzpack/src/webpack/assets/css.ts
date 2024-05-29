@@ -8,7 +8,6 @@ import {
   requireResolve,
 } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
-import { rzpack } from '../../cli'
 import { getBuildTmpFilePath } from '../../ctx'
 import type { LessVars, RzpackConfigs } from '../../index'
 
@@ -47,7 +46,7 @@ const applyCommonLoader = (
       modules: {
         auto: true,
         localIdentName: '[local]--[hash:base64:10]',
-        exportLocalsConvention: 'camelCaseOnly',
+        exportLocalsConvention: 'camelCase',
       },
     })
     .end()
@@ -73,7 +72,7 @@ const applyCommonLoader = (
 }
 
 // antd5主题设置跳转转px的key
-const skipToPxKeys = [
+export const skipToPxKeys = [
   'motionBase',
   'motionUnit',
   'opacityImage',
@@ -170,7 +169,7 @@ const useLessVars = (lessVars: LessVars) => {
  * @param loader 预处理的loader
  * @param options loader参数
  */
-const applyPreCssLoader = (
+export const applyPreCssLoader = (
   rule: WebpackChain.Rule<WebpackChain.Rule<WebpackChain.Module>>,
   loader: string,
   antdTheme?: LessVars,

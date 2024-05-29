@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 import { cac } from 'cac'
 import { fileExists, logError, pathResolve } from 'rzpack-utils'
-import type { BuildOptions, RzpackConfigs, ServerOptions } from '.'
-import { NAME, VERSION } from './constant'
+import {
+  BUILDER,
+  type BuildOptions,
+  type RzpackConfigs,
+  type ServerOptions,
+} from '.'
+import { DEFAULT_CONFIG, NAME, VERSION } from './constant'
 import { RzpackContext } from './ctx'
+import { runRspackBuild, runRspackPreview, runRspackServer } from './rspack'
 import { runWebpackBuild, runWebpackPreview, runWebpackServer } from './webpack'
 
 export const rzpack = new RzpackContext()
@@ -27,11 +33,16 @@ cli
   .action(async (_: string, options: ServerOptions) => {
     const { c, m, mode, ui = true, config, host, port, open } = options ?? {}
     process.env.NODE_ENV = m ?? mode ?? 'development'
-    rzpack.webpackChain.devServer.host(host).port(port).open(open)
+    rzpack.chain.devServer.host(host).port(port).open(open)
     try {
       const configs: RzpackConfigs = rzpack.loadConfigFile(c ?? config)
       await rzpack.configs(configs)
-      runWebpackServer(ui, configs?.proxyFile)
+      const run =
+        configs?.builder === BUILDER.WEBPACK
+          ? runWebpackServer
+          : runRspackServer
+
+      run(ui, configs?.proxyFile)
     } catch (error) {
       logError(error)
     }
@@ -43,26 +54,33 @@ cli
   .option('--outDir <dir>', '[string] output directory (default: dist)')
   .option('--bundle-size', '[boolean] analysis package size')
   .option('--bundle-time', '[boolean] analyze packaging time')
+  .option('--doctor', '[boolean] start Rsdoctor')
   .action(async (options: BuildOptions) => {
     const {
       c,
       m,
       mode,
       config,
-      outDir = 'dist',
+      outDir = DEFAULT_CONFIG.OUTPUT,
       bundleSize,
       bundleTime,
+      doctor,
     } = options ?? {}
     process.env.NODE_ENV = m ?? mode ?? 'production'
     rzpack.bundleSize = bundleSize ?? false
     rzpack.bundleTime = bundleTime ?? false
+    rzpack.doctor = doctor ?? false
+
     try {
       const configs = rzpack.loadConfigFile(c ?? config)
       if (!configs?.output) {
         configs.output = outDir
       }
       await rzpack.configs(configs)
-      runWebpackBuild(!rzpack.bundleTime)
+      const run =
+        configs?.builder === BUILDER.WEBPACK ? runWebpackBuild : runRspackBuild
+
+      run(!rzpack.bundleTime)
     } catch (error) {
       logError(error)
     }
@@ -73,7 +91,7 @@ cli
   .command('preview', 'preview for outDir')
   .option('--outDir <dir>', '[string] output directory (default: dist)')
   .action(async (options: BuildOptions) => {
-    const { c, m, mode, config, outDir = 'dist' } = options ?? {}
+    const { c, m, mode, config, outDir = DEFAULT_CONFIG.OUTPUT } = options ?? {}
     process.env.NODE_ENV = m ?? mode ?? 'production'
 
     const configs = rzpack.loadConfigFile(c ?? config)
@@ -88,10 +106,21 @@ cli
     let isPreview: boolean = fileExists(fullPath)
     if (!isPreview) {
       await rzpack.configs(configs)
-      isPreview = await runWebpackBuild(false)
+      const runBuild =
+        configs?.builder === BUILDER.WEBPACK ? runWebpackBuild : runRspackBuild
+
+      isPreview = await runBuild(false)
     }
 
-    runWebpackPreview(dir)
+    if (configs?.builder === BUILDER.WEBPACK) {
+      runWebpackPreview(dir)
+    }
+    const run =
+      configs?.builder === BUILDER.WEBPACK
+        ? runWebpackPreview
+        : runRspackPreview
+
+    run(dir)
   })
 
 cli.help()

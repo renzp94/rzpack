@@ -1,14 +1,21 @@
 import { requireResolve } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
 
-export default (webpackChain: WebpackChain) => {
-  return webpackChain.module
+export default (
+  chain: WebpackChain,
+  reactRefresh?: boolean,
+  cssScoped?: boolean,
+) => {
+  const isProduction = process.env.NODE_ENV === 'production'
+
+  const rule = chain.module
     .rule('swc')
     .test(/\.[tj]sx?$/)
     .exclude.add(/node_modules/)
     .end()
+    .type('javascript/auto')
     .use('swc')
-    .loader(requireResolve('swc-loader'))
+    .loader('builtin:swc-loader')
     .options({
       jsc: {
         parser: {
@@ -22,12 +29,20 @@ export default (webpackChain: WebpackChain) => {
         transform: {
           react: {
             runtime: 'automatic',
-            development: process.env.NODE_ENV === 'development',
+            development: !isProduction,
+            refresh: reactRefresh && !isProduction,
             useBuiltins: true,
           },
         },
       },
-      minify: process.env.NODE_ENV === 'production',
+      minify: isProduction,
     })
     .end()
+
+  if (cssScoped) {
+    rule
+      .use('jsx-scoped-loader')
+      .loader(requireResolve('@renzp/jsx-scoped-loader'))
+      .end()
+  }
 }

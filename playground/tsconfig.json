@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["DOM",  "ESNext"],
+    "lib": ["DOM", "ESNext"],
     "moduleResolution": "node",
     "allowJs": false,
     "skipLibCheck": false,
@@ -15,12 +15,11 @@
     "importHelpers": true,
     "strictNullChecks": true,
     "noImplicitThis": true,
-    "suppressImplicitAnyIndexErrors": true,
     "strict": true,
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "@/*":["./src/*"]
+      "@/*": ["./src/*"]
     }
   }
 }
