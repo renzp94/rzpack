@@ -1,11 +1,12 @@
 import type WebpackChain from 'webpack-chain'
 import type { RzpackConfigs } from '../..'
-import loadAliasConfigs from './alias'
-import loadEntryConfigs from './entry'
-import loadExtensionsConfigs from './extensions'
-import loadLazyCompilationConfigs from './lazyCompilation'
+import loadAliasConfigs from '../../common/configs/alias'
+import loadEntryConfigs from '../../common/configs/entry'
+import loadExtensionsConfigs from '../../common/configs/extensions'
+import loadLazyCompilationConfigs from '../../common/configs/lazyCompilation'
+import loadOutputConfigs from '../../common/configs/output'
 import loadMinimizerConfigs from './minimizer'
-import loadOutputConfigs from './output'
+
 const loadBaseConfigs = (
   webpackChain: WebpackChain,
   configs: RzpackConfigs,

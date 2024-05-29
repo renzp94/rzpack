@@ -12,6 +12,9 @@
     "build": "pnpm prebuild && pnpm --parallel --filter=!./packages/rzpack-utils --filter=!./playground build",
     "playground:dev": "pnpm --filter=./playground dev",
     "playground:build": "pnpm --filter=./playground build",
+    "playground:build:time": "pnpm --filter=./playground build:time",
+    "playground:build:size": "pnpm --filter=./playground build:size",
+    "playground:build:doctor": "pnpm --filter=./playground build:doctor",
     "playground:preview": "pnpm --filter=./playground preview",
     "prepare": "npx simple-git-hooks",
     "pub": "zx ./scripts/publish.mjs",
@@ -37,9 +40,6 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "packages/*/src/**/*.{js,ts}": [
-      "biome check",
-      "biome format --write"
-    ]
+    "packages/*/src/**/*.{js,ts}": ["biome check", "biome format --write"]
   }
 }

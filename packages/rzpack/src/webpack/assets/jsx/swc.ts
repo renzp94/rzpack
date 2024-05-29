@@ -1,6 +1,5 @@
 import { requireResolve } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
-import { rzpack } from '../../../cli'
 
 export default (webpackChain: WebpackChain) => {
   return webpackChain.module

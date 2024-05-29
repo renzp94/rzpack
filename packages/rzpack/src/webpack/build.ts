@@ -1,4 +1,4 @@
-import { getFileFullPath, logError } from 'rzpack-utils'
+import { getFileFullPath, green, logError, red, yellow } from 'rzpack-utils'
 import {
   bold,
   createEnvHash,
@@ -13,7 +13,7 @@ import { rzpack } from '../cli'
 
 export default (isLog = true) => {
   // 抽离公共部分
-  rzpack.webpackChain
+  rzpack.chain
     // 抛出错误之后停止打包
     .bail(true)
     .optimization.splitChunks({
@@ -36,7 +36,7 @@ export default (isLog = true) => {
   const raw = Object.keys(process.env).reduce((env) => env)
 
   if (rzpack.cache) {
-    rzpack.webpackChain.cache({
+    rzpack.chain.cache({
       type: 'filesystem',
       name: `${process.env.NODE_ENV}-cache`,
       version: createEnvHash(raw),
@@ -51,8 +51,8 @@ export default (isLog = true) => {
       },
     })
   }
-  const configs = rzpack.toConfig()
 
+  const configs = rzpack.toConfig()
   const compiler = Webpack(configs)
 
   compiler.hooks.failed.tap('rzpack build', (msg) => {
@@ -84,7 +84,7 @@ export default (isLog = true) => {
 }
 
 const logBuildAssets = (stats) => {
-  const { time, assets } = stats.toJson()
+  const { time, assets, errors, warnings } = stats.toJson()
 
   console.log(lightBlue(bold('Assets:')))
 
@@ -121,5 +121,14 @@ const logBuildAssets = (stats) => {
     )
   })
 
-  console.log(`\n✨  Done in ${(time / 1000).toPrecision(2)}s.`)
+  console.log(
+    `\n🚨  Has ${red(errors?.length)} errors, ${yellow(
+      warnings.length,
+    )} warnings.`,
+  )
+  console.log(
+    `✨  Rzpack build by ${green('Webpack')} done in ${green(
+      (time / 1000).toPrecision(2),
+    )}s.`,
+  )
 }

@@ -1,4 +1,5 @@
 import { MFLiveReloadPlugin } from '@module-federation/fmr'
+import type { Exposes, Remotes } from '@rspack/core'
 import { fileExists, getFileFullPath } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
 import ModuleFederationPlugin from 'webpack/lib/container/ModuleFederationPlugin'
@@ -32,16 +33,16 @@ export interface ModuleFederationPluginOptions {
   // 要共享的依赖
   shared?: ModuleFederationShared[] | ModuleFederationSharedAuto
   // 模块暴露的内容
-  exposes?: boolean | Record<string, string>
+  exposes?: Exposes
   // 模块引入的内容
-  remotes?: Record<string, string>
+  remotes?: Remotes
 }
 /**
  * 获取共享依赖配置
  * @param shared 共享依赖
  * @returns 返回处理后的共享依赖配置
  */
-const getSharedConfigs = (shared: ModuleFederationSharedAuto) => {
+export const getSharedConfigs = (shared: ModuleFederationSharedAuto) => {
   let sharedRecord: Record<string, { requiredVersion: string; singleton: true }>
   const pkgFilePath = getFileFullPath(shared?.depsPackagePath ?? 'package.json')
 

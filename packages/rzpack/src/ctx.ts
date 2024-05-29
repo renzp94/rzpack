@@ -9,8 +9,9 @@ import {
 import { bundleTsFile } from 'rzpack-utils'
 import type { Configuration } from 'webpack'
 import WebpackChain from 'webpack-chain'
-import type { RzpackConfigs, RzpackWebpackChain, Yagt } from '.'
+import { BUILDER, type RzpackChain, type RzpackConfigs, type Yagt } from '.'
 import { DEFAULT_CONFIG } from './constant'
+import { loadRspackConfigs } from './rspack'
 import { loadWebpackConfigs } from './webpack'
 
 export interface RzpackContextConfigs extends Configuration {
@@ -45,21 +46,22 @@ export const getBuildTmpFilePath = (filename: string) => {
 }
 
 export class RzpackContext {
-  public readonly webpackChain: WebpackChain
+  public readonly chain: WebpackChain
   public cache: boolean
   public bundleSize: boolean
   public bundleTime: boolean
+  public doctor: boolean
   public yagt: Yagt
   constructor() {
-    this.webpackChain = new WebpackChain()
+    this.chain = new WebpackChain()
     this.bundleSize = false
     this.bundleTime = false
   }
   set(key: string, value: any) {
-    this.webpackChain.set(key, value)
+    this.chain.set(key, value)
   }
   get(key: string) {
-    return this.webpackChain.get(key)
+    return this.chain.get(key)
   }
   loadConfigFile(configFilePath?: string): RzpackConfigs {
     let configFile: string
@@ -92,19 +94,26 @@ export class RzpackContext {
       configs = bundleTsFile(configFile, tmpFilePath)
     }
 
+    if (!configs?.builder) {
+      configs.builder = BUILDER.WEBPACK
+    }
+
     return configs
   }
   async configs(configs: RzpackConfigs) {
     if (typeof configs === 'object') {
       const {
+        builder,
         cache = true,
-        webpackChain: resolveWebpackChain,
+        rzpackChain: resolveRzpackChain,
         server,
         yagt,
       } = configs
       this.cache = cache
       this.yagt = yagt
-      await loadWebpackConfigs(this.webpackChain, configs)
+      const loadConfigs =
+        builder === BUILDER.WEBPACK ? loadWebpackConfigs : loadRspackConfigs
+      await loadConfigs(this.chain, configs)
       const { network, local, port } = await getNetwork(
         server?.port as unknown as number,
       )
@@ -115,19 +124,19 @@ export class RzpackContext {
       }
 
       if (server) {
-        this.webpackChain.merge({ devServer: { ...server, port } })
+        this.chain.merge({ devServer: { ...server, port } })
       }
-      resolveWebpackChain?.(this.webpackChain)
-      // 如果是一个函数则默认为webpackChain配置
+      resolveRzpackChain?.(this.chain)
+      // 如果是一个函数则默认为rzpackChain配置
     } else if (typeof configs === 'function') {
-      const resolveWebpackChain = configs as RzpackWebpackChain
-      resolveWebpackChain(this.webpackChain)
+      const resolveChain = configs as RzpackChain
+      resolveChain(this.chain)
     } else {
       console.log(logError('配置文件配置有误，请导出一个函数或对象'))
     }
-    this.webpackChain.mode(process.env.NODE_ENV as 'development' | 'production')
+    this.chain.mode(process.env.NODE_ENV as 'development' | 'production')
   }
   toConfig() {
-    return this.webpackChain.toConfig() as unknown as RzpackContextConfigs
+    return this.chain.toConfig() as unknown as RzpackContextConfigs
   }
 }

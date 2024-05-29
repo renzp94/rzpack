@@ -10,7 +10,7 @@ import WebpackDevServer, { type Configuration } from 'webpack-dev-server'
 import { rzpack } from '../cli'
 
 export default async (startUI: boolean, proxyFile: string) => {
-  rzpack.webpackChain.devtool('cheap-module-source-map')
+  rzpack.chain.devtool('cheap-module-source-map')
   const { network, local, port, ...webpackConfigs } = rzpack.toConfig()
 
   const compiler = Webpack(webpackConfigs)

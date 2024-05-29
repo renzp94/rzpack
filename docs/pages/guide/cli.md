@@ -40,15 +40,16 @@ rzpack build [root]
 
 #### 选项
 
-| 属性                    | 说明                | 类型      | 默认                 |
-| ----------------------- | ------------------- | --------- | -------------------- |
-| --c                     | 指定配置文件        | `string`  | `./vigour.config.ts` |
-| --config                | 指定配置文件        | `string`  | `./vigour.config.ts` |
-| --m                     | 指定webpack启动模式 | `string`  | `development`        |
-| --mode                  | 指定webpack启动模式 | `string`  | `development`        |
-| --outDir [dir]          | 输出目录            | `string`  | `dist`               |
-| --bundle-size [boolean] | 分析打包资源大小    | `boolean` | -                    |
-| --bundle-time [boolean] | 分析打包时长        | `boolean` | -                    |
+| 属性                    | 说明                       | 类型      | 默认                 | 版本  |
+| ----------------------- | -------------------------- | --------- | -------------------- | ----- |
+| --c                     | 指定配置文件               | `string`  | `./vigour.config.ts` | 0.2.x |
+| --config                | 指定配置文件               | `string`  | `./vigour.config.ts` | 0.2.x |
+| --m                     | 指定webpack启动模式        | `string`  | `development`        | 0.2.x |
+| --mode                  | 指定webpack启动模式        | `string`  | `development`        | 0.2.x |
+| --outDir [dir]          | 输出目录                   | `string`  | `dist`               | 0.2.x |
+| --bundle-size [boolean] | 分析打包资源大小           | `boolean` | -                    | 0.2.x |
+| --bundle-time [boolean] | 分析打包时长(rspack不支持) | `boolean` | -                    | 0.2.x |
+| --doctor [boolean]      | 可视化构建分析工具         | `boolean` | -                    | 0.3   |
 
 ## 预览
 

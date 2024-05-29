@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "rzpack",
     "build": "rzpack build",
+    "build:time": "rzpack build --bundle-time",
+    "build:size": "rzpack build --bundle-size",
+    "build:doctor": "rzpack build --doctor",
     "preview": "rzpack preview"
   },
   "author": "renzp94",

@@ -1,18 +1,21 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.1.2/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
-  "linter": {
-    "enabled": true,
+  "files": {
     "ignore": [
       "index.d.ts",
       "bin",
       "dist",
       "packages/create-rzpack/template-*/**",
       "packages/ui/client",
-      "scripts"
-    ],
+      "scripts",
+      "playground"
+    ]
+  },
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
     "rules": {
       "recommended": true,
       "correctness": {
@@ -46,11 +49,6 @@
     "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 80,
-    "ignore": [
-      "packages/create-rzpack/template-*/**",
-      "packages/ui/client",
-      "dist"
-    ]
+    "lineWidth": 80
   }
 }
