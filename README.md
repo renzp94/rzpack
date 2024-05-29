@@ -13,7 +13,7 @@
 # rzpack
 
 ### 介绍
-  `Rzpack`是一款基于`Webpack5`开发的React打包工具，通过`Webpack5`的`cache`、`lazyCompilation`特性及`esbuild`、`swc`等工具的配合，大大提高开发环境的启动速度，热更速度及打包速度，内置了许多功能，无需复杂的配置即可快速开发。同时配套的`create-rzpack`可以快速创建项目模板，省去项目框架搭建的时间。
+  `Rzpack`是一款基于`Webpack5`/`Rspack`开发的React打包工具，通过`Webpack5`的`cache`、`lazyCompilation`特性及`esbuild`、`swc`等工具的配合，或者使用由`Rust`开发的`Rspack`，大大提高开发环境的启动速度，热更速度及打包速度，内置了许多功能，无需复杂的配置即可快速开发。同时配套的`create-rzpack`可以快速创建项目模板，省去项目框架搭建的时间。
 
 ### 环境配置
 
@@ -141,27 +141,34 @@ pnpm create rzpack rzpack-app --template react-ts
 
 ### 配置
 
-| 属性             | 说明                                               | 类型                                       | 默认             | 是否必填 |
-| ---------------- | -------------------------------------------------- | ------------------------------------------ | ---------------- | -------- |
-| antdTheme        | antd主题变量设置                                   | `LessVars`                                 | -                | 非必填   |
-| lessVars         | less全局变量设置                                   | `LessVars`                                 | -                | 非必填   |
-| assets           | 资源文件处理                                       | `RzpackAssets`                             | -                | 非必填   |
-| buildInfo        | 是否在控制台打印编译信息                           | `boolean\|BuildInfoWebpackPluginOptions`   | -                | 非必填   |
-| cache            | 是否使用webpack5缓存                               | boolean                                    | true             | 非必填   |
-| entry            | 打包入口                                           | `string\|string[]\|Record<string, string>` | `./src/main.tsx` | 非必填   |
-| gzip             | 是否启用gzip                                       | boolean                                    | -                | 非必填   |
-| html             | htmlPlugin插件设置(配置参考htmlWebpackPlugin插件)  | `HtmlWebpackPlugin.Options`                | -                | 非必填   |
-| output           | 输出目录                                           | `Output`                                   | `dist`           | 非必填   |
-| publicPath       | 静态资源目录                                       | string                                     | `public`         | 非必填   |
-| server           | 代理配置，当开启可视化配置时此处配置的接口代理无效 | `WebpackDevServerConfiguration`            | -                | 非必填   |
-| lazyCompilation  | 实验性功能                                         | `LazyCompilationOptions`                   | -                | 非必填   |
-| moduleFederation | 模块联邦                                           | `ModuleFederationPluginOptions`            | -                | 非必填   |
-| webpackChain     | 使用webpackChain重写webpack配置                    | `RzpackWebpackChain`                       | -                | 非必填   |
-| proxyFile        | 可视化配置的代理，仅在开启可视化配置时才生效       | string                                     | -                | 非必填   |
-| reactRefresh     | 是否开启React代码热更新                            | boolean                                    | -                | 非必填   |
-| million          | 是否使用Million.js                                 | `boolean\|MillionOptions`                  | -                | 非必填   |
+| 属性             | 说明                                                                                | 类型                                       | 默认              | 是否必填 |
+| ---------------- | ----------------------------------------------------------------------------------- | ------------------------------------------ | ----------------- | -------- |
+| builder          | 打包器                                                                              | `BUILDER`                                  | `BUILDER.WEBPACK` | 非必填   |
+| antdTheme        | antd主题变量设置                                                                    | `LessVars`                                 | -                 | 非必填   |
+| lessVars         | less全局变量设置                                                                    | `LessVars`                                 | -                 | 非必填   |
+| assets           | 资源文件处理                                                                        | `RzpackAssets`                             | -                 | 非必填   |
+| buildInfo        | 是否在控制台打印编译信息                                                            | `boolean\|BuildInfoWebpackPluginOptions`   | -                 | 非必填   |
+| cache            | 是否使用持久化缓存(目前Webpack仅支持)                                               | boolean                                    | true              | 非必填   |
+| entry            | 打包入口                                                                            | `string\|string[]\|Record<string, string>` | `./src/main.tsx`  | 非必填   |
+| gzip             | 是否启用gzip                                                                        | boolean                                    | -                 | 非必填   |
+| html             | htmlPlugin/HtmlRspackPlugin插件设置(配置参考htmlWebpackPlugin/HtmlRspackPlugin插件) | `HtmlWebpackPlugin.Options`                | -                 | 非必填   |
+| output           | 输出目录                                                                            | `Output`                                   | `dist`            | 非必填   |
+| publicPath       | 静态资源目录                                                                        | string                                     | `public`          | 非必填   |
+| server           | 代理配置，当开启可视化配置时此处配置的接口代理无效                                  | `WebpackDevServerConfiguration`            | -                 | 非必填   |
+| lazyCompilation  | 实验性功能                                                                          | `LazyCompilationOptions`                   | -                 | 非必填   |
+| moduleFederation | 模块联邦                                                                            | `ModuleFederationPluginOptions`            | -                 | 非必填   |
+| webpackChain     | 使用webpackChain重写webpack配置(0.2.x以下支持)                                      | `RzpackWebpackChain`                       | -                 | 非必填   |
+| rzpackChain      | 使用webpackChain重写webpack/rspack配置(0.3.x支持)                                   | `RzpackWebpackChain`                       | -                 | 非必填   |
+| proxyFile        | 可视化配置的代理，仅在开启可视化配置时才生效                                        | string                                     | -                 | 非必填   |
+| reactRefresh     | 是否开启React代码热更新                                                             | boolean                                    | -                 | 非必填   |
+| million          | 是否使用Million.js                                                                  | `boolean\|MillionOptions`                  | -                 | 非必填   |
 
 ```ts
+export enum BUILDER {
+  WEBPACK = 'webpack',
+  RSPACK = 'rspack',
+}
+
 export interface LessVars {
   // 全局变量(直接定义的变量优先级高于变量文件)
   vars?: Record<string, string>

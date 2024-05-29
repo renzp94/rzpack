@@ -1,5 +1,21 @@
 # 配置
 
+## builder 打包器
+
+- 类型：`BUILDER`
+- 默认：`BUILDER.WEBPACK`
+
+> 目前`Rspack`尚未达到生产可用状态，可以尝鲜，生产环境慎用。
+
+```ts
+export enum BUILDER {
+  WEBPACK = 'webpack',
+  RSPACK = 'rspack',
+}
+```
+
+设置打包器。
+
 ## antdTheme 主题配置
 
 - 类型：`LessVars`
