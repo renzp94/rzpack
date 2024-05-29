@@ -7,20 +7,12 @@
   "bin": {
     "rzpack": "./bin/rzpack.js"
   },
-  "files": [
-    "bin",
-    "dist",
-    "rzpack.d.ts"
-  ],
+  "files": ["bin", "dist", "rzpack.d.ts"],
   "scripts": {
     "dev": "tsup --watch src",
     "build": "tsup"
   },
-  "keywords": [
-    "webpack5",
-    "build-tool",
-    "dev-server"
-  ],
+  "keywords": ["webpack5", "build-tool", "dev-server"],
   "author": "renzp94",
   "license": "MIT",
   "repository": {
@@ -30,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/renzp94/rzpack/issues"
   },
-  "homepage": "https://github.com/renzp94/rzpack#readme",
+  "homepage": "https://rzpack.deno.dev",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
