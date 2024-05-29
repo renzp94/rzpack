@@ -1,6 +1,7 @@
-import { defineConfig, JSX_TOOLS } from 'rzpack'
+import { BUILDER, JSX_TOOLS, defineConfig } from 'rzpack'
 
 export default defineConfig({
+  builder: BUILDER.RSPACK,
   html: {
     title: 'app',
   },
@@ -12,11 +13,6 @@ export default defineConfig({
   },
   assets: {
     jsxTools: JSX_TOOLS.ESBUILD,
-  },
-  server: {
-    proxy: {
-      '/api': 'http://127.0.0.0:3000',
-    },
   },
   moduleFederation: {
     name: 'APP',

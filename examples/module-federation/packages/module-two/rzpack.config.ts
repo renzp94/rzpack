@@ -1,6 +1,7 @@
-import { defineConfig, JSX_TOOLS } from 'rzpack'
+import { BUILDER, JSX_TOOLS, defineConfig } from 'rzpack'
 
 export default defineConfig({
+  builder: BUILDER.RSPACK,
   html: {
     title: 'module-two',
   },
