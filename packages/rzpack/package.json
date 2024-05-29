@@ -1,26 +1,18 @@
 {
   "name": "rzpack",
   "version": "0.3.0",
-  "description": "基于Webpack5封装的前端打包器",
+  "description": "基于Webpack5/Rspack封装的前端打包器",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
     "rzpack": "./bin/rzpack.js"
   },
-  "files": [
-    "bin",
-    "dist",
-    "rzpack.d.ts"
-  ],
+  "files": ["bin", "dist", "rzpack.d.ts"],
   "scripts": {
     "dev": "tsup --watch src",
     "build": "tsup"
   },
-  "keywords": [
-    "webpack5",
-    "build-tool",
-    "dev-server"
-  ],
+  "keywords": ["webpack5", "build-tool", "dev-server"],
   "author": "renzp94",
   "license": "MIT",
   "repository": {
