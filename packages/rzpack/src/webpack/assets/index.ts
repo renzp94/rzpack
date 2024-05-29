@@ -1,7 +1,7 @@
-import { FilterFn } from 'image-minimizer-webpack-plugin'
+import type { FilterFn } from 'image-minimizer-webpack-plugin'
 import type WebpackChain from 'webpack-chain'
-import type { JSX_TOOLS } from '../'
-import type { RzpackConfigs } from './../index'
+import type { JSX_TOOLS } from '../../'
+import type { RzpackConfigs } from '../../index'
 import css from './css'
 import font from './font'
 import image from './image'
@@ -16,11 +16,9 @@ export interface RzpackAssets {
   imageMini?: boolean | FilterFn
 }
 
-const resolveAssets = (webpackChain: WebpackChain, options: RzpackConfigs) => {
+export default (webpackChain: WebpackChain, options: RzpackConfigs) => {
   jsx(webpackChain, options?.assets)
   font(webpackChain)
   image(webpackChain)
   css(webpackChain, options)
 }
-
-export default resolveAssets

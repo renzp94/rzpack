@@ -1,12 +1,12 @@
 import type HtmlWebpackPlugin from 'html-webpack-plugin'
 import type WebpackChain from 'webpack-chain'
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
-import type { RzpackAssets } from './assets'
-import type { LazyCompilationOptions } from './configs/lazyCompilation'
-import type { Output } from './configs/output'
-import type { MillionOptions } from './plugins/million-webpack-plugin'
-import type { ModuleFederationPluginOptions } from './plugins/module-federation-plugin'
-import type { BuildInfoWebpackPluginOptions } from './plugins/unplugin-build-info'
+import type { RzpackAssets } from './webpack/assets'
+import type { LazyCompilationOptions } from './webpack/configs/lazyCompilation'
+import type { Output } from './webpack/configs/output'
+import type { MillionOptions } from './webpack/plugins/million-webpack-plugin'
+import type { ModuleFederationPluginOptions } from './webpack/plugins/module-federation-plugin'
+import type { BuildInfoWebpackPluginOptions } from './webpack/plugins/unplugin-build-info'
 
 interface CLIOptions {
   '--'?: string[]

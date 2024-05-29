@@ -1,6 +1,6 @@
 import { requireResolve } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
-import { rzpack } from '../../cli'
+import { rzpack } from '../../../cli'
 
 export default (webpackChain: WebpackChain) => {
   return webpackChain.module
@@ -23,12 +23,12 @@ export default (webpackChain: WebpackChain) => {
         transform: {
           react: {
             runtime: 'automatic',
-            development: rzpack.mode === 'development',
+            development: process.env.NODE_ENV === 'development',
             useBuiltins: true,
           },
         },
       },
-      minify: rzpack.mode === 'production',
+      minify: process.env.NODE_ENV === 'production',
     })
     .end()
 }

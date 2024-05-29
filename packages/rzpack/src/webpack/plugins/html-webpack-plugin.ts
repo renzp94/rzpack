@@ -1,7 +1,7 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { fileExists, getFileFullPath } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
-import { DEFAULT_CONFIG } from '../constant'
+import { DEFAULT_CONFIG } from '../../constant'
 
 export default (
   webpackChain: WebpackChain,

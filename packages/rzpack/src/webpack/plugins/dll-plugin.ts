@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'node:fs'
 import {
   checkDllVersion,
   dllManifestPath,
@@ -78,7 +78,7 @@ export const buildDll = (dll: Array<string>) => {
  * 加载DllReferencePlugin
  * @param webpackChain WebpackChain
  */
-const resolveDllReferencePlugin = (webpackChain: WebpackChain) => {
+export default (webpackChain: WebpackChain) => {
   webpackChain.plugin('dll-reference-plugin').use(webpack.DllReferencePlugin, [
     {
       context: __dirname,
@@ -86,5 +86,3 @@ const resolveDllReferencePlugin = (webpackChain: WebpackChain) => {
     },
   ])
 }
-
-export default resolveDllReferencePlugin

@@ -1,7 +1,7 @@
 import { fileExists, getFileFullPath } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
-import type { RzpackConfigs } from '..'
-import { rzpack } from './../cli'
+import type { RzpackConfigs } from '../..'
+import { rzpack } from '../../cli'
 import compressionWebpackPlugin from './compression-webpack-plugin'
 import copyWebpackPlugin from './copy-webpack-plugin'
 import definePlugin from './define-plugin'
@@ -61,7 +61,7 @@ export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
     )
   }
 
-  if (rzpack.mode === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     copyWebpackPlugin(webpackChain, options.publicPath)
     miniCssExtractPlugin(webpackChain)
     if (rzpack.bundleSize) {
@@ -73,7 +73,7 @@ export default async (webpackChain: WebpackChain, options: RzpackConfigs) => {
   }
 
   const refresh = options?.reactRefresh ?? true
-  if (rzpack.mode === 'development' && refresh) {
+  if (process.env.NODE_ENV === 'development' && refresh) {
     reactRefreshWebpackPlugin(webpackChain)
   }
 }

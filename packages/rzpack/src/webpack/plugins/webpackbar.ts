@@ -1,6 +1,6 @@
 import type WebpackChain from 'webpack-chain'
 import Webpackbar from 'webpackbar'
-import { NAME, VERSION } from '../constant'
+import { NAME, VERSION } from '../../constant'
 
 export default (webpackChain: WebpackChain) => {
   webpackChain

@@ -4,7 +4,7 @@ import { getNetwork } from 'rzpack-utils'
 import { cyan } from 'rzpack-utils'
 import sirv from 'sirv'
 
-const runPreview = async (outDir: string) => {
+export default async (outDir: string) => {
   const assets = sirv(outDir, {
     gzip: true,
   })
@@ -23,5 +23,3 @@ const runPreview = async (outDir: string) => {
       )
     })
 }
-
-export default runPreview

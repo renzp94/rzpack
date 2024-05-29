@@ -6,10 +6,10 @@ import runUI, {
 } from 'rzpack-ui'
 import { cyan, logError, logWarning } from 'rzpack-utils'
 import Webpack from 'webpack'
-import WebpackDevServer, { Configuration } from 'webpack-dev-server'
-import { rzpack } from './cli'
+import WebpackDevServer, { type Configuration } from 'webpack-dev-server'
+import { rzpack } from '../cli'
 
-const runServer = async (startUI: boolean, proxyFile: string) => {
+export default async (startUI: boolean, proxyFile: string) => {
   rzpack.webpackChain.devtool('cheap-module-source-map')
   const { network, local, port, ...webpackConfigs } = rzpack.toConfig()
 
@@ -102,5 +102,3 @@ const runServer = async (startUI: boolean, proxyFile: string) => {
   )
   server.start()
 }
-
-export default runServer
