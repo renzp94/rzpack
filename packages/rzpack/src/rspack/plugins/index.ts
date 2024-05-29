@@ -14,6 +14,7 @@ import copyRspackPlugin from './copy-rspack-plugin'
 import definePlugin from './define-plugin'
 import HMRPlugin from './hmr-plugin'
 import htmlRspackPlugin from './html-rspack-plugin'
+import moduleFederationPlugin from './module-federation-plugin'
 import progressPlugin from './progress-plugin'
 import rsdoctorPlugin from './rsdoctor-rspack-plugin'
 
@@ -45,7 +46,7 @@ export default async (chain: WebpackChain, options: RzpackConfigs) => {
   }
 
   if (options?.moduleFederation) {
-    moduleFederationWebpackPlugin(webpackChain, options?.moduleFederation)
+    moduleFederationPlugin(chain, options?.moduleFederation)
   }
 
   if (isProduction) {
