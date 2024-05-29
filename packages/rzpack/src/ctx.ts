@@ -9,16 +9,9 @@ import {
 import { bundleTsFile } from 'rzpack-utils'
 import type { Configuration } from 'webpack'
 import WebpackChain from 'webpack-chain'
-import type { RzpackConfigs, RzpackWebpackChain, Yagt } from '..'
-import resolveAssets from '../assets'
-import { DEFAULT_CONFIG } from '../constant'
-import resolvePlugins from '../plugins'
-import resolveAlias from './alias'
-import resolveEntry from './entry'
-import resolveExtensions from './extensions'
-import resolveLazyCompilation from './lazyCompilation'
-import resolveMinimizer from './minimizer'
-import resolveOutput from './output'
+import type { RzpackConfigs, RzpackWebpackChain, Yagt } from '.'
+import { DEFAULT_CONFIG } from './constant'
+import { loadWebpackConfigs } from './webpack'
 
 export interface RzpackContextConfigs extends Configuration {
   network?: string
@@ -53,7 +46,6 @@ export const getBuildTmpFilePath = (filename: string) => {
 
 export class RzpackContext {
   public readonly webpackChain: WebpackChain
-  public mode: 'development' | 'production'
   public cache: boolean
   public bundleSize: boolean
   public bundleTime: boolean
@@ -70,9 +62,9 @@ export class RzpackContext {
     return this.webpackChain.get(key)
   }
   loadConfigFile(configFilePath?: string): RzpackConfigs {
-    let configFile
-    let configFileName
-    loadEnv(this.mode)
+    let configFile: string
+    let configFileName: string
+    loadEnv(process.env.NODE_ENV)
     loadEnv()
 
     if (configFilePath) {
@@ -105,33 +97,18 @@ export class RzpackContext {
   async configs(configs: RzpackConfigs) {
     if (typeof configs === 'object') {
       const {
-        entry,
-        output,
-        assets,
         cache = true,
-        publicPath = DEFAULT_CONFIG.STATIC_DIR,
         webpackChain: resolveWebpackChain,
         server,
-        lazyCompilation,
         yagt,
       } = configs
       this.cache = cache
       this.yagt = yagt
-      resolveEntry(this.webpackChain, entry)
-      resolveOutput(this.webpackChain, output)
-      resolveAlias(this.webpackChain)
-      resolveExtensions(this.webpackChain)
-      resolveAssets(this.webpackChain, { ...configs, publicPath })
-      resolveLazyCompilation(this.webpackChain, lazyCompilation)
-      await resolvePlugins(this.webpackChain, { ...configs, publicPath })
-      if (this.mode === 'production') {
-        resolveMinimizer(this.webpackChain, assets?.jsxTools, assets?.imageMini)
-      }
-
+      await loadWebpackConfigs(this.webpackChain, configs)
       const { network, local, port } = await getNetwork(
         server?.port as unknown as number,
       )
-      if (this.mode === 'development') {
+      if (process.env.NODE_ENV === 'development') {
         this.set('network', network)
         this.set('local', local)
         this.set('port', port)
@@ -148,7 +125,7 @@ export class RzpackContext {
     } else {
       console.log(logError('配置文件配置有误，请导出一个函数或对象'))
     }
-    this.webpackChain.mode(this.mode)
+    this.webpackChain.mode(process.env.NODE_ENV as 'development' | 'production')
   }
   toConfig() {
     return this.webpackChain.toConfig() as unknown as RzpackContextConfigs

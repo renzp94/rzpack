@@ -1,6 +1,6 @@
 import { logError } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
-import { DEFAULT_CONFIG } from '../constant'
+import { DEFAULT_CONFIG } from '../../constant'
 
 const getEntryKey = (entry: string) =>
   entry
@@ -11,7 +11,7 @@ const getEntryKey = (entry: string) =>
     .replace('.ts', '')
     .replace('.js', '')
 
-const resolveEntry = (
+export default (
   webpackChain: WebpackChain,
   entry: string | string[] | Record<string, string>,
 ) => {
@@ -23,7 +23,7 @@ const resolveEntry = (
         webpackChain.entry(key).add(entry as string)
         break
       }
-      case entry instanceof Array: {
+      case Array.isArray(entry): {
         // eslint-disable-next-line no-case-declarations
         const entryOption = (entry as Array<string>).map((item: string) => {
           if (typeof item !== 'string') {
@@ -45,16 +45,14 @@ const resolveEntry = (
         })
         break
       }
-      case typeof entry === 'object':
-        entryOption.forEach((item: Record<string, string>) => {
-          const key = Object.keys(item)[0]
-          webpackChain.entry(key).add(item[key])
+      case typeof entry === 'object': {
+        Object.keys(entry).forEach((key: string) => {
+          webpackChain.entry(key).add(entry[key])
         })
         break
+      }
     }
   } else {
     webpackChain.entry('main').add(DEFAULT_CONFIG.ENTRY)
   }
 }
-
-export default resolveEntry

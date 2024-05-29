@@ -1,8 +1,10 @@
 import { ESBuildMinifyPlugin } from 'esbuild-loader'
-import ImageMinimizerPlugin, { FilterFn } from 'image-minimizer-webpack-plugin'
+import ImageMinimizerPlugin, {
+  type FilterFn,
+} from 'image-minimizer-webpack-plugin'
 import type WebpackChain from 'webpack-chain'
 import type { Optimization } from 'webpack-chain'
-import { JSX_TOOLS } from '..'
+import type { JSX_TOOLS } from '../..'
 
 /**
  * esbuild压缩

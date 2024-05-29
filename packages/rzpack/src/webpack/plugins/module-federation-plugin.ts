@@ -78,9 +78,9 @@ export default (
     ...restOptions
   } = options ?? {}
   const providerDefaultOption = exposes ? { runtime: false } : {}
-  let sharedConfigs
+  let sharedConfigs: Record<string, any>
   if (shared) {
-    if (shared instanceof Array) {
+    if (Array.isArray(shared)) {
       sharedConfigs = shared.reduce((prev, item) => {
         return {
           ...prev,

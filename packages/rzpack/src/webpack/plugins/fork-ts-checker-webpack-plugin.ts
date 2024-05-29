@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import { requireResolve } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'

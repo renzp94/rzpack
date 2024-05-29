@@ -8,9 +8,9 @@ import {
   requireResolve,
 } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
-import { rzpack } from '../cli'
-import { getBuildTmpFilePath } from '../configs'
-import type { LessVars, RzpackConfigs } from './../index'
+import { rzpack } from '../../cli'
+import { getBuildTmpFilePath } from '../../ctx'
+import type { LessVars, RzpackConfigs } from '../../index'
 
 /**
  * 应用公共css loader
@@ -21,7 +21,7 @@ const applyCommonLoader = (
   rule: WebpackChain.Rule<WebpackChain.Rule<WebpackChain.Module>>,
   cssScoped?: boolean,
 ) => {
-  if (rzpack.mode === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     rule.use('style-loader').loader(requireResolve('style-loader'))
   } else {
     rule.use('mini-css-extract-loader').loader(MiniCssExtractPlugin.loader)
@@ -112,7 +112,7 @@ const useAntdTheme = (antdTheme: LessVars) => {
     }
     let antdVersion = getPackageVersion('antd')
     if (antdVersion < 5 && antdTheme.vars) {
-      antdVersion = parseInt(antdVersion)
+      antdVersion = Number.parseInt(antdVersion)
     }
 
     // 直接定义的变量优先级高于变量文件

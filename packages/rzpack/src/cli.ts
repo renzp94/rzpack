@@ -2,11 +2,9 @@
 import { cac } from 'cac'
 import { fileExists, logError, pathResolve } from 'rzpack-utils'
 import type { BuildOptions, RzpackConfigs, ServerOptions } from '.'
-import runBuild from './build'
-import { RzpackContext } from './configs'
 import { NAME, VERSION } from './constant'
-import runPreview from './preview'
-import runServer from './server'
+import { RzpackContext } from './ctx'
+import { runWebpackBuild, runWebpackPreview, runWebpackServer } from './webpack'
 
 export const rzpack = new RzpackContext()
 
@@ -28,13 +26,12 @@ cli
   .option('--ui', '[boolean] startup Rzpack UI')
   .action(async (_: string, options: ServerOptions) => {
     const { c, m, mode, ui = true, config, host, port, open } = options ?? {}
-    rzpack.mode = m ?? mode ?? 'development'
-    process.env.NODE_ENV = rzpack.mode
+    process.env.NODE_ENV = m ?? mode ?? 'development'
     rzpack.webpackChain.devServer.host(host).port(port).open(open)
     try {
       const configs: RzpackConfigs = rzpack.loadConfigFile(c ?? config)
       await rzpack.configs(configs)
-      runServer(ui, configs?.proxyFile)
+      runWebpackServer(ui, configs?.proxyFile)
     } catch (error) {
       logError(error)
     }
@@ -56,8 +53,7 @@ cli
       bundleSize,
       bundleTime,
     } = options ?? {}
-    rzpack.mode = m ?? mode ?? 'production'
-    process.env.NODE_ENV = rzpack.mode
+    process.env.NODE_ENV = m ?? mode ?? 'production'
     rzpack.bundleSize = bundleSize ?? false
     rzpack.bundleTime = bundleTime ?? false
     try {
@@ -66,7 +62,7 @@ cli
         configs.output = outDir
       }
       await rzpack.configs(configs)
-      runBuild(!rzpack.bundleTime)
+      runWebpackBuild(!rzpack.bundleTime)
     } catch (error) {
       logError(error)
     }
@@ -78,8 +74,7 @@ cli
   .option('--outDir <dir>', '[string] output directory (default: dist)')
   .action(async (options: BuildOptions) => {
     const { c, m, mode, config, outDir = 'dist' } = options ?? {}
-    rzpack.mode = m ?? mode ?? 'production'
-    process.env.NODE_ENV = rzpack.mode
+    process.env.NODE_ENV = m ?? mode ?? 'production'
 
     const configs = rzpack.loadConfigFile(c ?? config)
     if (!configs?.output) {
@@ -93,10 +88,10 @@ cli
     let isPreview: boolean = fileExists(fullPath)
     if (!isPreview) {
       await rzpack.configs(configs)
-      isPreview = await runBuild(false)
+      isPreview = await runWebpackBuild(false)
     }
 
-    runPreview(dir)
+    runWebpackPreview(dir)
   })
 
 cli.help()

@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import EslintWebpackPlugin from 'eslint-webpack-plugin'
 import { getFileFullPath, requireResolve } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'

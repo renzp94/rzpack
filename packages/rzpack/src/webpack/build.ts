@@ -9,9 +9,9 @@ import {
   lightYellow,
 } from 'rzpack-utils'
 import Webpack from 'webpack'
-import { rzpack } from './cli'
+import { rzpack } from '../cli'
 
-const runBuild = (isLog = true) => {
+export default (isLog = true) => {
   // 抽离公共部分
   rzpack.webpackChain
     // 抛出错误之后停止打包
@@ -38,7 +38,7 @@ const runBuild = (isLog = true) => {
   if (rzpack.cache) {
     rzpack.webpackChain.cache({
       type: 'filesystem',
-      name: `${rzpack.mode}-cache`,
+      name: `${process.env.NODE_ENV}-cache`,
       version: createEnvHash(raw),
       cacheDirectory: getFileFullPath('./node_modules/.cache'),
       store: 'pack',
@@ -123,5 +123,3 @@ const logBuildAssets = (stats) => {
 
   console.log(`\n✨  Done in ${(time / 1000).toPrecision(2)}s.`)
 }
-
-export default runBuild
