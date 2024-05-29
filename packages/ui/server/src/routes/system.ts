@@ -10,7 +10,7 @@ router.get(
   catchError((_, res) => {
     let title = process.env.APP_TITLE
     const yagt = process.env.YAGT_URL
-    if (!title) {
+    if (title === 'undefined' || !title) {
       const pkgs = requireFile(getFileFullPath('./package.json'))
       title = pkgs?.name
     }
