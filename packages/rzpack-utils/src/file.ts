@@ -1,6 +1,6 @@
-import fs from 'fs'
 import { createHash } from 'node:crypto'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import * as esbuild from 'esbuild'
 import { logError } from './log'
 
@@ -9,7 +9,7 @@ import { logError } from './log'
  * @param file 文件路径
  * @returns Promise<boolean>
  */
-export const fileExists = (file: string): boolean => fs.existsSync(file)
+export const fileExists = (file?: string): boolean => fs.existsSync(file)
 /**
  * 加载模块
  * @param module 模块
