@@ -33,13 +33,16 @@
     "simple-git-hooks": "^2.11.1",
     "tsup": "^6.7.0",
     "typescript": "^4.9.5",
-    "vitepress": "^1.2.0",
+    "vitepress": "^1.2.2",
     "zx": "^7.2.3"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "packages/*/src/**/*.{js,ts}": ["biome check", "biome format --write"]
+    "packages/*/src/**/*.{js,ts}": [
+      "biome check",
+      "biome format --write"
+    ]
   }
 }
