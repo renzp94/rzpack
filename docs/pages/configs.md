@@ -79,7 +79,7 @@ export interface RzpackAssets {
 }
 ```
 
-配置资源文件处理方式
+配置资源文件处理方式。
 
 ### jsxTools
 
@@ -94,6 +94,8 @@ export enum JSX_TOOLS {
 ```
 
 `jsx`文件编译处理器。
+
+> 注意：如果使用`rspack`打包，则`jsxTools`将默认为`JSX_TOOLS.SWC`且无法更改。
 
 ### imageMini
 
@@ -114,7 +116,9 @@ export enum JSX_TOOLS {
 - 类型：`boolean`
 - 默认 ：`true`
 
-是否使用webpack5缓存。
+是否使用持久化缓存。
+
+> 注意：rspack目前不支持本地缓存，所以使用rspack打包时cache仅支持开发环境。
 
 ## entry 入口
 
@@ -136,6 +140,8 @@ export enum JSX_TOOLS {
 
 htmlPlugin插件设置。配置参考: [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)。
 
+`rspack`参考: [html-rspack-plugin](https://www.rspack.dev/zh/plugins/rspack/html-rspack-plugin)。
+
 ## output 输出
 
 - 类型：`Output`
@@ -154,7 +160,10 @@ htmlPlugin插件设置。配置参考: [html-webpack-plugin](https://github.com/
 
 - 类型：`WebpackDevServerConfiguration`
 
-开发服务器配置，当开启可视化配置时此处配置的接口代理无效。配置参考：[dev-server](https://webpack.js.org/configuration/dev-server/)
+开发服务器配置，当开启可视化配置时此处配置的接口代理无效。配置参考：[dev-server](https://webpack.js.org/configuration/dev-server/)。
+
+`rspack`参考: [dev-server](https://www.rspack.dev/zh/config/dev-server)。
+
 
 ## lazyCompilation 懒编译
 
@@ -185,23 +194,25 @@ export interface ModuleFederationPluginOptions {
   // 要共享的依赖
   shared?: ModuleFederationShared[] | ModuleFederationSharedAuto
   // 模块暴露的内容
-  exposes?: boolean | Record<string, string>
+  exposes?: Exposes
   // 模块引入的内容
-  remotes?: Record<string, string>
+  remotes?: Remotes
 }
 ```
 
 模块联邦。
 
-## webpackChain 自定义配置
+## rzpackChain 自定义配置
 
-- 类型：`RzpackWebpackChain`
+- 类型：`RzpackChain`
 
 ```ts
-export type RzpackWebpackChain = (w: WebpackChain) => WebpackChain
+export type RzpackChain = (w: WebpackChain) => WebpackChain
 ```
 
-使用webpackChain重写webpack配置。webpackChain用法参考：[webpackChain](https://github.com/neutrinojs/webpack-chain?tab=readme-ov-file)
+使用webpackChain重写webpack/rspack配置。webpackChain用法参考：[webpackChain](https://github.com/neutrinojs/webpack-chain?tab=readme-ov-file)。
+
+> 注意：因为webpackChain是webpack相关的包，rspack和webpack有细微差距，如果链式调用上属性报错，可直接使用`.set`设置。
 
 ## proxyFile
 

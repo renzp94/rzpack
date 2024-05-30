@@ -100,9 +100,9 @@ App run at:
  To create a production build, run yarn build.
 ```
 
-## webpack配置
+### webpack配置
 
-如果想通过webpack参数配置，可通过配置文件的`server`属性配置，配置方法参考[devServer.proxy](https://webpack.docschina.org/configuration/dev-server/#devserverproxy)
+如果想通过webpack/rspack参数配置，可通过配置文件的`server`属性配置，配置方法参考[server](/configs.html#server-开发服务)
 
 ```ts
 import { defineConfig } from 'rzpack'
@@ -117,6 +117,10 @@ export default defineConfig({
 ```
 
 > Tips: 注意，可视化的优先级高于webpack配置，即：如果开启可视化配置，则webpack配置的代理无效
+
+## 自定义配置
+
+如果想通过webpack/rspack配置，可通过配置文件的`rzpackChain`属性配置，配置方法参考[rzpackChain](/configs.html#rzpackchain-自定义配置)
 
 ## 提速开发环境
 

@@ -31,7 +31,7 @@ $ bun create rzpack
 ## 模板
 
 你还可以通过附加的命令行选项直接指定项目名称和模板，例如：创建一个基础的Ts模板：
-```shell
+```sh
 # npm
 npm create rzpack rzpack-app --template react-ts
 

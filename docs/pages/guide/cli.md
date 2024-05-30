@@ -14,17 +14,12 @@ rzpack [root]
 
 #### 选项
 
-| 属性           | 说明                | 类型                | 默认                 |
-| -------------- | ------------------- | ------------------- | -------------------- |
-| --c            | 指定配置文件        | `string`            | `./vigour.config.ts` |
-| --config       | 指定配置文件        | `string`            | `./vigour.config.ts` |
-| --m            | 指定webpack启动模式 | `string`            | `development`        |
-| --mode         | 指定webpack启动模式 | `string`            | `development`        |
-| --host [host]  | 指定主机名称        | `string`            | -                    |
-| --host [host]  | 指定主机名称        | `string`            | -                    |
-| --port [port]  | 指定端口            | `string`            | -                    |
-| --open [path]  | 启动时打开浏览器    | `boolean \| string` | -                    |
-| --ui [boolean] | 是否启动可视化配置  | `boolean`           | `true`               |
+| 属性   | 说明               | 类型                | 默认   |
+| ------ | ------------------ | ------------------- | ------ |
+| --host | 指定主机名称       | `string`            | -      |
+| --port | 指定端口           | `string`            | -      |
+| --open | 启动时打开浏览器   | `boolean \| string` | -      |
+| --ui   | 是否启动可视化配置 | `boolean`           | `true` |
 
 ## 构建
 
@@ -40,16 +35,12 @@ rzpack build [root]
 
 #### 选项
 
-| 属性                    | 说明                       | 类型      | 默认                 | 版本  |
-| ----------------------- | -------------------------- | --------- | -------------------- | ----- |
-| --c                     | 指定配置文件               | `string`  | `./vigour.config.ts` | 0.2.x |
-| --config                | 指定配置文件               | `string`  | `./vigour.config.ts` | 0.2.x |
-| --m                     | 指定webpack启动模式        | `string`  | `development`        | 0.2.x |
-| --mode                  | 指定webpack启动模式        | `string`  | `development`        | 0.2.x |
-| --outDir [dir]          | 输出目录                   | `string`  | `dist`               | 0.2.x |
-| --bundle-size [boolean] | 分析打包资源大小           | `boolean` | -                    | 0.2.x |
-| --bundle-time [boolean] | 分析打包时长(rspack不支持) | `boolean` | -                    | 0.2.x |
-| --doctor [boolean]      | 可视化构建分析工具         | `boolean` | -                    | 0.3   |
+| 属性          | 说明                       | 类型      | 默认   | 版本  |
+| ------------- | -------------------------- | --------- | ------ | ----- |
+| --outDir      | 输出目录                   | `string`  | `dist` | 0.2.x |
+| --bundle-size | 分析打包资源大小           | `boolean` | -      | 0.2.x |
+| --bundle-time | 分析打包时长(rspack不支持) | `boolean` | -      | 0.2.x |
+| --doctor      | 可视化构建分析工具         | `boolean` | -      | 0.3   |
 
 ## 预览
 
@@ -63,10 +54,20 @@ rzpack preview
 
 #### 选项
 
-| 属性           | 说明                | 类型     | 默认                 |
-| -------------- | ------------------- | -------- | -------------------- |
-| --c            | 指定配置文件        | `string` | `./vigour.config.ts` |
-| --config       | 指定配置文件        | `string` | `./vigour.config.ts` |
-| --m            | 指定webpack启动模式 | `string` | `development`        |
-| --mode         | 指定webpack启动模式 | `string` | `development`        |
-| --outDir [dir] | 输出目录            | `string` | `dist`               |
+| 属性           | 说明     | 类型     | 默认   |
+| -------------- | -------- | -------- | ------ |
+| --outDir [dir] | 输出目录 | `string` | `dist` |
+
+
+## dev/build/preview共同选项
+
+| 属性      | 说明                | 类型     | 默认                 |
+| --------- | ------------------- | -------- | -------------------- |
+| --h       | 帮助文档            |          |                      |
+| --help    | 帮助文档            |          |                      |
+| --v       | 版本号              |          |                      |
+| --version | 版本号              |          |                      |
+| --c       | 指定配置文件        | `string` | `./vigour.config.ts` |
+| --config  | 指定配置文件        | `string` | `./vigour.config.ts` |
+| --m       | 指定webpack启动模式 | `string` | `development`        |
+| --mode    | 指定webpack启动模式 | `string` | `development`        |

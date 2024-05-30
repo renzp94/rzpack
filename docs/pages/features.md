@@ -2,11 +2,20 @@
 
 ## 模块热更新
 
-Rzpack使用的Webpack，所以使用的是`webpack-dev-server`的热更新。React的热更新使用的是`@pmmmwh/react-refresh-webpack-plugin`插件实现的。React的热更新默认是不开启的，如果需要开启可指定`reactRefresh: true`开启。
+
+### webpack
+
+使用的是`webpack-dev-server`的热更新。React的热更新使用的是`@pmmmwh/react-refresh-webpack-plugin`插件实现的。React的热更新默认是不开启的，如果需要开启可指定`reactRefresh: true`开启。
+
+### rspack
+
+使用的是`@rspack/dev-server`的热更新。具体参考配置[dev-server](https://www.rspack.dev/zh/config/dev-server#devserverhot)。
 
 ## Typescript
 
-Rzpack默认支持`.ts`和`.tsx`文件。默认使用的打包工具是`esbuild`，也可通过`assets.jsxTools`指定使用`swc`或者`esbuild`。
+### webpack
+
+Rzpack默认支持`.ts`和`.tsx`文件。`webpack`默认使用的打包工具是`esbuild`，也可通过`assets.jsxTools`指定使用`swc`或者`esbuild`。
 
 ```ts
 export enum JSX_TOOLS {
@@ -14,6 +23,10 @@ export enum JSX_TOOLS {
   SWC = 'swc',
 }
 ```
+
+### rspack
+
+使用内置的`swc`打包工具。
 
 ## Css
 
@@ -48,7 +61,7 @@ document.getElementById('btn-primary').className = classes.buttonPrimary
 
 ### Css预处理器
 
-默认支持`less`。如果需要使用其他预处理器，可以通过`webpackChain`属性自行配置webpack配置。
+默认支持`less`。如果需要使用其他预处理器，可以通过`rzpackChain`属性自行配置`webpack`/`rspack`配置。
 
 ### Css Scoped
 
@@ -81,11 +94,16 @@ JSON 可以被直接导入 —— 同样支持具名导入
 
 可通过设置`cache`开启webpack5的缓存，以及通过`lazyCompilation`开启懒编译。
 
+> 注意：cache目前因为`rspack`进支持内存缓存，暂无法支持本地缓存，等`rspack`支持了，会第一时间支持。
+
 ## 性能优化
 
 可设置`gzip`开启GZIP压缩，以及`moduleFederation`配置模块联邦，`million`使用Million.js进行React性能优化。
 
 ## 接口代理
 
-可通过`server`配置`webpack-dev-server`的接口代理。也可通过`proxyFile`配置可视化管理接口代理的json文件。注意：当开启可视化配置时，不再需要在`server`中指定接口代理。
+
+### webpack
+
+可通过`server`配置`webpack-dev-server`或`@rspack/dev-server`的接口代理。也可通过`proxyFile`配置可视化管理接口代理的json文件。注意：当开启可视化配置时，不再需要在`server`中指定接口代理。
 
