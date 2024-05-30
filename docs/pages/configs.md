@@ -232,3 +232,5 @@ export type RzpackChain = (w: WebpackChain) => WebpackChain
 - 类型：`boolean\|MillionOptions`
 
 是否使用Million.js。配置参考：[Million.js](https://million.dev/zh-CN)
+
+> 注意：million属性只用于生产环境。
