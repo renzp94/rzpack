@@ -1,13 +1,9 @@
 <p align="center"><a href="https://github.com/renzp94/rzpack" target="_blank" rel="noopener noreferrer"><img width="200" src="./logo.png" alt="rzpack logo"></a></p>
 <p align="center">
+  <a href="https://www.npmjs.com/package/rzpack"><img src="https://img.shields.io/bundlejs/size/rzpack?sanitize=true" alt="size"></a>
   <a href="https://npmcharts.com/compare/rzpack?minimal=true"><img src="https://img.shields.io/npm/dm/rzpack.svg?sanitize=true" alt="Downloads"></a>
   <a href="https://www.npmjs.com/package/rzpack"><img src="https://img.shields.io/npm/v/rzpack.svg?sanitize=true" alt="Version"></a>
-  <a href="https://www.npmjs.com/package/rzpack"><img src="https://img.shields.io/bundlejs/size/rzpack?sanitize=true" alt="size"></a>
   <a href="https://www.npmjs.com/package/rzpack"><img src="https://img.shields.io/npm/l/rzpack.svg?sanitize=true" alt="License"></a>
-</p>
-<p align="center">
-  <a href="https://github.com/renzp94/rzpack/watchers"><img src="https://img.shields.io/github/watchers/renzp94/rzpack.svg?style=social" alt="watchers"></a>
-  <a href="https://github.com/renzp94/rzpack/stars"><img src="https://img.shields.io/github/stars/renzp94/rzpack.svg?style=social" alt="stars"></a>
 </p>
 
 # rzpack
