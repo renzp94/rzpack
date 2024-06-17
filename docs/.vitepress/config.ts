@@ -19,6 +19,9 @@ export default defineConfig({
       src: '/logo.png',
       style: 'border-radius: 50%;height: 32px;width: 32px;',
     },
+    darkModeSwitchLabel: '主题',
+    darkModeSwitchTitle: '切换到深色模式',
+    lightModeSwitchTitle: '切换到浅色模式',
     siteTitle: 'rzpack',
     search: {
       provider: 'local',
@@ -48,6 +51,8 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/renzp94/rzpack' },
     ],
+    sidebarMenuLabel: '菜单',
+    returnToTopLabel: '回到顶部',
     sidebar: [
       {
         text: '简介',
