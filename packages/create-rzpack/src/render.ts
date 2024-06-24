@@ -1,9 +1,9 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import { pathResolve, run } from 'rzpack-utils'
 import { Template } from '.'
 import biomeVscodeSettings from '../template-biome/.vscode/settings.json'
-import { JS_LINT, PromptsResult } from './prompts'
+import { BUILDER, JS_LINT, type PromptsResult } from './prompts'
 import { deepMerge, sortDependencies } from './utils'
 
 /**
@@ -330,9 +330,23 @@ export const renderReadme = ({
  * @param {PromptsResult} result
  */
 export const renderConfig = (result: PromptsResult) => {
-  const { projectName, cssScoped, jtsLoader, template, million, imageMini } =
-    result
+  const {
+    projectName,
+    cssScoped,
+    builder,
+    jtsLoader,
+    template,
+    million,
+    imageMini,
+  } = result
   const isTsTemplate = template === Template.TS
+  let importStr = 'import { defineConfig'
+  if (jtsLoader) {
+    importStr += ', JSX_TOOLS'
+  }
+  if (builder) {
+    importStr += ', BUILDER'
+  }
 
   let assets = '  assets: {\n'
   if (cssScoped) {
@@ -351,12 +365,12 @@ export const renderConfig = (result: PromptsResult) => {
   const lessVars =
     '  lessVars: {\n' + `    file: './src/theme/globalVars.ts',\n` + '  },\n'
 
+  importStr += ` } from 'rzpack'\n\n`
   fs.writeFileSync(
     path.resolve(process.env.ROOT, 'rzpack.config.ts'),
-    `import { defineConfig${
-      jtsLoader ? ', JSX_TOOLS' : ''
-    } } from 'rzpack'\n\n` +
+    importStr +
       'export default defineConfig({\n' +
+      `  ${builder === BUILDER.RSPACK ? 'builder: BUILDER.RSPACK,\n' : ''}` +
       `${hasAssets ? assets : ''}` +
       '  html: {\n' +
       `    title: '${projectName}',\n` +

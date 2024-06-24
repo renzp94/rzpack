@@ -1,6 +1,6 @@
 import prompts from 'prompts'
 import { blue, bold, cyan, getFileFullPath, red, yellow } from 'rzpack-utils'
-import { CLIOptions, Template } from '.'
+import { type CLIOptions, Template } from '.'
 import { DEFAULT_CONFIG } from './constant'
 import {
   canSafelyOverwrite,
@@ -14,11 +14,17 @@ export enum JS_LINT {
   BIOME = 'biome',
 }
 
+export enum BUILDER {
+  WEBPACK = 'webpack',
+  RSPACK = 'rspack',
+}
+
 export interface PromptsResult {
   projectName?: string
   packageName?: string
   overwrite?: boolean
   template?: Template
+  builder?: BUILDER
   jtsLoader?: string
   cssScoped?: string
   jsLint?: JS_LINT
@@ -31,6 +37,7 @@ export interface PromptsResult {
 
 const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
   let targetDir = projectName
+  let builder: BUILDER = BUILDER.WEBPACK
 
   let result: PromptsResult = {
     projectName,
@@ -103,8 +110,20 @@ const getPrompts = async ({ projectName, template, force }: CLIOptions) => {
         ],
       },
       {
-        name: 'jtsLoader',
+        name: 'builder',
         type: 'select',
+        message: yellow('请选择打包器'),
+        choices: [
+          { title: yellow('Webpack'), value: BUILDER.WEBPACK },
+          { title: blue('Rspack'), value: BUILDER.RSPACK },
+        ],
+        onState: (state) => {
+          builder = state.value
+        },
+      },
+      {
+        name: 'jtsLoader',
+        type: () => (builder === 'rspack' ? null : 'select'),
         message: yellow('请选择Js/Ts文件的loader'),
         hint: '用于编译时处理JSX文件',
         choices: [
