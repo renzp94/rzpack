@@ -67,8 +67,8 @@ export const renderPackage = async ({
     }
 
     commitLintPackages = {
-      '@commitlint/cli': '^18.5.0',
-      '@commitlint/config-conventional': '^18.5.0',
+      '@commitlint/cli': '^18.6.1',
+      '@commitlint/config-conventional': '^18.6.3',
       'commitlint-config-cz': '^0.13.3',
       'cz-customizable': '^7.0.0',
       commitizen: '^4.3.0',
@@ -91,22 +91,22 @@ export const renderPackage = async ({
 
   let jsLintPackages = {}
   if (jsLint) {
-    let rzpackLintVersion = '0.0.2'
+    let rzpackLintVersion = '0.0.3'
     try {
       rzpackLintVersion = (
         await run('npm view eslint-config-rzpack version')
       ).replace(/\s*/g, '')
     } catch {
-      rzpackLintVersion = '0.0.2'
+      rzpackLintVersion = '0.0.3'
     }
 
     const eslintPackages = {
-      eslint: '^8.56.0',
-      prettier: '^3.2.4',
+      eslint: '^8.57.0',
+      prettier: '^3.3.2',
       'eslint-config-rzpack': `^${rzpackLintVersion}`,
     }
     const biomePackages = {
-      '@biomejs/biome': '^1.5.3',
+      '@biomejs/biome': '^1.8.2',
     }
 
     jsLintPackages = jsLint === JS_LINT.BIOME ? biomePackages : eslintPackages
@@ -129,9 +129,9 @@ export const renderPackage = async ({
       'src/**/*.{less,css}': 'stylelint --fix',
     }
     stylelintPackage = {
-      stylelint: '^16.2.0',
+      stylelint: '^16.6.1',
       'stylelint-config-property-sort-order-smacss': '^10.0.0',
-      'stylelint-config-standard': '^36.0.0',
+      'stylelint-config-standard': '^36.0.1',
       'stylelint-order': '^6.0.4',
       'postcss-less': '^6.0.0',
     }
@@ -159,9 +159,9 @@ export const renderPackage = async ({
 
   if (!isTSTemplate) {
     antdPackages = {
-      '@ant-design/icons': '^5.2.6',
-      antd: '^5.13.2',
-      dayjs: '^1.11.10',
+      '@ant-design/icons': '^5.3.7',
+      antd: '^5.18.3',
+      dayjs: '^1.11.11',
     }
   }
 
@@ -169,16 +169,15 @@ export const renderPackage = async ({
   let fullDevDepPackages = {}
   if (isAdminTemplate) {
     fullDepPackages = {
-      '@renzp/storage': '^0.0.2',
-      axios: '^1.6.6',
-      'lodash-es': '^4.17.21',
+      '@renzp/storage': '^1.0.0',
+      '@renzp/utils': '^0.3.1',
+      axios: '^1.7.2',
       nprogress: '^0.2.0',
-      'react-router-dom': '^6.14.2',
-      zustand: '^4.5.0',
+      'react-router-dom': '^6.23.1',
+      zustand: '^4.5.2',
     }
 
     fullDevDepPackages = {
-      '@types/lodash-es': '^4.17.12',
       '@types/nprogress': '^0.2.3',
     }
   }
@@ -187,20 +186,20 @@ export const renderPackage = async ({
 
   if (million) {
     millionPackage = {
-      million: '^3.0.3',
+      million: '^3.1.11',
     }
   }
 
   const huskyPackages = {
-    'simple-git-hooks': '^2.9.0',
-    'lint-staged': '^15.2.0',
+    'simple-git-hooks': '^2.11.1',
+    'lint-staged': '^15.2.7',
   }
 
-  let rzpackVersion = '0.2.6'
+  let rzpackVersion = '0.3.2'
   try {
     rzpackVersion = (await run('npm view rzpack version')).replace(/\s*/g, '')
   } catch {
-    rzpackVersion = '0.2.6'
+    rzpackVersion = '0.3.2'
   }
 
   const pkg = {
@@ -226,17 +225,17 @@ export const renderPackage = async ({
     license: 'MIT',
     ...commitizenConfig,
     dependencies: {
-      react: '^18.2.0',
-      'react-dom': '^18.2.0',
+      react: '^18.3.1',
+      'react-dom': '^18.3.1',
       ...antdPackages,
       ...fullDepPackages,
     },
     devDependencies: {
-      '@types/react': '^18.2.48',
-      '@types/react-dom': '^18.2.18',
+      '@types/react': '^18.3.3',
+      '@types/react-dom': '^18.3.0',
       rzpack: `^${rzpackVersion}`,
-      typescript: '5.3.3',
-      nodemon: '^3.0.3',
+      typescript: '5.5.2',
+      nodemon: '^3.1.4',
       ...fullDevDepPackages,
       ...commitLintPackages,
       ...jsLintPackages,

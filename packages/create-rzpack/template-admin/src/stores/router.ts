@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash-es'
+import { deepClone } from '@renzp/utils'
 import { type RouteObject, useLocation, useParams } from 'react-router-dom'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
@@ -47,7 +47,7 @@ const useRouterStore = create<RouterStore>()(
           data: { buttonKeys, menuTree },
         } = await fetchAuths()
         const [userRoutes, firstPath] = getUserRoutes(menuTree)
-        const menus = cloneDeep(menuTree).filter(deepFilterHidden)
+        const menus = deepClone(menuTree).filter(deepFilterHidden)
         set({ buttonKeys, firstPath, loading: false, menus, userAuths: menuTree, userRoutes })
       } catch {
         set({ loading: false })
