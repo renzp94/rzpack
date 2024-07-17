@@ -90,6 +90,7 @@ export default (
   webpackChain: WebpackChain,
   { antdTheme, lessVars, assets }: RzpackConfigs,
 ) => {
+  webpackChain.set('experiments', { css: true })
   webpackChain.module.set('parser', {
     'css/auto': {
       namedExports: false,
