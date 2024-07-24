@@ -15,7 +15,7 @@ const AntdConfigProvider = (props: AntdConfigProvider) => {
   return (
     <ConfigProvider
       // 移除按钮汉字之间的空格
-      autoInsertSpaceInButton={false}
+      button={{ autoInsertSpace: false }}
       // 中文配置
       locale={zhCN}
     >
