@@ -1,5 +1,4 @@
 import { Spin } from 'antd'
-import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import './index.less'

@@ -1,7 +1,6 @@
 import type { RouteModel } from '@/router'
 
 import { Breadcrumb, type BreadcrumbProps } from 'antd'
-import React from 'react'
 import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 

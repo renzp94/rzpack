@@ -1,5 +1,4 @@
 import { Layout } from 'antd'
-import React from 'react'
 
 import PageHeaderLogo from './PageHeaderLogo'
 import PageHeaderMenu from './PageHeaderMenu'

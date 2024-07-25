@@ -1,7 +1,6 @@
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import dayjs from 'dayjs'
-import React from 'react'
 
 import 'dayjs/locale/zh-cn'
 

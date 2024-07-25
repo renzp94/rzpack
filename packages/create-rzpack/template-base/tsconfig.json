@@ -16,7 +16,7 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "strict": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
       "@/*":["./src/*"]

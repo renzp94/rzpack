@@ -1,5 +1,4 @@
 import { Layout } from 'antd'
-import React from 'react'
 
 import PageSideMenu from './PageSideMenu'
 import MenuCloseIcon from '@/assets/svg/menu-close.svg'

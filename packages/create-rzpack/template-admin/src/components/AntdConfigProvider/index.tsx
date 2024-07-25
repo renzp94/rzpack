@@ -1,6 +1,5 @@
 import { App, ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-import React from 'react'
 
 import token from '@/theme'
 

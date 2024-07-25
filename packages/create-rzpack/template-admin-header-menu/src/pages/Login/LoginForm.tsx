@@ -2,7 +2,6 @@ import type { LoginParams } from '@/api/system'
 
 import { Input } from 'antd'
 import { Button, Form } from 'antd'
-import React from 'react'
 
 import Remember from './Remember'
 

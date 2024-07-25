@@ -1,4 +1,3 @@
-import React from 'react'
 import { Navigate, useMatch } from 'react-router-dom'
 
 import storage, { TOKEN } from '@/utils/storage'
