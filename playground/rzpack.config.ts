@@ -1,7 +1,7 @@
 import { BUILDER, JSX_TOOLS, defineConfig } from 'rzpack'
 
 export default defineConfig({
-  // builder: BUILDER.RSPACK,
+  builder: BUILDER.RSPACK,
   html: {
     title: 'rzpack-antd',
   },
