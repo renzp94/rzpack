@@ -27,6 +27,7 @@ export default (
 
   const minimizers = {
     swc: esbuildMinimizer,
+    babel: esbuildMinimizer,
     esbuild: esbuildMinimizer,
   }
 

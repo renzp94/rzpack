@@ -1,7 +1,6 @@
 import type { RouteObject } from 'react-router-dom'
 
 import { lazy } from 'react'
-import React from 'react'
 
 import { LazyLoadSpin } from '@/components'
 import PageLayout from '@/layout/PageLayout'

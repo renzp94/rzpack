@@ -1,7 +1,6 @@
 import type { FormInstance, FormItemProps } from 'antd'
 
 import { Checkbox, Form } from 'antd'
-import React from 'react'
 import { useEffect } from 'react'
 
 import storage, { REMEMBER_INFO } from '@/utils/storage'

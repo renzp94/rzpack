@@ -2,7 +2,6 @@ import type { RouteModel } from '@/router'
 import type { ItemType } from 'antd/lib/menu/hooks/useItems'
 
 import { Menu } from 'antd'
-import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import useRouterStore from '@/stores/router'

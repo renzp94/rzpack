@@ -9,7 +9,7 @@ import {
   notification as antdNotification,
   Button,
 } from 'antd'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 let message: MessageInstance = antdMessage
 let notification: NotificationInstance = antdNotification

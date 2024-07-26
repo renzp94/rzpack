@@ -1,5 +1,4 @@
 import { Layout } from 'antd'
-import React from 'react'
 import { useState } from 'react'
 
 import PageContent from '../PageContent'

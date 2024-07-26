@@ -3,7 +3,6 @@ import type { ItemType } from 'antd/lib/menu/hooks/useItems'
 
 import { Menu } from 'antd'
 import { compact } from '@renzp/utils'
-import React from 'react'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 

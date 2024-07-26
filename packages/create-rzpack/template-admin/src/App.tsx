@@ -8,7 +8,6 @@ import {
   Modal as antdModal,
   notification as antdNotification,
 } from 'antd'
-import React from 'react'
 import { useEffect, useRef } from 'react'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 

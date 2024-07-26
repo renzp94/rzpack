@@ -195,11 +195,11 @@ export const renderPackage = async ({
     'lint-staged': '^15.2.7',
   }
 
-  let rzpackVersion = '0.3.2'
+  let rzpackVersion = '0.3.4'
   try {
     rzpackVersion = (await run('npm view rzpack version')).replace(/\s*/g, '')
   } catch {
-    rzpackVersion = '0.3.2'
+    rzpackVersion = '0.3.4'
   }
 
   const pkg = {

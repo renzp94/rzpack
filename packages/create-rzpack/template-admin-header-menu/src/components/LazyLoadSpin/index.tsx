@@ -1,4 +1,3 @@
-import React from 'react'
 import { Suspense } from 'react'
 
 import CenterSpin from '../CenterSpin'

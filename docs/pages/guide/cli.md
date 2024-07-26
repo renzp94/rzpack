@@ -67,7 +67,7 @@ rzpack preview
 | --help    | 帮助文档            |          |                      |
 | --v       | 版本号              |          |                      |
 | --version | 版本号              |          |                      |
-| --c       | 指定配置文件        | `string` | `./vigour.config.ts` |
-| --config  | 指定配置文件        | `string` | `./vigour.config.ts` |
+| --c       | 指定配置文件        | `string` | `./rzpack.config.ts` |
+| --config  | 指定配置文件        | `string` | `./rzpack.config.ts` |
 | --m       | 指定webpack启动模式 | `string` | `development`        |
 | --mode    | 指定webpack启动模式 | `string` | `development`        |

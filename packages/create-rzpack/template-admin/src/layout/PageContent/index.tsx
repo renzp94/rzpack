@@ -1,7 +1,6 @@
 import type { ProBreadcrumbRoute } from '@/components/ProBreadcrumb'
 
 import { Layout } from 'antd'
-import React from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { ProBreadcrumb } from '@/components'

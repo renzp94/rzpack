@@ -1,5 +1,4 @@
 import { Dropdown } from 'antd'
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { modal } from '@/App'
