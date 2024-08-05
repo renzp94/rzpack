@@ -5,28 +5,13 @@ import { requireResolve } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
 
 export default (webpackChain: WebpackChain, imageMini?: boolean | FilterFn) => {
-  // 处理图片
-  const rule = webpackChain.module
-    .rule('images')
-    .test(/\.(png|jpg|jpeg|gif|webp)$/i)
-    .exclude.add(/node_modules/)
-    .end()
-    .set('type', 'asset')
-    .parser({
-      dataUrlCondition: {
-        maxSize: 80 * 1024,
-      },
-    })
-    .set('generator', {
-      filename: 'assets/images/[name].[hash:6][ext]',
-    })
+  let imageMiniLoader = []
 
   if (imageMini) {
-    rule
-      .use('image-minimizer')
-      .loader(ImageMinimizerPlugin.loader)
-      .options([
-        {
+    imageMiniLoader = [
+      {
+        loader: ImageMinimizerPlugin.loader,
+        options: {
           minimizer: {
             filter:
               typeof imageMini === 'boolean'
@@ -64,9 +49,26 @@ export default (webpackChain: WebpackChain, imageMini?: boolean | FilterFn) => {
             },
           },
         },
-      ])
-      .end()
+      },
+    ]
   }
+
+  // 处理图片
+  webpackChain.module
+    .rule('images')
+    .test(/\.(png|jpg|jpeg|gif|webp)$/i)
+    .exclude.add(/node_modules/)
+    .end()
+    .set('type', 'asset')
+    .set('use', imageMiniLoader)
+    .parser({
+      dataUrlCondition: {
+        maxSize: 80 * 1024,
+      },
+    })
+    .set('generator', {
+      filename: 'assets/images/[name].[hash:6][ext]',
+    })
 
   // 处理svg可以直接导入为React组件
   webpackChain.module
