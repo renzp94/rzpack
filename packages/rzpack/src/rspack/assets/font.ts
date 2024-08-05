@@ -6,10 +6,5 @@ export default (webpackChain: WebpackChain) => {
     .test(/\.(woff|woff2|eot|ttf|otf)$/i)
     .exclude.add(/node_modules/)
     .end()
-    .set('type', 'asset')
-    .set('generator', {
-      asset: {
-        filename: 'assets/fonts/[name][ext]',
-      },
-    })
+    .set('type', 'asset/resource')
 }
