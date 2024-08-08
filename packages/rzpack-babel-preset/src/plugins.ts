@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { requireResolve } from 'rzpack-utils'
 
