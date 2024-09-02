@@ -5,8 +5,6 @@
 - 类型：`BUILDER`
 - 默认：`BUILDER.WEBPACK`
 
-> 目前`Rspack`尚未达到生产可用状态，可以尝鲜，生产环境慎用。
-
 ```ts
 export enum BUILDER {
   WEBPACK = 'webpack',
