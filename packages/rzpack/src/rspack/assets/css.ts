@@ -1,3 +1,4 @@
+import { rspack } from '@rspack/core'
 import { requireResolve } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
 import type { LessVars, RzpackConfigs } from '../../index'
@@ -90,6 +91,13 @@ export default (
   webpackChain: WebpackChain,
   { antdTheme, lessVars, assets }: RzpackConfigs,
 ) => {
+  if (process.env.NODE_ENV === 'production') {
+    webpackChain.optimization.set('minimizer', [
+      new rspack.LightningCssMinimizerRspackPlugin(),
+    ])
+  }
+
+  webpackChain.set('experiments', { css: true })
   webpackChain.module.set('parser', {
     'css/auto': {
       namedExports: false,
