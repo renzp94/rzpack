@@ -6,6 +6,7 @@ import loadExtensionsConfigs from '../../common/configs/extensions'
 import loadLazyCompilationConfigs from '../../common/configs/lazyCompilation'
 import loadOutputConfigs from '../../common/configs/output'
 import { DEFAULT_CONFIG } from '../../constant'
+import loadResolveConfigs from './resolve'
 
 const loadBaseConfigs = (
   webpackChain: WebpackChain,
@@ -15,6 +16,7 @@ const loadBaseConfigs = (
   loadAliasConfigs(webpackChain)
   loadEntryConfigs(webpackChain, entry)
   loadExtensionsConfigs(webpackChain)
+  loadResolveConfigs(webpackChain)
   loadOutputConfigs(webpackChain, output)
   loadLazyCompilationConfigs(webpackChain, lazyCompilation)
 }

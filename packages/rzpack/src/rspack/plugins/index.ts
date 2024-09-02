@@ -1,4 +1,3 @@
-import type { HtmlRspackPluginOptions } from '@rspack/core'
 import { fileExists, getFileFullPath } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
 import type { RzpackConfigs } from '../..'
@@ -7,20 +6,20 @@ import compressionWebpackPlugin from '../../common/plugins/compression-webpack-p
 import eslintWebpackPlugin from '../../common/plugins/eslint-webpack-plugin'
 import forkTsCheckerWebpackPlugin from '../../common/plugins/fork-ts-checker-webpack-plugin'
 import friendlyErrorsWebpackPlugin from '../../common/plugins/friendly-errors-webpack-plugin'
+import htmlWebpackPlugin from '../../common/plugins/html-webpack-plugin'
 import millionWebpackPlugin from '../../common/plugins/million-webpack-plugin'
 import unpluginBuildInfo from '../../common/plugins/unplugin-build-info'
 import webpackBundleAnalyzer from '../../common/plugins/webpack-bundle-analyzer'
 import copyRspackPlugin from './copy-rspack-plugin'
 import definePlugin from './define-plugin'
 import HMRPlugin from './hmr-plugin'
-import htmlRspackPlugin from './html-rspack-plugin'
 import moduleFederationPlugin from './module-federation-plugin'
 import progressPlugin from './progress-plugin'
 import rsdoctorPlugin from './rsdoctor-rspack-plugin'
 
 export default async (chain: WebpackChain, options: RzpackConfigs) => {
   const isProduction = process.env.NODE_ENV === 'production'
-  htmlRspackPlugin(chain, options?.html as HtmlRspackPluginOptions)
+  htmlWebpackPlugin(chain, options?.html)
   friendlyErrorsWebpackPlugin(chain)
   progressPlugin(chain)
   definePlugin(chain)

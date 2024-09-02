@@ -1,11 +1,11 @@
-import { HtmlRspackPlugin, type HtmlRspackPluginOptions } from '@rspack/core'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { fileExists, getFileFullPath } from 'rzpack-utils'
 import type WebpackChain from 'webpack-chain'
 import { DEFAULT_CONFIG } from '../../constant'
 
 export default (
   webpackChain: WebpackChain,
-  options: HtmlRspackPluginOptions = {},
+  options: HtmlWebpackPlugin.Options = {},
 ) => {
   const {
     title = 'rzpack demo',
@@ -16,14 +16,14 @@ export default (
   let hasFavicon = true
   if (typeof favicon === 'string') {
     const faviconFullPath = getFileFullPath(favicon)
-    hasFavicon = !!faviconFullPath && fileExists(faviconFullPath)
+    hasFavicon = fileExists(faviconFullPath)
   }
 
-  webpackChain.plugin('html-webpack-plugin').use(HtmlRspackPlugin, [
+  webpackChain.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
     {
       title,
       template,
-      favicon: hasFavicon ? favicon : undefined,
+      favicon: hasFavicon ? favicon : false,
       ...options,
     },
   ])

@@ -7,7 +7,7 @@ import type WebpackChain from 'webpack-chain'
 export default (webpackChain: WebpackChain, imageMini?: boolean | FilterFn) => {
   let imageMiniLoader = []
 
-  if (imageMini) {
+  if (process.env.NODE_ENV === 'production' && imageMini) {
     imageMiniLoader = [
       {
         loader: ImageMinimizerPlugin.loader,
