@@ -2,7 +2,6 @@ node_modules
 bin
 package-lock.json
 *.log
-.vscode
 index.d.ts
 .DS_Store
 dist
