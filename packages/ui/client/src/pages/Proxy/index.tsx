@@ -54,12 +54,12 @@ const Proxy = () => {
           components={components}
           dataSource={dataSource}
           loading={loading}
-          onRow={(_: unknown, index?: number) =>
-            ({
+          onRow={(_: unknown, index?: number) => {
+            return {
               index,
               moveRow,
-            } as any)
-          }
+            } as any
+          }}
           pagination={false}
           rowKey="id"
           tools={tools}

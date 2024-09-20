@@ -18,8 +18,8 @@ export default defineConfig({
     path: '../dist/client',
     publicPath: '/static/',
   },
-  webpackChain: webpackChain => {
-    webpackChain.plugin('monaco-editor-webpack-plugin').use(MonacoWebpackPlugin)
-    return webpackChain
+  rzpackChain: rzpackChain => {
+    rzpackChain.plugin('monaco-editor-webpack-plugin').use(MonacoWebpackPlugin)
+    return rzpackChain
   },
 })

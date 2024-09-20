@@ -142,7 +142,7 @@ const getBodyDataSource = (data?: YagtInterfaceBodyModel) => {
       const { properties, required } = data
       if (properties) {
         dataSource = Object.keys(properties).map(key => {
-          const target = properties[key]
+          const target = (properties as any)[key]
 
           let children = undefined
           let type = target.type
@@ -187,7 +187,7 @@ const renderBodyTsJson = (data?: YagtInterfaceBodyModel, gap = '  ') => {
       const { properties, required } = data
       if (properties) {
         json = Object.keys(properties).reduce((prev, key) => {
-          const target = properties[key]
+          const target = (properties as any)[key]
 
           const isRequired = required?.includes?.(key)
 

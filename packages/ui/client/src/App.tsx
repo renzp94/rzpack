@@ -14,7 +14,7 @@ import { createHashRouter, RouteObject, RouterProvider } from 'react-router-dom'
 
 import { fetchSystemInfo } from './api/system'
 import { CenterSpin } from './components'
-import { routes as allRoutes, getAuthRoutes, type RouteModel, routeModels } from './router'
+import { getAuthRoutes, type RouteModel, routeModels, routes as allRoutes } from './router'
 
 let message: MessageInstance = antdMessage
 let notification: NotificationInstance = antdNotification
