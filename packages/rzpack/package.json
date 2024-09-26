@@ -1,6 +1,6 @@
 {
   "name": "rzpack",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "基于Webpack5/Rspack封装的前端打包器",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
