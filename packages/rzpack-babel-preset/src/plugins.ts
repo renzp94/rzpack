@@ -1,5 +1,4 @@
 import path from 'node:path'
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { requireResolve } from 'rzpack-utils'
 
 const absoluteRuntime = path.dirname(
@@ -19,6 +18,4 @@ export default [
       version,
     },
   ],
-  requireResolve('babel-plugin-transform-react-remove-prop-types'),
-  requireResolve('babel-plugin-macros'),
 ]

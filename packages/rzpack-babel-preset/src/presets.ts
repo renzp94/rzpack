@@ -3,8 +3,8 @@ import { requireResolve } from 'rzpack-utils'
 export default [
   [
     requireResolve('@babel/preset-env'),
-    { useBuiltIns: 'entry', corejs: 3, exclude: ['transform-typeof-symbol'] },
+    { modules: false, useBuiltIns: 'entry', corejs: '3.22' },
   ],
-  requireResolve('@babel/preset-react'),
+  [requireResolve('@babel/preset-react'), { runtime: 'automatic' }],
   requireResolve('@babel/preset-typescript'),
 ]
