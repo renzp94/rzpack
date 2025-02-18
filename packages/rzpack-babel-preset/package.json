@@ -1,6 +1,6 @@
 {
   "name": "rzpack-babel-preset",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Babel预设",
   "main": "./dist/index.js",
   "scripts": {
